@@ -7,7 +7,7 @@
  */
 
 import { siteConfig } from "@/lib/siteData";
-import { isMonday, isPastDate, parseISODate } from "./date-utils";
+import { isPastDate, parseISODate } from "./date-utils";
 import { BookingSlot, ReservationConfirmation, ReservationDraft, ServiceOption, SlotState } from "./types";
 
 export const RESERVATION_SERVICES: ServiceOption[] = [

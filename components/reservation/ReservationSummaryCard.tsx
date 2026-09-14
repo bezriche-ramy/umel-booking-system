@@ -116,7 +116,8 @@ export default function ReservationSummaryCard({ draft, service }: ReservationSu
                         <strong className="res-guarantee-amount">20 €</strong>
                     </div>
                     <p className="res-guarantee-note">
-                        <strong>Non débitée aujourd&apos;hui.</strong> Prévenir 72h avant sinon acompte de 20 € perdu. En cas de non-présentation, l&apos;acompte de 20 € est perdu.
+                        <strong>Non débitée aujourd&apos;hui.</strong> Prévenir 72h avant sinon acompte de 20 € perdu.
+                        En cas de non-présentation, l&apos;acompte de 20 € est perdu.
                     </p>
                 </div>
             </div>

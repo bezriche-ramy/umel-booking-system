@@ -26,10 +26,7 @@ interface ReservationFlowProps {
     isSubmarineRetouches?: boolean;
 }
 
-export default function ReservationFlow({
-    initialServiceId,
-    isSubmarineRetouches = false,
-}: ReservationFlowProps = {}) {
+export default function ReservationFlow({ initialServiceId, isSubmarineRetouches = false }: ReservationFlowProps = {}) {
     const [currentStep, setCurrentStep] = useState<BookingStep>("SERVICE");
     const [services, setServices] = useState<ServiceOption[]>([]);
     const [slots, setSlots] = useState<BookingSlot[]>([]);
@@ -217,9 +214,13 @@ export default function ReservationFlow({
                 <div className="res-submarine-banner" role="region" aria-label="Espace Privé Retouches">
                     <div className="res-submarine-badge">Lien Privé Atelier · Retouches &amp; Ajustements</div>
                     <p className="res-submarine-lead">
-                        Bienvenue dans votre espace dédié. Ce calendrier vous permet de fixer votre séance d&apos;ajustement.
+                        Bienvenue dans votre espace dédié. Ce calendrier vous permet de fixer votre séance
+                        d&apos;ajustement.
                         <br />
-                        <strong>Rappel impératif :</strong> Munissez-vous impérativement de vos <strong>chaussures de mariée définitives</strong> (hauteur exacte de talon) et de votre <strong>lingerie du jour J</strong> pour que notre couturière puisse épingler votre robe avec une précision millimétrique.
+                        <strong>Rappel impératif :</strong> Munissez-vous impérativement de vos{" "}
+                        <strong>chaussures de mariée définitives</strong> (hauteur exacte de talon) et de votre{" "}
+                        <strong>lingerie du jour J</strong> pour que notre couturière puisse épingler votre robe avec
+                        une précision millimétrique.
                     </p>
                 </div>
             )}
@@ -258,7 +259,8 @@ export default function ReservationFlow({
                                     <p className="res-step-sub">
                                         Mardi au samedi : 10h à 17h (dernier créneau · fermeture boutique 18h30).
                                         <br />
-                                        Dimanche : 11h à 16h (dernier créneau · fermeture boutique 17h00). Fermé le lundi.
+                                        Dimanche : 11h à 16h (dernier créneau · fermeture boutique 17h00). Fermé le
+                                        lundi.
                                     </p>
                                 </div>
 

@@ -120,10 +120,13 @@ export default function StepConfirmation({ confirmation }: StepConfirmationProps
                     </div>
                     <ul className="res-confirm-retouches-list">
                         <li>
-                            <strong>Vos souliers de mariage :</strong> Munissez-vous impérativement de la paire définitive que vous porterez le jour J. La hauteur exacte du talon est indispensable pour que nous puissions marquer et épingler l&apos;ourlet au millimètre près.
+                            <strong>Vos souliers de mariage :</strong> Munissez-vous impérativement de la paire
+                            définitive que vous porterez le jour J. La hauteur exacte du talon est indispensable pour
+                            que nous puissions marquer et épingler l&apos;ourlet au millimètre près.
                         </li>
                         <li>
-                            <strong>Votre lingerie du jour J :</strong> Portez ou apportez le soutien-gorge, les coques et les sous-vêtements prévus le jour du mariage afin de garantir le bon maintien du bustier.
+                            <strong>Votre lingerie du jour J :</strong> Portez ou apportez le soutien-gorge, les coques
+                            et les sous-vêtements prévus le jour du mariage afin de garantir le bon maintien du bustier.
                         </li>
                     </ul>
                 </div>
