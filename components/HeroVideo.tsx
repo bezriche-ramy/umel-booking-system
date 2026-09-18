@@ -23,7 +23,6 @@ export default function HeroVideo({
 }: HeroVideoProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [isMuted, setIsMuted] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
@@ -83,19 +82,6 @@ export default function HeroVideo({
         return () => clearInterval(timer);
     }, [isMobile]);
 
-    const toggleSound = () => {
-        const video = videoRef.current;
-        if (!video) return;
-
-        const nextMuted = !video.muted;
-        video.muted = nextMuted;
-        setIsMuted(nextMuted);
-
-        if (video.paused) {
-            video.play().catch(() => {});
-        }
-    };
-
     return (
         <section className="intro-slider intro-responsive-hero" aria-label="Présentation Umel Couture">
             {/* Desktop View (> 768px): High-resolution photo slider */}
@@ -137,51 +123,6 @@ export default function HeroVideo({
 
             {/* Text Overlay directly over the video / photos */}
             <div className="intro-hero-content">{children}</div>
-
-            {/* Mobile View: Audio Toggle Button */}
-            <div className="hero-video-controls">
-                <button
-                    type="button"
-                    className="hero-video-sound-btn"
-                    onClick={toggleSound}
-                    aria-label={isMuted ? "Activer le son du film" : "Couper le son du film"}
-                    title={isMuted ? "Activer le son" : "Couper le son"}
-                >
-                    {isMuted ? (
-                        <svg
-                            width="15"
-                            height="15"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                        >
-                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                            <line x1="23" y1="9" x2="17" y2="15" />
-                            <line x1="17" y1="9" x2="23" y2="15" />
-                        </svg>
-                    ) : (
-                        <svg
-                            width="15"
-                            height="15"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                        >
-                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
-                        </svg>
-                    )}
-                    <span className="hero-video-sound-label">{isMuted ? "Son coupé" : "Son activé"}</span>
-                </button>
-            </div>
 
             {/* Desktop View: Photo Dots Navigation */}
             <div className="intro-dots hero-desktop-dots" role="group" aria-label="Choisir une photographie">

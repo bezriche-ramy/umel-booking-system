@@ -10,9 +10,9 @@ export const siteConfig = {
     descriptionDefault:
         "Umel Couture — Maison de couture à Servon (77). Robes de mariée sur mesure, retouches, location et pressing spécialisé. Mardi–Dimanche sur rendez-vous.",
     url: "https://umelcouture.com",
-    phone: "07 49 50 75 57",
-    phoneIntl: "+33749507557",
-    whatsappUrl: "https://wa.me/33749507557",
+    phone: "07 49 50 79 57",
+    phoneIntl: "+33749507957",
+    whatsappUrl: "https://wa.me/33749507957",
     signature: "La robe qui vous ressemble. Vraiment.",
     address: {
         street: "12 rue Georges Truffaut",
@@ -78,7 +78,7 @@ export const siteConfig = {
             num: "02",
             title: "Retouches",
             quote: '"Votre robe mérite d\'être parfaite. Peu importe son origine."',
-            desc: "Umel retouche les robes ne venant pas de la maison. Envoyez une vidéo portée via WhatsApp au 07 49 50 75 57 pour une première estimation. Devis ajusté en cabine.",
+            desc: "Umel retouche les robes ne venant pas de la maison. Envoyez une vidéo portée via WhatsApp au 07 49 50 79 57 pour une première estimation. Devis ajusté en cabine.",
             price: "À partir de 250€",
         },
         {
