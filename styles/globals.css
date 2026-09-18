@@ -342,6 +342,235 @@ body.splash #nav {
     opacity: 1;
 }
 
+/* Home Hero Video */
+.intro-video-element {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    z-index: 1;
+}
+
+.intro-video-slider .hero-gradient {
+    background:
+        linear-gradient(90deg, rgba(14, 13, 12, 0.72) 0%, rgba(14, 13, 12, 0.35) 46%, transparent 78%),
+        linear-gradient(0deg, rgba(14, 13, 12, 0.65) 0%, transparent 52%) !important;
+}
+
+.hero-video-controls {
+    position: absolute;
+    right: 48px;
+    bottom: 34px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+}
+
+.hero-video-sound-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(20, 18, 16, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--blanc, #faf7f2);
+    padding: 7px 14px;
+    border-radius: 9999px;
+    cursor: pointer;
+    font-family: var(--font-jost), "Jost", sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.hero-video-sound-btn:hover {
+    background: rgba(20, 18, 16, 0.9);
+    border-color: var(--or, #c39a5c);
+    color: var(--or, #c39a5c);
+    transform: translateY(-1px);
+}
+
+.hero-video-sound-label {
+    font-weight: 500;
+}
+
+/* Responsive Home Hero: Photos on Desktop, Video Background on Mobile */
+.hero-desktop-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+}
+
+.hero-mobile-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: none;
+}
+
+.hero-desktop-dots {
+    display: flex;
+}
+
+.hero-desktop-folio {
+    display: block;
+}
+
+.intro-responsive-hero .hero-video-controls {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hero-desktop-media {
+        display: none !important;
+    }
+    .hero-mobile-media {
+        display: block !important;
+    }
+    .hero-desktop-dots {
+        display: none !important;
+    }
+    .hero-desktop-folio {
+        display: none !important;
+    }
+
+    /* Strictly 1 Screen on all Mobile Devices (No extra scroll inside hero) */
+    .intro-slider.intro-responsive-hero {
+        position: relative !important;
+        width: 100% !important;
+        height: 100svh !important;
+        height: 100dvh !important;
+        min-height: 0 !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        align-items: flex-start !important;
+        padding: 0 var(--page-gutter, 20px) calc(28px + env(safe-area-inset-bottom, 0px)) !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .intro-responsive-hero .intro-hero-content {
+        position: relative !important;
+        z-index: 4 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .intro-responsive-hero .hero-eyebrow {
+        font-size: 9.5px !important;
+        letter-spacing: 0.22em !important;
+        margin-bottom: 12px !important;
+    }
+
+    .intro-responsive-hero .hero-title {
+        margin-bottom: 12px !important;
+        line-height: 1.08 !important;
+    }
+
+    .intro-responsive-hero .hero-title .line span,
+    .intro-responsive-hero .hero-title .line:nth-child(1) span,
+    .intro-responsive-hero .hero-title .line:nth-child(2) span,
+    .intro-responsive-hero .hero-title .line:nth-child(3) span {
+        font-size: clamp(26px, 7.8vw, 38px) !important;
+        line-height: 1.08 !important;
+    }
+
+    .intro-responsive-hero .hero-sub {
+        font-size: clamp(13px, 3.4vw, 15.5px) !important;
+        line-height: 1.4 !important;
+        max-width: 300px !important;
+        margin-bottom: 0 !important;
+        color: rgba(250, 247, 242, 0.8) !important;
+    }
+
+    .intro-responsive-hero .hero-actions {
+        margin-top: 18px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    .intro-responsive-hero .hero-btn-primary {
+        padding: 12px 24px !important;
+        font-size: 9.5px !important;
+        letter-spacing: 0.16em !important;
+        white-space: nowrap !important;
+    }
+
+    .intro-responsive-hero .hero-video-controls {
+        display: flex !important;
+        position: absolute !important;
+        right: 18px !important;
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
+        z-index: 6 !important;
+    }
+
+    .intro-responsive-hero .hero-gradient {
+        background:
+            linear-gradient(90deg, rgba(14, 13, 12, 0.72) 0%, rgba(14, 13, 12, 0.35) 46%, transparent 78%),
+            linear-gradient(0deg, rgba(14, 13, 12, 0.7) 0%, rgba(14, 13, 12, 0.1) 48%, transparent 68%) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .intro-responsive-hero .hero-video-controls {
+        right: 14px !important;
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    .hero-video-sound-label {
+        display: none !important;
+    }
+    .hero-video-sound-btn {
+        padding: 9px !important;
+        border-radius: 50% !important;
+    }
+}
+
+/* Extra compact screens (e.g. iPhone SE, height <= 700px) */
+@media (max-height: 700px) and (max-width: 768px) {
+    .intro-slider.intro-responsive-hero {
+        padding: 0 18px calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    .intro-responsive-hero .hero-eyebrow {
+        margin-bottom: 6px !important;
+        font-size: 8.5px !important;
+    }
+    .intro-responsive-hero .hero-title {
+        margin-bottom: 8px !important;
+    }
+    .intro-responsive-hero .hero-title .line span,
+    .intro-responsive-hero .hero-title .line:nth-child(1) span,
+    .intro-responsive-hero .hero-title .line:nth-child(2) span,
+    .intro-responsive-hero .hero-title .line:nth-child(3) span {
+        font-size: clamp(23px, 6.5vw, 29px) !important;
+    }
+    .intro-responsive-hero .hero-sub {
+        font-size: 12px !important;
+        max-width: 260px !important;
+        line-height: 1.3 !important;
+    }
+    .intro-responsive-hero .hero-actions {
+        margin-top: 14px !important;
+    }
+    .intro-responsive-hero .hero-btn-primary {
+        padding: 10px 20px !important;
+        font-size: 9px !important;
+    }
+    .intro-responsive-hero .hero-video-controls {
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+}
+
 .hero-gradient {
     position: absolute;
     inset: 0;
@@ -2043,14 +2272,22 @@ footer {
     text-decoration: none;
     box-shadow: 0 8px 30px rgba(24, 24, 27, 0.18);
     transition:
+        opacity 0.4s ease,
+        transform 0.4s ease,
         background 0.35s,
         color 0.35s,
-        transform 0.3s,
         box-shadow 0.3s;
     cursor: pointer;
     opacity: 0;
-    animation: wafade 0.5s 2.5s var(--ease-out-expo) forwards;
+    pointer-events: none;
+    transform: translateY(14px);
     white-space: nowrap;
+}
+
+.wa-float.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
 .wa-float:hover {
@@ -3001,7 +3238,7 @@ nav.scrolled .nav-cta {
 }
 
 /* Image-led heroes */
-.intro-slider,
+.intro-slider:not(.intro-responsive-hero),
 .page-hero {
     min-height: 760px;
     height: 100svh;
@@ -3953,7 +4190,7 @@ footer {
         top: auto;
         bottom: 70px;
     }
-    .intro-slider,
+    .intro-slider:not(.intro-responsive-hero),
     .page-hero {
         min-height: 680px;
         height: 100svh;
@@ -4418,9 +4655,13 @@ fieldset.res-step-content {
 /* Service Selection */
 .res-services-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
     margin-bottom: 18px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .res-service-item {
@@ -4433,6 +4674,10 @@ fieldset.res-step-content {
     padding: 12px 16px;
     cursor: pointer;
     min-height: 84px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
     transition:
         border-color 0.25s ease,
         background 0.25s ease,
@@ -4530,12 +4775,26 @@ fieldset.res-step-content {
     gap: clamp(16px, 2.5vw, 28px);
     margin-bottom: 18px;
     align-items: start;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.res-cal-side,
+.res-time-side {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .res-calendar-card {
     background: var(--white);
     border: 1px solid var(--hairline);
     padding: 16px 18px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .res-calendar-header {
@@ -4564,6 +4823,7 @@ fieldset.res-step-content {
     cursor: pointer;
     color: var(--ink);
     font-size: 16px;
+    flex-shrink: 0;
     transition:
         border-color 0.2s ease,
         color 0.2s ease;
@@ -4581,9 +4841,11 @@ fieldset.res-step-content {
 
 .res-calendar-weekdays {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     margin-bottom: 12px;
     text-align: center;
+    width: 100%;
+    min-width: 0;
 }
 
 .res-calendar-weekday {
@@ -4594,6 +4856,10 @@ fieldset.res-step-content {
     text-transform: uppercase;
     color: var(--muted);
     padding-bottom: 6px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .res-calendar-weekday.is-monday {
@@ -4602,9 +4868,11 @@ fieldset.res-step-content {
 
 .res-calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 4px;
     margin-bottom: 20px;
+    width: 100%;
+    min-width: 0;
 }
 
 .res-calendar-cell {
@@ -4612,6 +4880,9 @@ fieldset.res-step-content {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
 }
 
 .res-calendar-day-btn {
@@ -4630,6 +4901,9 @@ fieldset.res-step-content {
     cursor: pointer;
     position: relative;
     transition: all 0.2s ease;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0;
 }
 
 .res-calendar-day-btn:hover:not(:disabled) {
@@ -4714,6 +4988,10 @@ fieldset.res-step-content {
     background: var(--white);
     border: 1px solid var(--hairline);
     padding: 28px 24px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .res-time-head {
@@ -4735,12 +5013,15 @@ fieldset.res-step-content {
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--champagne);
+    word-break: break-word;
 }
 
 .res-slots-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
+    width: 100%;
+    min-width: 0;
 }
 
 .res-slot-btn {
@@ -4753,6 +5034,10 @@ fieldset.res-step-content {
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .res-slot-btn:hover:not(:disabled) {
@@ -4844,21 +5129,41 @@ fieldset.res-step-content {
 }
 
 /* Customer Form */
+form.res-step-content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 .res-form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     margin-bottom: 36px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .res-field-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .res-field-group.full-width {
     grid-column: 1 / -1;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .res-label {
@@ -4885,6 +5190,9 @@ fieldset.res-step-content {
 .res-input,
 .res-textarea {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
     background: var(--white);
     border: 1px solid var(--hairline);
     padding: 13px 16px;
@@ -4926,6 +5234,10 @@ fieldset.res-step-content {
     border: 1px solid var(--hairline);
     padding: 28px;
     margin-bottom: 28px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .res-review-title {
@@ -4942,6 +5254,13 @@ fieldset.res-step-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    width: 100%;
+    min-width: 0;
+}
+
+.res-review-grid > div {
+    min-width: 0;
+    word-break: break-word;
 }
 
 .res-review-label {
@@ -4967,6 +5286,10 @@ fieldset.res-step-content {
     border: 1px solid var(--hairline);
     padding: 28px;
     margin-bottom: 28px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .res-guarantee-banner {
@@ -4976,6 +5299,8 @@ fieldset.res-step-content {
     padding-bottom: 18px;
     border-bottom: 1px solid var(--hairline);
     margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .res-guarantee-sum-label {
@@ -5014,6 +5339,8 @@ fieldset.res-step-content {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .res-guarantee-rules li {
@@ -5023,6 +5350,7 @@ fieldset.res-step-content {
     color: var(--ink);
     position: relative;
     padding-left: 18px;
+    word-break: break-word;
 }
 
 .res-guarantee-rules li::before {
@@ -5040,6 +5368,10 @@ fieldset.res-step-content {
     background: #fbf9f5;
     padding: 28px;
     margin-bottom: 28px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .res-stripe-placeholder-inner {
@@ -5047,6 +5379,8 @@ fieldset.res-step-content {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .res-stripe-badge {
@@ -5075,6 +5409,7 @@ fieldset.res-step-content {
     font-size: 14px;
     color: var(--muted);
     line-height: 1.6;
+    word-break: break-word;
 }
 
 .res-stripe-notice {
@@ -5086,6 +5421,9 @@ fieldset.res-step-content {
     margin-top: 6px;
     padding-top: 10px;
     border-top: 1px solid rgba(184, 147, 74, 0.2);
+    width: 100%;
+    box-sizing: border-box;
+    word-break: break-word;
 }
 
 /* Consent Checkbox */
@@ -5094,6 +5432,10 @@ fieldset.res-step-content {
     padding: 16px 20px;
     background: var(--white);
     border: 1px solid var(--hairline);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .res-consent-box.has-error {
@@ -5309,13 +5651,18 @@ fieldset.res-step-content {
 
 /* Confirmation Page */
 .res-confirm-card {
+    width: 100%;
     max-width: 760px;
     margin: 0 auto;
     text-align: center;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .res-confirm-hero {
     margin-bottom: 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .res-confirm-check-badge {
@@ -5339,6 +5686,7 @@ fieldset.res-step-content {
     line-height: 1.15;
     color: var(--ink);
     margin-bottom: 16px;
+    word-break: break-word;
 }
 
 .res-confirm-title em {
@@ -5354,6 +5702,7 @@ fieldset.res-step-content {
     max-width: 560px;
     margin: 0 auto;
     line-height: 1.7;
+    word-break: break-word;
 }
 
 .res-confirm-ticket {
@@ -5363,6 +5712,10 @@ fieldset.res-step-content {
     text-align: left;
     margin-bottom: 28px;
     position: relative;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .res-ticket-header {
@@ -5372,6 +5725,8 @@ fieldset.res-step-content {
     padding-bottom: 18px;
     border-bottom: 1px dashed var(--hairline);
     margin-bottom: 24px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .res-ticket-label {
@@ -5389,6 +5744,7 @@ fieldset.res-step-content {
     letter-spacing: 0.15em;
     color: var(--champagne);
     font-weight: 600;
+    word-break: break-all;
 }
 
 .res-ticket-body {
@@ -5396,12 +5752,16 @@ fieldset.res-step-content {
     grid-template-columns: 1fr 1fr;
     gap: 20px 32px;
     margin-bottom: 24px;
+    width: 100%;
+    min-width: 0;
 }
 
 .res-ticket-row {
     display: flex;
     flex-direction: column;
     gap: 3px;
+    min-width: 0;
+    word-break: break-word;
 }
 
 .res-ticket-key {
@@ -5486,6 +5846,10 @@ fieldset.res-step-content {
     border-left: 3px solid var(--champagne);
     padding: 20px 24px;
     margin-bottom: 32px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .res-submarine-badge {
@@ -5505,6 +5869,7 @@ fieldset.res-step-content {
     line-height: 1.7;
     color: var(--ink);
     margin: 0;
+    word-break: break-word;
 }
 
 .res-submarine-lead strong {
@@ -5517,6 +5882,10 @@ fieldset.res-step-content {
     border: 1px dashed rgba(184, 147, 74, 0.45);
     padding: 16px 20px;
     margin: 20px 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .res-retouches-tag {
@@ -5535,6 +5904,7 @@ fieldset.res-step-content {
     line-height: 1.6;
     color: var(--ink);
     margin: 0;
+    word-break: break-word;
 }
 
 .res-confirm-retouches-card {
@@ -5543,6 +5913,10 @@ fieldset.res-step-content {
     padding: 24px 28px;
     margin-bottom: 28px;
     text-align: left;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .res-confirm-retouches-header {
@@ -5588,16 +5962,28 @@ fieldset.res-step-content {
 @media (max-width: 960px) {
     .res-flow-root,
     .contact-res-container,
-    .res-step-content {
+    .res-step-content,
+    .res-calendar-time-layout,
+    .res-cal-side,
+    .res-time-side,
+    .res-calendar-card,
+    .res-time-container {
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .res-flow-root,
+    .res-step-content {
         overflow-x: clip;
     }
 
     .res-layout-split {
         grid-template-columns: 1fr;
         gap: 32px;
+        width: 100%;
+        min-width: 0;
     }
 
     .res-sidebar-col {
@@ -5677,22 +6063,45 @@ fieldset.res-step-content {
     .res-calendar-time-layout {
         grid-template-columns: 1fr;
         gap: 24px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .res-services-list {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 12px;
+        width: 100%;
+        min-width: 0;
     }
 
     .res-form-grid {
         grid-template-columns: 1fr;
         gap: 20px;
+        width: 100%;
+        min-width: 0;
     }
 
     .res-intro-grid {
         grid-template-columns: 1fr;
         gap: 20px;
+        width: 100%;
+        min-width: 0;
     }
 
     .res-review-grid,
     .res-ticket-body {
         grid-template-columns: 1fr;
         gap: 16px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .res-confirm-card,
+    .res-confirm-ticket {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
     }
 }
 
@@ -5874,14 +6283,15 @@ fieldset.res-step-content {
 
     /* Calendar */
     .res-calendar-card {
-        padding: 16px 12px;
+        padding: 14px 10px;
         box-sizing: border-box;
         width: 100%;
+        max-width: 100%;
         min-width: 0;
     }
 
     .res-calendar-header {
-        margin-bottom: 14px;
+        margin-bottom: 12px;
     }
 
     .res-calendar-title {
@@ -5892,31 +6302,47 @@ fieldset.res-step-content {
         width: 32px;
         height: 32px;
         font-size: 14px;
+        flex-shrink: 0;
     }
 
     .res-calendar-weekdays {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
         margin-bottom: 6px;
+        width: 100%;
+        min-width: 0;
     }
 
     .res-calendar-weekday {
         font-size: 9px;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.04em;
         padding-bottom: 4px;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .res-calendar-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
         gap: 3px;
         margin-bottom: 14px;
+        width: 100%;
+        min-width: 0;
     }
 
     .res-calendar-cell {
         min-width: 0;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
     }
 
     .res-calendar-day-btn {
         min-width: 0;
+        width: 100%;
         font-size: clamp(11.5px, 3.2vw, 13px);
         touch-action: manipulation;
+        box-sizing: border-box;
     }
 
     .res-calendar-avail-dot {
@@ -5938,6 +6364,7 @@ fieldset.res-step-content {
         padding: 16px 14px;
         box-sizing: border-box;
         width: 100%;
+        max-width: 100%;
         min-width: 0;
     }
 
@@ -5951,19 +6378,20 @@ fieldset.res-step-content {
 
     .res-time-date-label {
         font-size: 10.5px;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.08em;
         line-height: 1.4;
         word-break: break-word;
     }
 
     .res-slots-grid {
-        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        grid-template-columns: 1fr;
         gap: 8px;
         width: 100%;
+        min-width: 0;
     }
 
     .res-slot-btn {
-        padding: 11px 12px;
+        padding: 12px 14px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -5971,13 +6399,17 @@ fieldset.res-step-content {
         min-height: 48px;
         min-width: 0;
         width: 100%;
+        max-width: 100%;
         box-sizing: border-box;
         touch-action: manipulation;
+        gap: 8px;
     }
 
     .res-slot-time {
         font-size: 13px;
         min-width: 0;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .res-slot-end {
@@ -5985,14 +6417,16 @@ fieldset.res-step-content {
     }
 
     .res-slot-status {
-        font-size: 9px;
+        font-size: 9.5px;
         letter-spacing: 0.08em;
         flex-shrink: 0;
+        white-space: nowrap;
     }
 
     .res-slot-low-tag {
         padding: 2px 5px;
         font-size: 8.5px;
+        white-space: nowrap;
     }
 
     /* Customer Form */
@@ -6276,41 +6710,141 @@ fieldset.res-step-content {
         justify-content: center;
         padding: 15px 20px;
     }
+
+    section.s.res-page-section {
+        padding: 24px var(--page-gutter) 80px !important;
+        scroll-margin-top: 90px;
+    }
 }
 
 @media (max-width: 440px) {
+    /* Step 1: Services */
+    .res-service-item {
+        padding: 10px 12px;
+        min-height: auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .res-service-title {
+        font-size: 15px;
+    }
+
+    .res-service-desc {
+        font-size: 11.5px;
+        line-height: 1.35;
+    }
+
+    .res-service-meta {
+        padding-top: 4px;
+        margin-top: 2px;
+    }
+
+    .res-service-price {
+        font-size: 12px;
+    }
+
+    /* Step 2: Calendar & Time */
     .res-calendar-card {
-        padding: 14px 6px;
+        padding: 12px 6px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .res-calendar-weekdays {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        width: 100%;
+        min-width: 0;
     }
 
     .res-calendar-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
         gap: 2px;
+        width: 100%;
+        min-width: 0;
     }
 
     .res-calendar-day-btn {
-        font-size: 11.5px;
+        font-size: 11px;
+        min-width: 0;
+        width: 100%;
     }
 
     .res-calendar-weekday {
         font-size: 8px;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.02em;
+        min-width: 0;
+    }
+
+    .res-time-container {
+        padding: 14px 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
     }
 
     .res-slots-grid {
         grid-template-columns: 1fr !important;
         gap: 8px;
+        width: 100%;
+        min-width: 0;
     }
 
     .res-slot-btn {
-        padding: 12px 12px;
+        padding: 10px 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+        gap: 6px;
     }
 
+    .res-slot-time {
+        font-size: 12px;
+    }
+
+    .res-slot-status {
+        font-size: 8.5px;
+    }
+
+    /* Step 3: Customer Form */
+    .res-form-grid {
+        gap: 14px;
+        margin-bottom: 22px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .res-input,
+    .res-textarea {
+        padding: 11px 12px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .res-label {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+    }
+
+    /* Step 4: Guarantee */
     .res-review-box,
     .res-guarantee-explainer,
     .res-stripe-placeholder,
     .res-consent-box {
-        padding: 16px 12px;
-        margin-bottom: 16px;
+        padding: 14px 10px;
+        margin-bottom: 14px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
     }
 
     .res-guarantee-banner {
@@ -6321,34 +6855,113 @@ fieldset.res-step-content {
     }
 
     .res-guarantee-sum-val {
-        font-size: 26px;
+        font-size: 24px;
     }
 
     .res-zero-badge {
-        font-size: 9.5px;
+        font-size: 9px;
         padding: 3px 8px;
     }
 
     .res-guarantee-rules li {
-        font-size: 13px;
-        line-height: 1.55;
+        font-size: 12.5px;
+        line-height: 1.5;
+        padding-left: 14px;
+    }
+
+    .res-stripe-desc {
+        font-size: 12.5px;
+        line-height: 1.45;
+    }
+
+    .res-stripe-notice {
+        font-size: 10.5px;
+        line-height: 1.35;
     }
 
     .res-checkbox-text {
-        font-size: 12.5px;
+        font-size: 12px;
+        line-height: 1.45;
     }
 
+    .res-retouches-callout {
+        padding: 12px 10px;
+        margin: 14px 0;
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .res-retouches-callout p {
+        font-size: 12.5px;
+        line-height: 1.5;
+    }
+
+    /* Step 5: Confirmation Ticket */
     .res-confirm-ticket {
-        padding: 16px 12px;
+        padding: 16px 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .res-ticket-header {
+        padding-bottom: 10px;
+        margin-bottom: 12px;
     }
 
     .res-ticket-ref {
+        font-size: 12px;
+    }
+
+    .res-ticket-body {
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .res-ticket-key {
+        font-size: 8.5px;
+    }
+
+    .res-ticket-val {
+        font-size: 13px;
+    }
+
+    .res-confirm-retouches-card {
+        padding: 14px 10px;
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .res-confirm-retouches-list {
         font-size: 12.5px;
+        line-height: 1.5;
+    }
+
+    .res-confirm-actions button,
+    .res-confirm-actions a {
+        padding: 12px 12px;
+        font-size: 10px;
+    }
+
+    /* Actions */
+    .res-step-actions {
+        padding-top: 16px;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .res-step-actions button {
+        padding: 12px 12px;
+        font-size: 10px;
+        min-height: 44px;
     }
 
     section.s.res-page-section {
-        padding: 24px var(--page-gutter) !important;
-        scroll-margin-top: 70px;
+        padding: 20px var(--page-gutter) 80px !important;
+        scroll-margin-top: 90px;
     }
 
     section.s.contact-atelier-section {
@@ -6361,7 +6974,12 @@ fieldset.res-step-content {
    ════════════════════════════════════════════════════════════════ */
 section.s.res-page-section {
     padding: clamp(28px, 4vh, 48px) var(--page-gutter) !important;
-    scroll-margin-top: 85px;
+    scroll-margin-top: 90px;
+}
+
+.res-flow-root,
+.res-step-content {
+    scroll-margin-top: 90px;
 }
 
 .contact-res-container {
@@ -6807,8 +7425,8 @@ section.s.res-page-section {
         display: inline-flex !important;
         margin: 32px 0;
     }
-    .intro-slider {
-        padding-bottom: 144px !important;
+    .intro-slider:not(.intro-responsive-hero) {
+        padding-bottom: 72px !important;
     }
     .intro-dots {
         bottom: 72px;

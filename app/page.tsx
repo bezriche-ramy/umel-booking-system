@@ -1,6 +1,6 @@
 import CTABand from "@/components/CTABand";
 import GoogleRating from "@/components/GoogleRating";
-import HeroSlider from "@/components/HeroSlider";
+import HeroVideo from "@/components/HeroVideo";
 import ServicesCarousel from "@/components/ServicesCarousel";
 import TestimonialsTrack from "@/components/TestimonialsTrack";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function HomePage() {
     return (
         <>
-            <HeroSlider>
+            <HeroVideo folio="Spot Officiel — Maison Umel">
                 <span className="hero-eyebrow">Maison de couture · Servon, France</span>
                 <h1 className="hero-title">
                     <span className="line">
@@ -27,7 +27,7 @@ export default function HomePage() {
                         Prendre rendez-vous <span aria-hidden="true">→</span>
                     </Link>
                 </div>
-            </HeroSlider>
+            </HeroVideo>
 
             <section className="home-manifesto s" aria-labelledby="manifesto-title">
                 <div className="home-manifesto-title">

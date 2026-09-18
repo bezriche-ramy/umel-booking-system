@@ -3,7 +3,10 @@
 import Image from "next/image";
 import { useState } from "react";
 
-interface HeroSliderProps { children?: React.ReactNode; }
+interface HeroSliderProps {
+    children?: React.ReactNode;
+    folio?: string;
+}
 
 const slides = [
     { src: "/images/Hero1.webp", alt: "Mariée Umel Couture sur la côte amalfitaine", position: "center 48%" },
@@ -12,7 +15,7 @@ const slides = [
     { src: "/images/Hero4.webp", alt: "Silhouette nuptiale Umel Couture", position: "center 38%" },
 ];
 
-export default function HeroSlider({ children }: HeroSliderProps) {
+export default function HeroSlider({ children, folio = "Collection privée — 2026" }: HeroSliderProps) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
@@ -24,7 +27,15 @@ export default function HeroSlider({ children }: HeroSliderProps) {
             </div>
             <div className="hero-gradient" aria-hidden="true" />
             <div className="intro-hero-content">{children}</div>
-            <div className="hero-folio" aria-hidden="true">Collection privée <span>—</span> 2026</div>
+            <div className="hero-folio" aria-hidden="true">
+                {folio.includes("—") ? (
+                    <>
+                        {folio.split("—")[0].trim()} <span>—</span> {folio.split("—")[1].trim()}
+                    </>
+                ) : (
+                    folio
+                )}
+            </div>
             <div className="intro-dots" role="group" aria-label="Choisir une photographie">
                 {slides.map((_, index) => (
                     <button key={index} className={`intro-dot ${index === activeIndex ? "active" : ""}`} aria-label={`Photographie ${index + 1}`} aria-pressed={index === activeIndex} onClick={() => setActiveIndex(index)}>

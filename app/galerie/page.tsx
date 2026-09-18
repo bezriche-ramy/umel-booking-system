@@ -2,11 +2,12 @@ import AmbianceGallery from "@/components/AmbianceGallery";
 import CTABand from "@/components/CTABand";
 import EmbroideryDivider from "@/components/EmbroideryDivider";
 import FluxMarquee from "@/components/FluxMarquee";
-import PageHero from "@/components/PageHero";
+import HeroSlider from "@/components/HeroSlider";
 import TiltGallery from "@/components/TiltGallery";
 import { getBreadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/siteData";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Galerie | Umel Couture — Créations robes de mariée Servon, Seine-et-Marne",
@@ -37,13 +38,25 @@ export default function GaleriePage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
             />
 
-            <PageHero
-                imageSrc="/images/Galerie.webp"
-                imageAlt="Umel Couture — Galerie"
-                titleLines={["Chaque robe,", "une histoire", "unique."]}
-                sub="Explorez nos créations sur mesure."
-                objectPosition="center 25%"
-            />
+            <HeroSlider folio="Galerie & Créations — 2026">
+                <span className="hero-eyebrow">Galerie &amp; Inspirations · Servon</span>
+                <h1 className="hero-title">
+                    <span className="line">
+                        <span>Chaque robe,</span>
+                    </span>
+                    <span className="line">
+                        <span>
+                            <em>une histoire</em> unique.
+                        </span>
+                    </span>
+                </h1>
+                <p className="hero-sub">Explorez nos créations de mariée sur mesure, façonnées au cœur de notre atelier.</p>
+                <div className="hero-actions">
+                    <Link href="/contact#reservation" className="hero-btn-primary">
+                        Prendre rendez-vous <span aria-hidden="true">→</span>
+                    </Link>
+                </div>
+            </HeroSlider>
 
             <aside className="gallery-note" aria-label="Information galerie">
                 <p>Galerie en cours de mise à jour — Nouvelles créations à découvrir bientôt</p>

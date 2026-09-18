@@ -82,9 +82,17 @@ export default function ReservationFlow({ initialServiceId, isSubmarineRetouches
     }, [draft.date]);
 
     const scrollToTop = () => {
-        if (topAnchorRef.current) {
-            topAnchorRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        if (typeof window === "undefined") return;
+        const target = topAnchorRef.current;
+        if (!target) return;
+        // Offset for the fixed navbar (approx 80-85px) plus safety margin
+        const navHeight = 90;
+        const targetRect = target.getBoundingClientRect();
+        const targetTop = targetRect.top + window.scrollY - navHeight;
+        window.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: "smooth",
+        });
     };
 
     const goToStep = (step: BookingStep) => {
