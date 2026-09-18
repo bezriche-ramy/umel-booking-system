@@ -13,11 +13,7 @@ export default function WhatsAppButton() {
                 window.requestAnimationFrame(() => {
                     const heroThreshold = window.innerHeight * 0.7;
                     const shouldShow = window.scrollY > heroThreshold;
-<<<<<<< HEAD
                     setIsVisible((prev) => (prev !== shouldShow ? shouldShow : prev));
-=======
-                    setIsVisible(prev => (prev !== shouldShow ? shouldShow : prev));
->>>>>>> c59aae2 (perf(hero, navbar): fix scroll lag, eliminate video scale shifts and optimize composite layers)
                     ticking = false;
                 });
                 ticking = true;
