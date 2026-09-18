@@ -1,8 +1,6 @@
 import CornerStitch from "@/components/CornerStitches";
 import CTABand from "@/components/CTABand";
 import EmbroideryDivider from "@/components/EmbroideryDivider";
-import Marquee from "@/components/Marquee";
-import NeedleSection from "@/components/NeedleSection";
 import PageHero from "@/components/PageHero";
 import ServicesCarousel from "@/components/ServicesCarousel";
 import { getBreadcrumbSchema } from "@/lib/schema";
@@ -47,7 +45,7 @@ export default function NosRobesServicesPage() {
                 sub="Peu importe le service choisi — vous êtes accompagnée du début à la fin."
             >
                 <div className="hero-actions">
-                    <Link href="/contact" className="hero-btn-primary">
+                    <Link href="/contact#reservation" className="hero-btn-primary">
                         Prendre rendez-vous
                     </Link>
                     <a href="#collection" className="hero-btn-ghost">
@@ -59,6 +57,7 @@ export default function NosRobesServicesPage() {
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="1.5"
+                            aria-hidden="true"
                         >
                             <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
@@ -66,31 +65,34 @@ export default function NosRobesServicesPage() {
                 </div>
             </PageHero>
 
-            <Marquee />
-
-            {/* AIGUILLE COUSANT UMEL */}
-            <NeedleSection />
-
             <EmbroideryDivider />
 
-            {/* NOS CRÉATIONS — VIDEO SCRUBBER / IMAGE SHOWCASE */}
+            {/* NOS CRÉATIONS — IMAGE SHOWCASE */}
             <section
                 className="s"
                 style={{ background: "var(--cream)", padding: "0", position: "relative" }}
                 id="collection"
+                aria-labelledby="collection-title"
             >
                 <CornerStitch position="tl" />
                 <CornerStitch position="tr" />
 
-                <div style={{ maxWidth: "1260px", margin: "0 auto", padding: "80px" }}>
-                    <div style={{ textAlign: "center", marginBottom: "70px" }} className="reveal">
-                        <span className="sl-lbl">Nos Créations</span>
+                <div
+                    style={{
+                        maxWidth: "1260px",
+                        margin: "0 auto",
+                        padding: "clamp(40px, 6vw, 80px) var(--page-gutter)",
+                    }}
+                >
+                    <div style={{ textAlign: "center", marginBottom: "clamp(36px, 5vw, 70px)" }} className="reveal">
                         <h2
+                            id="collection-title"
                             style={{
                                 fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
                                 fontSize: "clamp(38px,5vw,68px)",
                                 fontWeight: 300,
                                 lineHeight: 1.1,
+                                textWrap: "balance",
                             }}
                         >
                             Chaque robe,
@@ -106,8 +108,8 @@ export default function NosRobesServicesPage() {
                                 lineHeight: 1.85,
                             }}
                         >
-                            Faites défiler pour découvrir la robe à 360° — explorez chaque détail, chaque broderie,
-                            chaque courbe.
+                            Découvrez les détails délicats, le tombé des matières et le travail minutieux de la
+                            dentelle.
                         </p>
                     </div>
 
@@ -123,9 +125,6 @@ export default function NosRobesServicesPage() {
                         </div>
 
                         <div className="reveal reveal-d1">
-                            <span className="sl-lbl" id="rlbl">
-                                Nos Créations
-                            </span>
                             <h3
                                 id="rtitle"
                                 style={{
@@ -134,6 +133,7 @@ export default function NosRobesServicesPage() {
                                     fontWeight: 300,
                                     lineHeight: 1.2,
                                     marginBottom: "20px",
+                                    textWrap: "balance",
                                 }}
                             >
                                 La <em style={{ fontStyle: "italic" }}>Silhouette</em>
@@ -162,7 +162,11 @@ export default function NosRobesServicesPage() {
                                 <span className="rtag">Corset sur mesure</span>
                                 <span className="rtag">Traîne vaporeuse</span>
                             </div>
-                            <Link href="/contact" className="bp">
+                            <Link
+                                href="/contact#reservation"
+                                className="bp"
+                                style={{ minHeight: "44px", display: "inline-flex", alignItems: "center" }}
+                            >
                                 Essayer cette robe
                             </Link>
                         </div>
@@ -172,41 +176,56 @@ export default function NosRobesServicesPage() {
 
             <EmbroideryDivider />
 
-            {/* PRESTATIONS CAROUSEL PLEINE LARGEUR */}
+            {/* PRESTATIONS SERVICES */}
             <section
                 id="svcScroll"
-                style={{ background: "var(--cream)", padding: "90px 0 110px", position: "relative" }}
+                className="s"
+                style={{
+                    background: "var(--cream)",
+                    padding: "clamp(60px, 8vw, 110px) 0",
+                    position: "relative",
+                }}
+                aria-labelledby="services-overview-title"
             >
-                <div className="reveal" style={{ textAlign: "center", marginBottom: "56px", padding: "0 80px" }}>
-                    <span className="sl-lbl">Nos prestations</span>
-                    <h2
-                        style={{
-                            fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
-                            fontSize: "clamp(34px,4vw,54px)",
-                            fontWeight: 300,
-                            marginBottom: "10px",
-                        }}
-                    >
-                        Quatre services.
-                        <br />
-                        <em style={{ fontStyle: "italic", color: "var(--or)" }}>Une même attention.</em>
-                    </h2>
-                    <p
-                        style={{
-                            fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
-                            fontSize: "16px",
-                            color: "var(--taupe)",
-                            lineHeight: 1.85,
-                            maxWidth: "560px",
-                            margin: "0 auto",
-                        }}
-                    >
-                        Chaque prestation chez Umel est pensée avec le même niveau d&apos;attention. Vous êtes
-                        accompagnée du début à la fin.
-                    </p>
-                </div>
+                <div
+                    style={{
+                        maxWidth: "1260px",
+                        margin: "0 auto",
+                        padding: "0 var(--page-gutter)",
+                    }}
+                >
+                    <div className="reveal" style={{ textAlign: "center", marginBottom: "clamp(40px, 5vw, 64px)" }}>
+                        <h2
+                            id="services-overview-title"
+                            style={{
+                                fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
+                                fontSize: "clamp(34px,4vw,54px)",
+                                fontWeight: 300,
+                                marginBottom: "12px",
+                                textWrap: "balance",
+                            }}
+                        >
+                            Quatre services.
+                            <br />
+                            <em style={{ fontStyle: "italic", color: "var(--or)" }}>Une même attention.</em>
+                        </h2>
+                        <p
+                            style={{
+                                fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
+                                fontSize: "16px",
+                                color: "var(--taupe)",
+                                lineHeight: 1.85,
+                                maxWidth: "560px",
+                                margin: "0 auto",
+                            }}
+                        >
+                            Chaque prestation chez Umel est pensée avec le même niveau d&apos;attention. Vous êtes
+                            accompagnée du début à la fin.
+                        </p>
+                    </div>
 
-                <ServicesCarousel />
+                    <ServicesCarousel />
+                </div>
             </section>
 
             <EmbroideryDivider />

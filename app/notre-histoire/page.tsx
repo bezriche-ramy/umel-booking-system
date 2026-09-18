@@ -1,6 +1,5 @@
 import CTABand from "@/components/CTABand";
 import EmbroideryDivider from "@/components/EmbroideryDivider";
-import Marquee from "@/components/Marquee";
 import PageHero from "@/components/PageHero";
 import { getBreadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/siteData";
@@ -30,7 +29,10 @@ export default function NotreHistoirePage() {
 
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }} />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+            />
 
             <PageHero
                 imageSrc="/images/Notre histoire.webp"
@@ -39,29 +41,28 @@ export default function NotreHistoirePage() {
                 sub="Umi & Melissa — Servon, Île-de-France."
             />
 
-            <Marquee />
-
             {/* BIOGRAPHIE COMPLÈTE */}
-            <section className="s">
+            <section className="s" aria-labelledby="histoire-title">
                 <div
                     style={{
-                        maxWidth: "820px",
+                        maxWidth: "700px",
                         margin: "0 auto",
                     }}
                 >
-                    <span className="sl-lbl">Deux femmes. Un seul nom.</span>
                     <p
+                        id="histoire-title"
                         style={{
                             fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
-                            fontSize: "18px",
-                            lineHeight: 2,
+                            fontSize: "19px",
+                            lineHeight: 1.9,
                             color: "var(--charcoal)",
                             marginBottom: "28px",
+                            fontWeight: 500,
                         }}
                     >
                         Umel n&apos;est pas née dans une salle de réunion. Umel est née de deux femmes.
                     </p>
-                    <p
+                    <h2
                         style={{
                             fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
                             fontSize: "clamp(28px,3vw,42px)",
@@ -70,6 +71,7 @@ export default function NotreHistoirePage() {
                             color: "var(--charcoal)",
                             marginBottom: "36px",
                             fontStyle: "italic",
+                            textWrap: "balance",
                         }}
                     >
                         Umi. Melissa.
@@ -77,7 +79,7 @@ export default function NotreHistoirePage() {
                         Deux visions. Deux sensibilités.
                         <br />
                         Un seul nom.
-                    </p>
+                    </h2>
                     <p
                         style={{
                             fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
@@ -87,8 +89,8 @@ export default function NotreHistoirePage() {
                             marginBottom: "24px",
                         }}
                     >
-                        Avant la première robe. Avant la première cliente. La marque portait déjà quelque chose de
-                        rare — une histoire vraie.
+                        Avant la première robe. Avant la première cliente. La marque portait déjà quelque chose de rare
+                        — une histoire vraie.
                     </p>
                     <div style={{ width: "48px", height: "1px", background: "var(--nude)", margin: "32px 0" }} />
                     <p
@@ -100,9 +102,9 @@ export default function NotreHistoirePage() {
                             marginBottom: "24px",
                         }}
                     >
-                        <strong style={{ color: "var(--charcoal)", fontWeight: 400 }}>Umi</strong> pense en
-                        matières. En tombés. En détails invisibles aux yeux des autres. Elle comprend le vêtement
-                        comme un langage silencieux.
+                        <strong style={{ color: "var(--charcoal)", fontWeight: 500 }}>Umi</strong> pense en matières. En
+                        tombés. En détails invisibles aux yeux des autres. Elle comprend le vêtement comme un langage
+                        silencieux.
                     </p>
                     <p
                         style={{
@@ -113,7 +115,7 @@ export default function NotreHistoirePage() {
                             marginBottom: "24px",
                         }}
                     >
-                        <strong style={{ color: "var(--charcoal)", fontWeight: 400 }}>Melissa</strong> pense en
+                        <strong style={{ color: "var(--charcoal)", fontWeight: 500 }}>Melissa</strong> pense en
                         expérience. En structure. En relation humaine. Elle apporte l&apos;équilibre, la rigueur, la
                         précision.
                     </p>
@@ -126,8 +128,8 @@ export default function NotreHistoirePage() {
                             marginBottom: "36px",
                         }}
                     >
-                        Ensemble, elles ont créé la maison qu&apos;elles auraient voulu trouver. Une maison où la
-                        femme est réellement accompagnée. Pas pressée. Pas cataloguée. Écoutée.
+                        Ensemble, elles ont créé la maison qu&apos;elles auraient voulu trouver. Une maison où la femme
+                        est réellement accompagnée. Pas pressée. Pas cataloguée. Écoutée.
                     </p>
                     <p
                         style={{
@@ -138,24 +140,24 @@ export default function NotreHistoirePage() {
                             marginBottom: "36px",
                         }}
                     >
-                        Parmi les premières en Île-de-France à avoir placé le sur-mesure au centre de leur identité.
-                        Des milliers de femmes accompagnées. Une réputation construite par le bouche-à-oreille — pas
-                        par le bruit.
+                        Parmi les premières en Île-de-France à avoir placé le sur-mesure au centre de leur identité. Des
+                        milliers de femmes accompagnées. Une réputation construite par le bouche-à-oreille — pas par le
+                        bruit.
                     </p>
                     <blockquote
                         style={{
                             fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
-                            fontSize: "clamp(17px,1.6vw,22px)",
+                            fontSize: "clamp(18px,1.7vw,23px)",
                             fontStyle: "italic",
-                            color: "var(--or)",
-                            borderLeft: "2px solid rgba(197, 160, 89, 0.45)",
+                            color: "var(--ink)",
+                            borderLeft: "2px solid var(--or)",
                             paddingLeft: "24px",
                             lineHeight: 1.7,
                             marginBottom: "36px",
                         }}
                     >
-                        &ldquo;On a parfois refusé certaines demandes. Pas parce qu&apos;on ne savait pas faire.
-                        Parce qu&apos;on refusait de faire semblant.&rdquo;
+                        &ldquo;On a parfois refusé certaines demandes. Pas parce qu&apos;on ne savait pas faire. Parce
+                        qu&apos;on refusait de faire semblant.&rdquo;
                     </blockquote>
                     <p
                         style={{
@@ -174,11 +176,9 @@ export default function NotreHistoirePage() {
             <EmbroideryDivider />
 
             {/* STATS */}
-            <section className="s" style={{ background: "var(--cream)" }}>
+            <section className="s" style={{ background: "var(--cream)" }} aria-label="Repères de la maison">
                 <div style={{ maxWidth: "1260px", margin: "0 auto" }}>
-                    <div
-                        className="stats-grid"
-                    >
+                    <div className="stats-grid">
                         <div style={{ background: "var(--white)", padding: "50px 40px", textAlign: "center" }}>
                             <strong
                                 style={{
@@ -194,15 +194,21 @@ export default function NotreHistoirePage() {
                             <span
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
-                                    fontSize: "9.5px",
-                                    letterSpacing: ".38em",
+                                    fontSize: "var(--type-label)",
+                                    letterSpacing: "0.1em",
                                     textTransform: "uppercase",
                                     color: "var(--taupe)",
+                                    fontWeight: 500,
                                 }}
                             >
                                 Note Google · 336 avis
                             </span>
-                            <div style={{ fontSize: "20px", color: "var(--nude)", marginTop: "10px" }}>★★★★★</div>
+                            <div
+                                style={{ fontSize: "18px", color: "var(--or)", marginTop: "10px" }}
+                                aria-label="5 étoiles sur 5"
+                            >
+                                ★★★★★
+                            </div>
                         </div>
 
                         <div style={{ background: "var(--white)", padding: "50px 40px", textAlign: "center" }}>
@@ -220,10 +226,11 @@ export default function NotreHistoirePage() {
                             <span
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
-                                    fontSize: "9.5px",
-                                    letterSpacing: ".38em",
+                                    fontSize: "var(--type-label)",
+                                    letterSpacing: "0.1em",
                                     textTransform: "uppercase",
                                     color: "var(--taupe)",
+                                    fontWeight: 500,
                                 }}
                             >
                                 Sur mesure
@@ -256,10 +263,11 @@ export default function NotreHistoirePage() {
                             <span
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
-                                    fontSize: "9.5px",
-                                    letterSpacing: ".38em",
+                                    fontSize: "var(--type-label)",
+                                    letterSpacing: "0.1em",
                                     textTransform: "uppercase",
                                     color: "var(--taupe)",
+                                    fontWeight: 500,
                                 }}
                             >
                                 Possibilités
@@ -281,24 +289,23 @@ export default function NotreHistoirePage() {
             </section>
 
             {/* VALEURS */}
-            <section className="s">
+            <section className="s" aria-labelledby="valeurs-title">
                 <div style={{ maxWidth: "1260px", margin: "0 auto" }}>
                     <div style={{ textAlign: "center", marginBottom: "60px" }}>
-                        <span className="sl-lbl">Ce en quoi nous croyons</span>
                         <h2
+                            id="valeurs-title"
                             style={{
                                 fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
                                 fontSize: "clamp(34px,4vw,54px)",
                                 fontWeight: 300,
+                                textWrap: "balance",
                             }}
                         >
                             Quatre valeurs. <em style={{ fontStyle: "italic", color: "var(--or)" }}>Une maison.</em>
                         </h2>
                     </div>
 
-                    <div
-                        className="val-grid"
-                    >
+                    <div className="val-grid">
                         <div
                             style={{
                                 background: "var(--white)",

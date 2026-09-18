@@ -14,8 +14,8 @@ export default function ServicesCarousel() {
                     <p className="service-line-copy">{service.desc}</p>
                     <div className="service-line-meta">
                         <span>{service.price}</span>
-                        <Link href="/contact" aria-label={`Prendre rendez-vous pour ${service.title}`}>
-                            Découvrir <span aria-hidden="true">→</span>
+                        <Link href="/contact#reservation" aria-label={`Prendre rendez-vous pour ${service.title}`}>
+                            Prendre rendez-vous <span aria-hidden="true">→</span>
                         </Link>
                     </div>
                 </article>

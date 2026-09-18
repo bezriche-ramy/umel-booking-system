@@ -15,7 +15,7 @@ export default function CTABand({
     title,
     subtitle,
     btnText,
-    btnHref = "/contact",
+    btnHref = "/contact#reservation",
     cornerStitches = true,
 }: CTABandProps) {
     return (

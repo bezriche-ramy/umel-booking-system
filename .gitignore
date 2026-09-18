@@ -11,6 +11,8 @@ coverage/
 
 # AI & Agent files
 .agents/
+.impeccable/
+.codex/
 AGENTS.md
 CLAUDE.md
 

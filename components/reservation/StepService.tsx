@@ -11,9 +11,7 @@ interface StepServiceProps {
 
 export default function StepService({ services, selectedServiceId, onSelectService, onNext }: StepServiceProps) {
     return (
-        <fieldset className="res-step-content" aria-labelledby="step-service-title">
-            <legend className="sr-only">Choix du type de rendez-vous</legend>
-
+        <div className="res-step-content" role="region" aria-labelledby="step-service-title">
             <div className="res-step-head">
                 <span className="sl-lbl">Étape 01</span>
                 <h2 id="step-service-title" className="res-step-title">
@@ -72,6 +70,7 @@ export default function StepService({ services, selectedServiceId, onSelectServi
                     type="button"
                     onClick={onNext}
                     disabled={!selectedServiceId}
+                    suppressHydrationWarning
                     className="bp res-btn-primary"
                     aria-label="Valider le service et passer au choix de la date"
                 >
@@ -79,6 +78,6 @@ export default function StepService({ services, selectedServiceId, onSelectServi
                     <span aria-hidden="true">→</span>
                 </button>
             </div>
-        </fieldset>
+        </div>
     );
 }

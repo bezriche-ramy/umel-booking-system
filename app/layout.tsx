@@ -24,13 +24,6 @@ const bodyFont = Inter({
     display: "swap",
 });
 
-const labelFont = Plus_Jakarta_Sans({
-    subsets: ["latin"],
-    weight: ["400", "500", "600"],
-    variable: "--font-jost",
-    display: "swap",
-});
-
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
     title: {
@@ -92,7 +85,7 @@ export default function RootLayout({
     return (
         <html
             lang="fr"
-            className={`${headingFont.variable} ${bodyFont.variable} ${labelFont.variable}`}
+            className={`${headingFont.variable} ${bodyFont.variable}`}
             data-scroll-behavior="smooth"
         >
             <head>
@@ -106,8 +99,9 @@ export default function RootLayout({
                 />
             </head>
             <body>
+                <a className="skip-link" href="#main-content">Aller au contenu</a>
                 <Navbar />
-                <main>{children}</main>
+                <main id="main-content" tabIndex={-1}>{children}</main>
                 <Footer />
                 <WhatsAppButton />
                 <ScrollReveal />

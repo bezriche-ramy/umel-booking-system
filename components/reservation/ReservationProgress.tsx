@@ -16,7 +16,7 @@ export default function ReservationProgress({ currentStepIndex }: ReservationPro
     const activeStep = STEP_LABELS[currentStepIndex] || STEP_LABELS[0];
 
     return (
-        <nav className="res-progress" aria-label="Progression de la réservation">
+        <div className="res-progress" role="group" aria-label="Progression de la réservation">
             {/* Mobile-only compact progress indicator */}
             <div className="res-progress-mobile" aria-hidden="true">
                 <span className="res-progress-mobile-step">Étape {activeStep.num} sur 04</span>
@@ -49,6 +49,6 @@ export default function ReservationProgress({ currentStepIndex }: ReservationPro
                     );
                 })}
             </ol>
-        </nav>
+        </div>
     );
 }

@@ -1,6 +1,5 @@
 import CTABand from "@/components/CTABand";
 import EmbroideryDivider from "@/components/EmbroideryDivider";
-import Marquee from "@/components/Marquee";
 import PageHero from "@/components/PageHero";
 import { getBreadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/siteData";
@@ -42,31 +41,30 @@ export default function SurMesurePage() {
                 sub="Plusieurs essayages jusqu'à la perfection."
             />
 
-            <Marquee />
-
             {/* PHILOSOPHIE SUR MESURE */}
-            <section className="s">
-                <div className="prose-section" style={{ maxWidth: "740px", margin: "0 auto", textAlign: "center" }}>
-                    <span className="sl-lbl">Notre approche</span>
-                    <p
+            <section className="s" aria-labelledby="philosophie-title">
+                <div className="prose-section" style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
+                    <h2
+                        id="philosophie-title"
                         style={{
                             fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
-                            fontSize: "clamp(22px,2.5vw,32px)",
+                            fontSize: "clamp(26px,2.8vw,36px)",
                             fontWeight: 300,
-                            lineHeight: 1.4,
+                            lineHeight: 1.35,
                             color: "var(--charcoal)",
                             marginBottom: "36px",
+                            textWrap: "balance",
                         }}
                     >
                         Chez Umel Couture, le sur-mesure n&apos;est pas une option premium. C&apos;est le point de
                         départ.
-                    </p>
+                    </h2>
                     <div style={{ width: "48px", height: "1px", background: "var(--nude)", margin: "0 auto 36px" }} />
                     <p
                         style={{
                             fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
                             fontSize: "18px",
-                            lineHeight: 2,
+                            lineHeight: 1.95,
                             color: "var(--taupe)",
                             marginBottom: "24px",
                         }}
@@ -79,7 +77,7 @@ export default function SurMesurePage() {
                         style={{
                             fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
                             fontSize: "18px",
-                            lineHeight: 2,
+                            lineHeight: 1.95,
                             color: "var(--taupe)",
                             marginBottom: "24px",
                         }}
@@ -91,7 +89,7 @@ export default function SurMesurePage() {
                         style={{
                             fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
                             fontSize: "18px",
-                            lineHeight: 2,
+                            lineHeight: 1.95,
                             color: "var(--taupe)",
                             marginBottom: "24px",
                         }}
@@ -121,15 +119,16 @@ export default function SurMesurePage() {
             <EmbroideryDivider />
 
             {/* INFORMATIONS PRATIQUES */}
-            <section className="s" style={{ background: "var(--blanc)" }}>
+            <section className="s" style={{ background: "var(--blanc)" }} aria-labelledby="sur-mesure-info-title">
                 <div style={{ maxWidth: "1260px", margin: "0 auto" }}>
                     <div style={{ textAlign: "center", marginBottom: "60px" }}>
-                        <span className="sl-lbl">Informations pratiques</span>
                         <h2
+                            id="sur-mesure-info-title"
                             style={{
                                 fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
                                 fontSize: "clamp(30px,3.5vw,50px)",
                                 fontWeight: 300,
+                                textWrap: "balance",
                             }}
                         >
                             Tout ce qu&apos;il faut <em style={{ fontStyle: "italic", color: "var(--or)" }}>savoir</em>
@@ -256,7 +255,15 @@ export default function SurMesurePage() {
                                     color: "var(--taupe)",
                                 }}
                             >
-                                <a href={siteConfig.whatsappUrl} style={{ color: "var(--or)", textDecoration: "none" }}>
+                                <a
+                                    href={siteConfig.whatsappUrl}
+                                    style={{
+                                        color: "var(--ink)",
+                                        fontWeight: 600,
+                                        textDecoration: "underline",
+                                        textUnderlineOffset: "3px",
+                                    }}
+                                >
                                     {siteConfig.phone}
                                 </a>
                                 <br />
@@ -270,18 +277,29 @@ export default function SurMesurePage() {
             </section>
 
             {/* AVIS CLIENTES */}
-            <section className="s">
+            <section className="s" aria-labelledby="sur-mesure-reviews-title">
                 <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center", marginBottom: "50px" }}>
-                    <span className="sl-lbl">Elles l&apos;ont vécu</span>
+                    <h2
+                        id="sur-mesure-reviews-title"
+                        style={{
+                            fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
+                            fontSize: "clamp(28px,3vw,42px)",
+                            fontWeight: 300,
+                            marginBottom: "12px",
+                            textWrap: "balance",
+                        }}
+                    >
+                        Elles ont choisi le <em>sur-mesure</em>
+                    </h2>
                     <p
                         style={{
                             fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
                             fontSize: "15px",
-                            letterSpacing: ".22em",
+                            letterSpacing: "0.08em",
                             color: "var(--taupe)",
                         }}
                     >
-                        ★★★★★ · 4,9 sur Google · 336 avis
+                        <span style={{ color: "var(--or)" }}>★★★★★</span> · 4,9 sur Google · 336 avis
                     </p>
                 </div>
                 <div className="testimonial-duo-grid">
@@ -310,16 +328,19 @@ export default function SurMesurePage() {
                         <span
                             style={{
                                 fontFamily: "var(--font-jost), 'Jost', sans-serif",
-                                fontSize: "9.5px",
-                                letterSpacing: ".32em",
+                                fontSize: "var(--type-label)",
+                                letterSpacing: "0.08em",
                                 textTransform: "uppercase",
-                                color: "var(--or)",
-                                fontWeight: 500,
+                                color: "var(--charcoal)",
+                                fontWeight: 600,
                             }}
                         >
                             Anaïs B.
                         </span>
-                        <span style={{ display: "block", fontSize: "13px", color: "var(--or)", marginTop: "6px" }}>
+                        <span
+                            style={{ display: "block", fontSize: "14px", color: "var(--or)", marginTop: "6px" }}
+                            aria-label="5 étoiles sur 5"
+                        >
                             ★★★★★
                         </span>
                     </div>
@@ -349,16 +370,19 @@ export default function SurMesurePage() {
                         <span
                             style={{
                                 fontFamily: "var(--font-jost), 'Jost', sans-serif",
-                                fontSize: "9.5px",
-                                letterSpacing: ".32em",
+                                fontSize: "var(--type-label)",
+                                letterSpacing: "0.08em",
                                 textTransform: "uppercase",
-                                color: "var(--or)",
-                                fontWeight: 500,
+                                color: "var(--charcoal)",
+                                fontWeight: 600,
                             }}
                         >
                             Julie M.
                         </span>
-                        <span style={{ display: "block", fontSize: "13px", color: "var(--or)", marginTop: "6px" }}>
+                        <span
+                            style={{ display: "block", fontSize: "14px", color: "var(--or)", marginTop: "6px" }}
+                            aria-label="5 étoiles sur 5"
+                        >
                             ★★★★★
                         </span>
                     </div>

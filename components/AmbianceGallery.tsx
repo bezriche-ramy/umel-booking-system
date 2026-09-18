@@ -11,10 +11,18 @@ const atelierImages = [
 export default function AmbianceGallery() {
     return (
         <section className="atelier-strip" aria-labelledby="atelier-strip-title">
-            <div className="atelier-strip-head"><span className="sl-lbl">Journal d&apos;atelier</span><h2 id="atelier-strip-title">Dans les <em>coulisses</em></h2><p>Gestes, matières et instants suspendus à Servon.</p></div>
+            <div className="atelier-strip-head">
+                <h2 id="atelier-strip-title" style={{ textWrap: "balance" }}>
+                    Dans les <em>coulisses</em>
+                </h2>
+                <p>Gestes, matières et instants suspendus à Servon.</p>
+            </div>
             <div className="atelier-strip-track">
                 {atelierImages.map((item, index) => (
-                    <figure key={item.src}><Image src={item.src} alt={item.alt} fill sizes="(max-width: 700px) 78vw, 30vw" /><figcaption>{String(index + 1).padStart(2, "0")} — Umel, Servon</figcaption></figure>
+                    <figure key={item.src}>
+                        <Image src={item.src} alt={item.alt} fill sizes="(max-width: 700px) 78vw, 30vw" />
+                        <figcaption>{String(index + 1).padStart(2, "0")} — Umel, Servon</figcaption>
+                    </figure>
                 ))}
             </div>
         </section>

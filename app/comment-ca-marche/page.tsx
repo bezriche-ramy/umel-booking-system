@@ -1,6 +1,5 @@
 import CTABand from "@/components/CTABand";
 import EmbroideryDivider from "@/components/EmbroideryDivider";
-import Marquee from "@/components/Marquee";
 import PageHero from "@/components/PageHero";
 import { getBreadcrumbSchema } from "@/lib/schema";
 import { siteConfig } from "@/lib/siteData";
@@ -39,21 +38,20 @@ export default function CommentCaMarchePage() {
                 imageSrc="/images/Ambiance atelier3.webp"
                 imageAlt="Umel Couture — Atelier"
                 titleLines={["Un accompagnement", "du début", "à la fin."]}
-                sub="Cinq étapes. Zéro précipitation."
+                sub="De la première conversation au jour J, sans catalogue imposé."
             />
 
-            <Marquee />
-
             {/* 5 ÉTAPES */}
-            <section className="s">
+            <section className="s" aria-labelledby="process-title">
                 <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-                    <span className="sl-lbl">Le processus</span>
                     <h2
+                        id="process-title"
                         style={{
                             fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
                             fontSize: "clamp(30px,3.5vw,50px)",
                             fontWeight: 300,
                             marginBottom: "60px",
+                            textWrap: "balance",
                         }}
                     >
                         Cinq étapes. <em style={{ fontStyle: "italic", color: "var(--or)" }}>Zéro précipitation.</em>
@@ -139,15 +137,16 @@ export default function CommentCaMarchePage() {
             <EmbroideryDivider />
 
             {/* INFORMATIONS PRATIQUES */}
-            <section className="s" style={{ background: "var(--cream)" }}>
+            <section className="s" style={{ background: "var(--cream)" }} aria-labelledby="practical-info-title">
                 <div style={{ maxWidth: "1260px", margin: "0 auto" }}>
                     <div style={{ textAlign: "center", marginBottom: "50px" }}>
-                        <span className="sl-lbl">À savoir</span>
                         <h2
+                            id="practical-info-title"
                             style={{
                                 fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
                                 fontSize: "clamp(28px,3vw,44px)",
                                 fontWeight: 300,
+                                textWrap: "balance",
                             }}
                         >
                             Informations <em style={{ fontStyle: "italic", color: "var(--or)" }}>pratiques</em>
@@ -158,10 +157,11 @@ export default function CommentCaMarchePage() {
                             <p
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
-                                    fontSize: "9.5px",
-                                    letterSpacing: ".38em",
+                                    fontSize: "var(--type-label)",
+                                    letterSpacing: "0.1em",
                                     textTransform: "uppercase",
-                                    color: "var(--nude)",
+                                    color: "var(--taupe)",
+                                    fontWeight: 500,
                                     marginBottom: "16px",
                                 }}
                             >
@@ -187,10 +187,11 @@ export default function CommentCaMarchePage() {
                             <p
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
-                                    fontSize: "9.5px",
-                                    letterSpacing: ".38em",
+                                    fontSize: "var(--type-label)",
+                                    letterSpacing: "0.1em",
                                     textTransform: "uppercase",
-                                    color: "var(--nude)",
+                                    color: "var(--taupe)",
+                                    fontWeight: 500,
                                     marginBottom: "16px",
                                 }}
                             >
@@ -216,10 +217,11 @@ export default function CommentCaMarchePage() {
                             <p
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
-                                    fontSize: "9.5px",
-                                    letterSpacing: ".38em",
+                                    fontSize: "var(--type-label)",
+                                    letterSpacing: "0.1em",
                                     textTransform: "uppercase",
-                                    color: "var(--nude)",
+                                    color: "var(--taupe)",
+                                    fontWeight: 500,
                                     marginBottom: "16px",
                                 }}
                             >
@@ -233,7 +235,15 @@ export default function CommentCaMarchePage() {
                                     color: "var(--taupe)",
                                 }}
                             >
-                                <a href={siteConfig.whatsappUrl} style={{ color: "var(--or)", textDecoration: "none" }}>
+                                <a
+                                    href={siteConfig.whatsappUrl}
+                                    style={{
+                                        color: "var(--ink)",
+                                        fontWeight: 600,
+                                        textDecoration: "underline",
+                                        textUnderlineOffset: "3px",
+                                    }}
+                                >
                                     {siteConfig.phone}
                                 </a>
                                 <br />

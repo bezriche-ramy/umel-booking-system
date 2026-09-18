@@ -16,12 +16,25 @@ const creations = [
 export default function TiltGallery() {
     return (
         <section className="portfolio" aria-labelledby="portfolio-title">
-            <div className="portfolio-head"><span className="sl-lbl">Portfolio — 01/10</span><h2 id="portfolio-title">Nos <em>créations</em></h2><p>Des lignes pensées pour une femme, jamais reproduites à l&apos;identique.</p></div>
+            <div className="portfolio-head">
+                <h2 id="portfolio-title" style={{ textWrap: "balance" }}>
+                    Nos <em>créations</em>
+                </h2>
+                <p>Des lignes pensées pour une femme, jamais reproduites à l&apos;identique.</p>
+            </div>
             <div className="portfolio-grid">
                 {creations.map(([src, alt, number], index) => (
                     <figure className={`portfolio-item portfolio-item-${index + 1}`} key={src}>
-                        <Image src={src} alt={alt} fill sizes="(max-width: 700px) 92vw, (max-width: 1100px) 48vw, 32vw" />
-                        <figcaption><span>{number}</span>{alt}</figcaption>
+                        <Image
+                            src={src}
+                            alt={alt}
+                            fill
+                            sizes="(max-width: 700px) 92vw, (max-width: 1100px) 48vw, 32vw"
+                        />
+                        <figcaption>
+                            <span>{number}</span>
+                            {alt}
+                        </figcaption>
                     </figure>
                 ))}
             </div>

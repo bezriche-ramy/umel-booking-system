@@ -50,13 +50,14 @@ export const siteConfig = {
         },
     ],
     navLinks: [
+        { href: "/", label: "Accueil" },
         { href: "/notre-histoire", label: "Notre Histoire" },
         { href: "/nos-robes-services", label: "Nos Robes" },
         { href: "/galerie", label: "Galerie" },
         { href: "/contact", label: "Contact" },
     ],
     footerNavLinks: [
-        { href: "/contact", label: "Prendre rendez-vous" },
+        { href: "/contact#reservation", label: "Prendre rendez-vous" },
         { href: "/notre-histoire", label: "Notre Histoire" },
         { href: "/nos-robes-services", label: "Nos Robes & Services" },
         { href: "/sur-mesure", label: "Sur mesure" },

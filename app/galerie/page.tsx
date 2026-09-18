@@ -2,7 +2,6 @@ import AmbianceGallery from "@/components/AmbianceGallery";
 import CTABand from "@/components/CTABand";
 import EmbroideryDivider from "@/components/EmbroideryDivider";
 import FluxMarquee from "@/components/FluxMarquee";
-import Marquee from "@/components/Marquee";
 import PageHero from "@/components/PageHero";
 import TiltGallery from "@/components/TiltGallery";
 import { getBreadcrumbSchema } from "@/lib/schema";
@@ -33,7 +32,10 @@ export default function GaleriePage() {
 
     return (
         <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }} />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+            />
 
             <PageHero
                 imageSrc="/images/Galerie.webp"
@@ -43,12 +45,8 @@ export default function GaleriePage() {
                 objectPosition="center 25%"
             />
 
-            <Marquee />
-
             <aside className="gallery-note" aria-label="Information galerie">
-                <p>
-                    Galerie en cours de mise à jour — Nouvelles créations à découvrir bientôt
-                </p>
+                <p>Galerie en cours de mise à jour — Nouvelles créations à découvrir bientôt</p>
             </aside>
 
             {/* ROBES SUR MESURE — galerie 3D inclinée pilotée par scroll */}

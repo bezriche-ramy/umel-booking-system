@@ -1,5 +1,4 @@
 import EmbroideryDivider from "@/components/EmbroideryDivider";
-import Marquee from "@/components/Marquee";
 import PageHero from "@/components/PageHero";
 import ReservationFlow from "@/components/reservation/ReservationFlow";
 import type { Metadata } from "next";
@@ -25,14 +24,11 @@ export default function RetouchesPrivateBookingPage() {
                 objectPosition="center 30%"
             />
 
-            <Marquee />
-
             {/* MODULE DE RÉSERVATION PRIVÉ RETOUCHES */}
-            <section className="s res-page-section" id="reservation">
+            <section className="s res-page-section" id="reservation" aria-labelledby="retouches-res-title">
                 <div className="contact-res-container">
                     <div className="contact-res-header">
-                        <span className="sl-lbl">Espace Réservé Mariée</span>
-                        <h2 className="contact-res-title">
+                        <h2 className="contact-res-title" id="retouches-res-title" style={{ textWrap: "balance" }}>
                             Planifier vos retouches
                             <br />
                             <em>en salon privé</em>
@@ -50,11 +46,10 @@ export default function RetouchesPrivateBookingPage() {
             <EmbroideryDivider />
 
             {/* RAPPEL DES DIRECTIVES DE RETOUCHE */}
-            <section className="s contact-atelier-section">
+            <section className="s contact-atelier-section" aria-labelledby="directives-title">
                 <div className="contact-atelier-grid">
                     <div className="contact-info-col">
-                        <span className="sl-lbl">Préparation de votre venue</span>
-                        <h2 className="contact-info-title">
+                        <h2 className="contact-info-title" id="directives-title" style={{ textWrap: "balance" }}>
                             Les deux indispensables
                             <br />
                             <em>de votre séance</em>
@@ -136,7 +131,6 @@ export default function RetouchesPrivateBookingPage() {
                     </div>
 
                     <div className="contact-map-col">
-                        <span className="sl-lbl">Atelier de Servon</span>
                         <div className="contact-map-card">
                             <iframe
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2638.4!2d2.5921!3d48.7008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s12+rue+Georges+Truffaut%2C+77170+Servon!5e0!3m2!1sfr!2sfr"

@@ -1,6 +1,6 @@
 "use client";
 
-import { getAvailableServices, getSlotsForDate, submitReservationDraft } from "@/lib/reservation/mock-availability";
+import { getSlotsForDate, RESERVATION_SERVICES, submitReservationDraft } from "@/lib/reservation/mock-availability";
 import {
     BookingSlot,
     BookingStep,
@@ -28,7 +28,7 @@ interface ReservationFlowProps {
 
 export default function ReservationFlow({ initialServiceId, isSubmarineRetouches = false }: ReservationFlowProps = {}) {
     const [currentStep, setCurrentStep] = useState<BookingStep>("SERVICE");
-    const [services, setServices] = useState<ServiceOption[]>([]);
+    const [services, setServices] = useState<ServiceOption[]>(RESERVATION_SERVICES);
     const [slots, setSlots] = useState<BookingSlot[]>([]);
     const [isLoadingSlots, setIsLoadingSlots] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,17 +54,14 @@ export default function ReservationFlow({ initialServiceId, isSubmarineRetouches
     const [formErrors, setFormErrors] = useState<ValidationErrors>({});
     const topAnchorRef = useRef<HTMLDivElement>(null);
 
-    // Load available services on initial mount
+    // Sync serviceId if initialServiceId changes
     useEffect(() => {
-        getAvailableServices().then(data => {
-            setServices(data);
-            if (data.length > 0) {
-                setDraft(prev => ({
-                    ...prev,
-                    serviceId: initialServiceId || prev.serviceId || data[0].id,
-                }));
-            }
-        });
+        if (initialServiceId) {
+            setDraft(prev => ({
+                ...prev,
+                serviceId: initialServiceId,
+            }));
+        }
     }, [initialServiceId]);
 
     // Load slots when draft.date changes

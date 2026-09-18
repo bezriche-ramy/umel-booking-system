@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
 interface HeroSliderProps { children?: React.ReactNode; }
 
@@ -14,13 +14,6 @@ const slides = [
 
 export default function HeroSlider({ children }: HeroSliderProps) {
     const [activeIndex, setActiveIndex] = useState(0);
-    const nextSlide = useCallback(() => setActiveIndex(index => (index + 1) % slides.length), []);
-
-    useEffect(() => {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        const interval = window.setInterval(nextSlide, 6000);
-        return () => window.clearInterval(interval);
-    }, [nextSlide]);
 
     return (
         <section className="intro-slider" aria-label="Présentation Umel Couture">
@@ -32,9 +25,9 @@ export default function HeroSlider({ children }: HeroSliderProps) {
             <div className="hero-gradient" aria-hidden="true" />
             <div className="intro-hero-content">{children}</div>
             <div className="hero-folio" aria-hidden="true">Collection privée <span>—</span> 2026</div>
-            <div className="intro-dots" role="tablist" aria-label="Choisir une photographie">
+            <div className="intro-dots" role="group" aria-label="Choisir une photographie">
                 {slides.map((_, index) => (
-                    <button key={index} className={`intro-dot ${index === activeIndex ? "active" : ""}`} aria-label={`Photographie ${index + 1}`} role="tab" aria-selected={index === activeIndex} onClick={() => setActiveIndex(index)}>
+                    <button key={index} className={`intro-dot ${index === activeIndex ? "active" : ""}`} aria-label={`Photographie ${index + 1}`} aria-pressed={index === activeIndex} onClick={() => setActiveIndex(index)}>
                         <span>{String(index + 1).padStart(2, "0")}</span>
                     </button>
                 ))}
