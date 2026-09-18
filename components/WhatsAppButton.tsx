@@ -13,7 +13,7 @@ export default function WhatsAppButton() {
                 window.requestAnimationFrame(() => {
                     const heroThreshold = window.innerHeight * 0.7;
                     const shouldShow = window.scrollY > heroThreshold;
-                    setIsVisible((prev) => (prev !== shouldShow ? shouldShow : prev));
+                    setIsVisible(prev => (prev !== shouldShow ? shouldShow : prev));
                     ticking = false;
                 });
                 ticking = true;

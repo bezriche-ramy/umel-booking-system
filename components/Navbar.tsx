@@ -49,7 +49,7 @@ export default function Navbar() {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     const shouldScroll = window.scrollY > 40;
-                    setIsScrolled((prev) => (prev !== shouldScroll ? shouldScroll : prev));
+                    setIsScrolled(prev => (prev !== shouldScroll ? shouldScroll : prev));
                     ticking = false;
                 });
                 ticking = true;
