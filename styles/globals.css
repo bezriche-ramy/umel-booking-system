@@ -351,6 +351,11 @@ body.splash #nav {
     object-fit: cover;
     object-position: center 30%;
     z-index: 1;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
 }
 
 .intro-video-slider .hero-gradient {
@@ -443,10 +448,11 @@ body.splash #nav {
     .intro-slider.intro-responsive-hero {
         position: relative !important;
         width: 100% !important;
+        height: 100vh !important;
         height: 100svh !important;
-        height: 100dvh !important;
         min-height: 0 !important;
-        max-height: 100dvh !important;
+        max-height: 100vh !important;
+        max-height: 100svh !important;
         overflow: hidden !important;
         display: flex !important;
         flex-direction: column !important;
@@ -455,6 +461,9 @@ body.splash #nav {
         padding: 0 var(--page-gutter, 20px) calc(28px + env(safe-area-inset-bottom, 0px)) !important;
         margin: 0 !important;
         box-sizing: border-box !important;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
     }
 
     .intro-responsive-hero .intro-hero-content {
@@ -3201,15 +3210,20 @@ main {
 
 /* Navigation */
 nav {
-    min-height: 86px !important;
+    min-height: 76px !important;
     padding: 14px var(--page-gutter) !important;
     background: linear-gradient(180deg, rgba(18, 17, 16, 0.58), transparent) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.18) !important;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: background-color, border-color;
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
 }
 nav.scrolled {
-    min-height: 72px !important;
+    min-height: 76px !important;
     background: rgba(250, 249, 246, 0.97) !important;
     border-bottom-color: var(--hairline) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
 .nav-logo-img {
     width: 108px !important;

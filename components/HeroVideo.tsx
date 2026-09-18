@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 interface HeroVideoProps {
     children?: React.ReactNode;
     videoSrc?: string;
-    posterSrc?: string;
     folio?: string;
 }
 
@@ -20,13 +19,13 @@ const desktopSlides = [
 export default function HeroVideo({
     children,
     videoSrc = "/videos/spot-4-b.mp4",
-    posterSrc = "/images/Hero1.webp",
     folio = "Collection privée — 2026",
 }: HeroVideoProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const [isMuted, setIsMuted] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -37,16 +36,41 @@ export default function HeroVideo({
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
-    // Autoplay video on mobile
+    // Instant autoplay video on mobile
     useEffect(() => {
-        if (!isMobile) return;
         const video = videoRef.current;
         if (!video) return;
 
         video.muted = true;
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(() => {});
+        video.defaultMuted = true;
+
+        const startPlayback = () => {
+            const promise = video.play();
+            if (promise !== undefined) {
+                promise
+                    .then(() => {
+                        setIsVideoPlaying(true);
+                    })
+                    .catch(() => {
+                        // User interaction fallback
+                        const triggerPlay = () => {
+                            video
+                                .play()
+                                .then(() => setIsVideoPlaying(true))
+                                .catch(() => {});
+                            window.removeEventListener("touchstart", triggerPlay);
+                            window.removeEventListener("click", triggerPlay);
+                        };
+                        window.addEventListener("touchstart", triggerPlay, { passive: true, once: true });
+                        window.addEventListener("click", triggerPlay, { passive: true, once: true });
+                    });
+            }
+        };
+
+        if (video.readyState >= 2) {
+            startPlayback();
+        } else {
+            video.addEventListener("canplay", startPlayback, { once: true });
         }
     }, [isMobile]);
 
@@ -54,7 +78,7 @@ export default function HeroVideo({
     useEffect(() => {
         if (isMobile) return;
         const timer = setInterval(() => {
-            setActiveIndex((prev) => (prev + 1) % desktopSlides.length);
+            setActiveIndex(prev => (prev + 1) % desktopSlides.length);
         }, 6000);
         return () => clearInterval(timer);
     }, [isMobile]);
@@ -90,18 +114,21 @@ export default function HeroVideo({
                 ))}
             </div>
 
-            {/* Mobile View (≤ 768px): Full-bleed background video */}
-            <div className="hero-mobile-media" aria-hidden="true" style={{ position: "absolute", inset: 0 }}>
+            {/* Mobile View (≤ 768px): Continuous streaming background video */}
+            <div
+                className="hero-mobile-media"
+                aria-hidden="true"
+                style={{ position: "absolute", inset: 0, backgroundColor: "#0d0c0b" }}
+            >
                 <video
                     ref={videoRef}
-                    className="intro-video-element"
+                    className={`intro-video-element ${isVideoPlaying ? "playing" : ""}`}
                     src={videoSrc}
-                    poster={posterSrc}
                     autoPlay
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="auto"
                 />
             </div>
 

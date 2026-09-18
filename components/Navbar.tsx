@@ -44,8 +44,16 @@ export default function Navbar() {
         };
     }, [isMenuOpen]);
     useEffect(() => {
+        let ticking = false;
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const shouldScroll = window.scrollY > 40;
+                    setIsScrolled((prev) => (prev !== shouldScroll ? shouldScroll : prev));
+                    ticking = false;
+                });
+                ticking = true;
+            }
         };
 
         window.addEventListener("scroll", handleScroll, { passive: true });

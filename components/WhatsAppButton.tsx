@@ -7,10 +7,17 @@ export default function WhatsAppButton() {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
+        let ticking = false;
         const handleScroll = () => {
-            // Invisible on hero section: only appears after scrolling past the hero (70% of viewport height)
-            const heroThreshold = window.innerHeight * 0.7;
-            setIsVisible(window.scrollY > heroThreshold);
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const heroThreshold = window.innerHeight * 0.7;
+                    const shouldShow = window.scrollY > heroThreshold;
+                    setIsVisible((prev) => (prev !== shouldShow ? shouldShow : prev));
+                    ticking = false;
+                });
+                ticking = true;
+            }
         };
 
         handleScroll();
