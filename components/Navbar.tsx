@@ -49,7 +49,11 @@ export default function Navbar() {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     const shouldScroll = window.scrollY > 40;
+<<<<<<< HEAD
                     setIsScrolled((prev) => (prev !== shouldScroll ? shouldScroll : prev));
+=======
+                    setIsScrolled(prev => (prev !== shouldScroll ? shouldScroll : prev));
+>>>>>>> c59aae2 (perf(hero, navbar): fix scroll lag, eliminate video scale shifts and optimize composite layers)
                     ticking = false;
                 });
                 ticking = true;

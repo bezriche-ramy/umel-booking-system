@@ -3217,7 +3217,14 @@ nav {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
     will-change: background-color, border-color;
+<<<<<<< HEAD
     transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+=======
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease !important;
+>>>>>>> c59aae2 (perf(hero, navbar): fix scroll lag, eliminate video scale shifts and optimize composite layers)
 }
 nav.scrolled {
     min-height: 76px !important;
