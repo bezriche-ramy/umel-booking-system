@@ -5433,6 +5433,11 @@ form.res-step-content {
     color: var(--muted);
 }
 
+.res-alert-error.res-alert-stack {
+    flex-direction: column;
+    gap: 8px;
+}
+
 .res-calendar-retry {
     background: none;
     border: 0;

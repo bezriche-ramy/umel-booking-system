@@ -46,6 +46,8 @@ interface StepGuaranteeProps {
 
 interface GuaranteeActionsProps {
     isSubmitting: boolean;
+    /** Recharge uniquement le formulaire de carte (les informations saisies sont conservées) */
+    onRetryForm: () => void;
     confirmedSetupIntentId?: string;
     onSetupIntentConfirmed: (setupIntentId: string) => void;
     onValidateBeforePayment: () => boolean;
@@ -59,6 +61,7 @@ interface GuaranteeActionsProps {
  */
 function GuaranteePaymentForm({
     isSubmitting,
+    onRetryForm,
     confirmedSetupIntentId,
     onSetupIntentConfirmed,
     onValidateBeforePayment,
@@ -69,6 +72,16 @@ function GuaranteePaymentForm({
     const elements = useElements();
     const [isConfirming, setIsConfirming] = useState(false);
     const [cardError, setCardError] = useState<string>();
+    const [formReady, setFormReady] = useState(false);
+    const [formTooSlow, setFormTooSlow] = useState(false);
+    const [formLoadError, setFormLoadError] = useState<string>();
+
+    // Si le formulaire Stripe ne s'affiche pas (bloqueur de publicité, VPN, réseau lent…), on l'explique à la cliente
+    useEffect(() => {
+        if (confirmedSetupIntentId || formReady) return;
+        const timer = setTimeout(() => setFormTooSlow(true), 15000);
+        return () => clearTimeout(timer);
+    }, [confirmedSetupIntentId, formReady]);
 
     const handleConfirm = async () => {
         setCardError(undefined);
@@ -124,7 +137,34 @@ function GuaranteePaymentForm({
                 {confirmedSetupIntentId ? (
                     <p className="res-stripe-desc">Votre carte est déjà enregistrée. Aucun montant n&apos;a été débité.</p>
                 ) : (
-                    <PaymentElement options={{ layout: "tabs", wallets: { applePay: "never", googlePay: "never" } }} />
+                    <PaymentElement
+                        options={{
+                            layout: "tabs",
+                            wallets: { applePay: "never", googlePay: "never", link: "never" },
+                            defaultValues: { billingDetails: { address: { country: "FR" } } },
+                        }}
+                        onReady={() => {
+                            setFormReady(true);
+                            setFormTooSlow(false);
+                        }}
+                        onLoadError={event => setFormLoadError(event.error?.message ?? "Le formulaire de paiement n'a pas pu être chargé.")}
+                    />
+                )}
+                {!confirmedSetupIntentId && !formReady && (formTooSlow || formLoadError) && (
+                    <div className="res-alert-error res-alert-stack" role="alert">
+                        <p>
+                            <strong>Le formulaire de carte ne s&apos;affiche pas.</strong>{" "}
+                            {formLoadError ??
+                                "Un bloqueur de publicité, un VPN ou une protection du navigateur empêche souvent le chargement du paiement sécurisé Stripe."}
+                        </p>
+                        <p>
+                            Si vous utilisez un bloqueur de publicité ou un VPN, désactivez-le pour ce site ou essayez un autre navigateur, puis{" "}
+                            <button type="button" className="res-calendar-retry" onClick={onRetryForm}>
+                                réessayez
+                            </button>
+                            . Vous pouvez aussi nous appeler au {siteConfig.phone}.
+                        </p>
+                    </div>
                 )}
                 {cardError && (
                     <p className="res-field-error" role="alert">
@@ -142,7 +182,7 @@ function GuaranteePaymentForm({
                 <button
                     type="button"
                     onClick={handleConfirm}
-                    disabled={busy || (!confirmedSetupIntentId && (!stripe || !elements))}
+                    disabled={busy || (!confirmedSetupIntentId && (!stripe || !elements || !formReady))}
                     className="bp res-btn-primary"
                     aria-label="Confirmer et enregistrer mon rendez-vous"
                 >
@@ -179,6 +219,7 @@ export default function StepGuarantee({
 }: StepGuaranteeProps) {
     const [clientSecret, setClientSecret] = useState<string>();
     const [setupError, setSetupError] = useState<string>();
+    const [retryCount, setRetryCount] = useState(0);
     const { fullName, email, phone } = draft.customer;
 
     // Create a real Stripe SetupIntent for this customer (off_session usage, €0 charged)
@@ -203,10 +244,11 @@ export default function StepGuarantee({
         return () => {
             cancelled = true;
         };
-    }, [fullName, email, phone, confirmedSetupIntentId]);
+    }, [fullName, email, phone, confirmedSetupIntentId, retryCount]);
 
     const actionProps: GuaranteeActionsProps = {
         isSubmitting,
+        onRetryForm: () => setRetryCount(c => c + 1),
         confirmedSetupIntentId,
         onSetupIntentConfirmed,
         onValidateBeforePayment,
@@ -361,10 +403,15 @@ export default function StepGuarantee({
                 </div>
             ) : setupError ? (
                 <div className="res-alert-error" role="alert">
-                    <p>{setupError}</p>
+                    <p>
+                        {setupError}{" "}
+                        <button type="button" className="res-calendar-retry" onClick={() => setRetryCount(c => c + 1)}>
+                            Réessayer
+                        </button>
+                    </p>
                 </div>
             ) : clientSecret ? (
-                <Elements stripe={stripePromise} options={{ clientSecret, appearance: stripeAppearance, locale: "fr" }}>
+                <Elements key={clientSecret} stripe={stripePromise} options={{ clientSecret, appearance: stripeAppearance, locale: "fr" }}>
                     <GuaranteePaymentForm {...actionProps} />
                 </Elements>
             ) : (

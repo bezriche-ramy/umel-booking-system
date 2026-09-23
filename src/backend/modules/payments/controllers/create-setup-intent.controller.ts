@@ -39,7 +39,8 @@ export async function POST(request: Request) {
         const setupIntent = await stripe.setupIntents.create({
             customer: stripeCustomerId,
             usage: "off_session",
-            automatic_payment_methods: { enabled: true, allow_redirects: "never" },
+            // Carte bancaire uniquement : c'est la carte qui sert au débit éventuel de 20 € (hors session)
+            payment_method_types: ["card"],
             metadata: { purpose: "empreinte_rdv_20eur" },
         });
 
