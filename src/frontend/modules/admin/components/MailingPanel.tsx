@@ -12,6 +12,7 @@ interface FollowUpConfig {
 }
 
 interface Props {
+    quota: { limit: number; sentToday: number };
     followUp: FollowUpConfig;
     audiences: { key: string; label: string; count: number }[];
     resendConfigured: boolean;
@@ -19,7 +20,7 @@ interface Props {
     logs: { id: string; createdAt: string; kind: string; status: string; to: string; subject: string; error: string | null; customer: string | null }[];
 }
 
-export default function MailingPanel({ followUp, audiences, resendConfigured, campaigns, logs }: Props) {
+export default function MailingPanel({ quota, followUp, audiences, resendConfigured, campaigns, logs }: Props) {
     const router = useRouter();
     const [audience, setAudience] = useState(audiences[0]?.key ?? "ALL");
     const [subject, setSubject] = useState("");
@@ -28,6 +29,8 @@ export default function MailingPanel({ followUp, audiences, resendConfigured, ca
     const [busy, setBusy] = useState(false);
     const [status, setStatus] = useState<{ type: "ok" | "error"; text: string }>();
     const count = audiences.find(a => a.key === audience)?.count ?? 0;
+    const remaining = Math.max(0, quota.limit - quota.sentToday);
+    const overQuota = count > remaining;
 
     const run = async (fn: () => Promise<string>) => {
         setBusy(true);
@@ -76,6 +79,26 @@ export default function MailingPanel({ followUp, audiences, resendConfigured, ca
                 </p>
             )}
 
+            <section className={`adm-card adm-quota ${remaining === 0 ? "is-full" : remaining < 20 ? "is-low" : ""}`}>
+                <div>
+                    <h2 className="adm-card-title">Limite : {quota.limit} e-mails par jour</h2>
+                    <p className="adm-hint">
+                        Offre gratuite Resend : {quota.limit} e-mails par jour (3 000 par mois). Ce total comprend <strong>tous</strong> les
+                        envois : confirmations de réservation, rappels, relances et campagnes. Au-delà, les e-mails sont refusés jusqu&apos;au
+                        lendemain.
+                    </p>
+                </div>
+                <div className="adm-quota-meter" aria-label={`${quota.sentToday} e-mails envoyés aujourd'hui sur ${quota.limit}`}>
+                    <strong>
+                        {quota.sentToday} / {quota.limit}
+                    </strong>
+                    <span>envoyés aujourd&apos;hui · {remaining} restant{remaining > 1 ? "s" : ""}</span>
+                    <div className="adm-quota-bar">
+                        <div style={{ width: `${Math.min(100, (quota.sentToday / quota.limit) * 100)}%` }} />
+                    </div>
+                </div>
+            </section>
+
             <section className="adm-card">
                 <h2 className="adm-card-title">Relances automatiques</h2>
                 <p className="adm-hint">
@@ -115,10 +138,21 @@ export default function MailingPanel({ followUp, audiences, resendConfigured, ca
                     <button className="adm-btn" disabled={busy || !testEmail || !subject.trim()} onClick={sendTest}>
                         Envoyer un test
                     </button>
-                    <button className="adm-btn adm-btn-primary" disabled={busy || !subject.trim() || body.trim().length < 10 || count === 0} onClick={sendCampaign}>
+                    <button
+                        className="adm-btn adm-btn-primary"
+                        disabled={busy || !subject.trim() || body.trim().length < 10 || count === 0 || overQuota}
+                        onClick={sendCampaign}
+                    >
                         {busy ? "Envoi…" : `Envoyer à ${count} cliente(s)`}
                     </button>
                 </div>
+                {overQuota && (
+                    <p className="adm-error">
+                        {count} destinataire(s), mais il ne reste que {remaining} envoi(s) aujourd&apos;hui (limite de {quota.limit} e-mails par
+                        jour). Choisissez une audience plus petite, attendez demain, ou passez à l&apos;offre Resend payante (environ 20 $/mois,
+                        50 000 e-mails).
+                    </p>
+                )}
                 {status && <p className={status.type === "ok" ? "adm-success" : "adm-error"}>{status.text}</p>}
             </section>
 

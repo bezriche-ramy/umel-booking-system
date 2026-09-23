@@ -932,6 +932,69 @@ textarea.adm-input {
     width: 100%;
 }
 
+/* Mailing quota ----------------------------------------------------------- */
+.adm-quota {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 20px;
+    align-items: center;
+    border-left: 4px solid var(--adm-green);
+}
+
+.adm-quota.is-low {
+    border-left-color: #c07b0a;
+}
+
+.adm-quota.is-full {
+    border-left-color: var(--adm-red);
+}
+
+.adm-quota .adm-hint {
+    margin: 0;
+}
+
+.adm-quota-meter {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.adm-quota-meter strong {
+    font-size: 24px;
+    font-variant-numeric: tabular-nums;
+}
+
+.adm-quota-meter span {
+    font-size: 13px;
+    color: var(--adm-muted);
+}
+
+.adm-quota-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: #ece8e2;
+    overflow: hidden;
+}
+
+.adm-quota-bar div {
+    height: 100%;
+    background: var(--adm-green);
+}
+
+.adm-quota.is-low .adm-quota-bar div {
+    background: #c07b0a;
+}
+
+.adm-quota.is-full .adm-quota-bar div {
+    background: var(--adm-red);
+}
+
+@media (max-width: 900px) {
+    .adm-quota {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Orders & deposits ------------------------------------------------------- */
 .adm-tabs {
     display: flex;

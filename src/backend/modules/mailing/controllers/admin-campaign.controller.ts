@@ -3,6 +3,7 @@ import { requireApiSession } from "@backend/modules/auth/session";
 import { AUDIENCES, audienceWhere, sendCampaign, type Audience } from "@backend/modules/mailing/campaigns.service";
 import { prisma } from "@backend/core/db";
 import { sendEmail, emailLayout, textToHtml } from "@backend/modules/mailing/email.service";
+import { countEmailsSentToday, EMAIL_DAILY_LIMIT } from "@backend/modules/mailing/mailing.queries";
 
 interface Body {
     subject?: string;
@@ -38,6 +39,16 @@ export async function POST(request: Request) {
             kind: "CAMPAIGN",
         });
         return res.ok ? Response.json({ ok: true }) : jsonError(res.error ?? "Échec de l'envoi.", 502);
+    }
+
+    const recipients = await prisma.customer.count({ where: audienceWhere(audience) });
+    const remaining = Math.max(0, EMAIL_DAILY_LIMIT - (await countEmailsSentToday()));
+    if (recipients > remaining) {
+        return jsonError(
+            `Limite de ${EMAIL_DAILY_LIMIT} e-mails par jour : il reste ${remaining} envoi(s) aujourd'hui pour ${recipients} destinataire(s). ` +
+                "Choisissez une audience plus petite, attendez demain, ou passez à l'offre Resend payante.",
+            429,
+        );
     }
 
     const result = await sendCampaign({ subject, body: text, audience, sentBy: auth.session.name });
