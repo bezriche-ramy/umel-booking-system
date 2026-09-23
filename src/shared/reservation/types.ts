@@ -11,8 +11,6 @@ export interface ServiceOption {
     badge?: string;
 }
 
-export type SlotCapacityType = "SIMPLE" | "DOUBLE";
-
 export type SlotState = "AVAILABLE" | "LOW_CAPACITY" | "FULL" | "DISABLED";
 
 export interface BookingSlot {

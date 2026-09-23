@@ -1,25 +1,23 @@
 import CTABand from "@frontend/shared/components/CTABand";
 import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import PageHero from "@frontend/shared/components/PageHero";
+import FaqSection from "@frontend/modules/site/components/FaqSection";
+import { commentCaMarcheFaq } from "@frontend/modules/site/lib/faq";
+import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
+import JsonLd from "@frontend/shared/components/JsonLd";
 import { siteConfig } from "@shared/siteData";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "Comment Ça Marche | Umel Couture — Processus de création sur mesure",
+export const metadata: Metadata = buildPageMetadata({
+    path: "/comment-ca-marche",
+    title: "Robe de mariée sur mesure : comment ça marche ? | Umel Couture (77)",
+    socialTitle: "Comment se déroule votre robe de mariée sur mesure | Umel Couture",
     description:
-        "De la première conversation au jour J — les 5 étapes du processus de création sur mesure chez Umel Couture à Servon, Seine-et-Marne.",
-    alternates: {
-        canonical: `${siteConfig.url}/comment-ca-marche`,
-    },
-    openGraph: {
-        title: "Comment Ça Marche | Umel Couture",
-        description:
-            "De la première conversation au jour J — les 5 étapes du processus de création sur mesure chez Umel Couture à Servon, Seine-et-Marne.",
-        url: `${siteConfig.url}/comment-ca-marche`,
-        images: ["/images/Ambiance atelier3.webp"],
-    },
-};
+        "Premier rendez-vous, composition, essayages, ajustements, essayage final : les 5 étapes de votre robe de mariée sur mesure à Servon (77). Tarifs, délais, FAQ.",
+    ogImage: "/images/og/comment-ca-marche.jpg",
+    ogImageAlt: "Essayage privé dans l'atelier Umel Couture à Servon",
+});
 
 export default function CommentCaMarchePage() {
     const breadcrumbSchema = getBreadcrumbSchema([
@@ -29,14 +27,12 @@ export default function CommentCaMarchePage() {
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
-            />
+            <JsonLd data={breadcrumbSchema} />
 
             <PageHero
                 imageSrc="/images/Ambiance atelier3.webp"
-                imageAlt="Umel Couture — Atelier"
+                eyebrow="Robe de mariée sur mesure en Île-de-France · 5 étapes"
+                imageAlt="Salon d'essayage privé de l'atelier Umel Couture à Servon, Seine-et-Marne"
                 titleLines={["Un accompagnement", "du début", "à la fin."]}
                 sub="De la première conversation au jour J, sans catalogue imposé."
             />
@@ -175,9 +171,9 @@ export default function CommentCaMarchePage() {
                                     color: "var(--taupe)",
                                 }}
                             >
-                                Mardi au dimanche
+                                Mardi au samedi · 10h – 18h30
                                 <br />
-                                10h – 17h
+                                Dimanche · 11h – 17h
                                 <br />
                                 Sur rendez-vous uniquement
                             </p>
@@ -255,6 +251,16 @@ export default function CommentCaMarchePage() {
                     </div>
                 </div>
             </section>
+
+            <FaqSection
+                id="comment-ca-marche-faq-title"
+                title={
+                    <>
+                        Questions fréquentes des <em>futures mariées</em>
+                    </>
+                }
+                items={commentCaMarcheFaq}
+            />
 
             <EmbroideryDivider />
 

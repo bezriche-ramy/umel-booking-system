@@ -55,6 +55,25 @@
     color: #efe8dc;
 }
 
+.adm-nav-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.adm-nav-current,
+.adm-nav-toggle {
+    display: none;
+}
+
+.adm-nav-panel {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 0;
+}
+
 .adm-brand strong {
     display: block;
     font-family: var(--font-cormorant), sans-serif;
@@ -1019,6 +1038,26 @@ textarea.adm-input {
     font-weight: 600;
 }
 
+.adm-tabs button {
+    padding: 4px 10px;
+    border: 0;
+    border-right: 1px solid var(--adm-line);
+    background: none;
+    font: inherit;
+    color: var(--adm-gold);
+    cursor: pointer;
+}
+
+.adm-tabs button:last-child {
+    border-right: 0;
+}
+
+.adm-tabs button.is-on {
+    color: var(--adm-ink);
+    font-weight: 600;
+}
+
+.adm-tabs button span,
 .adm-tabs a span {
     color: var(--adm-muted);
     font-weight: 400;
@@ -1127,41 +1166,481 @@ textarea.adm-input {
     font-size: 13px;
 }
 
+/* Comptes ----------------------------------------------------------------- */
+.adm-password {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.adm-password .adm-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.adm-password-reset {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 320px;
+}
+
+.adm-accounts select.adm-input {
+    min-width: 160px;
+}
+
+/* Mobile helpers (hidden on desktop) -------------------------------------- */
+.adm-month-num {
+    text-decoration: none;
+}
+
+.adm-month-num:hover {
+    color: var(--adm-ink);
+    text-decoration: underline;
+}
+
+.adm-month-count,
+.adm-agenda {
+    display: none;
+}
+
 /* Responsive -------------------------------------------------------------- */
-@media (max-width: 900px) {
+
+/* Tablette & téléphone : barre compacte + menu déroulant */
+@media (max-width: 1024px) {
     .adm-shell {
         grid-template-columns: 1fr;
     }
 
     .adm-nav {
-        position: static;
+        position: sticky;
+        top: 0;
+        z-index: 50;
         height: auto;
-        flex-direction: row;
-        flex-wrap: wrap;
+        padding: 10px 16px;
+        gap: 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    .adm-brand strong {
+        font-size: 18px;
+    }
+
+    .adm-brand .adm-eyebrow {
+        margin: 0;
+        font-size: 10px;
+    }
+
+    .adm-nav-current {
+        display: block;
+        flex: 1;
+        min-width: 0;
+        text-align: center;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .adm-nav-toggle {
+        display: inline-flex;
         align-items: center;
-        padding: 12px 16px;
+        gap: 8px;
+        min-height: 40px;
+        padding: 8px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 8px;
+        background: transparent;
+        color: #fff;
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .adm-burger,
+    .adm-burger::before,
+    .adm-burger::after {
+        display: block;
+        width: 16px;
+        height: 2px;
+        background: currentColor;
+        border-radius: 2px;
+        transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .adm-burger {
+        position: relative;
+    }
+
+    .adm-burger::before,
+    .adm-burger::after {
+        content: "";
+        position: absolute;
+        left: 0;
+    }
+
+    .adm-burger::before {
+        top: -5px;
+    }
+
+    .adm-burger::after {
+        top: 5px;
+    }
+
+    .adm-nav.is-open .adm-burger {
+        background: transparent;
+    }
+
+    .adm-nav.is-open .adm-burger::before {
+        transform: translateY(5px) rotate(45deg);
+    }
+
+    .adm-nav.is-open .adm-burger::after {
+        transform: translateY(-5px) rotate(-45deg);
+    }
+
+    .adm-nav-panel {
+        display: none;
+        padding: 12px 0 6px;
         gap: 12px;
+    }
+
+    .adm-nav.is-open .adm-nav-panel {
+        display: flex;
     }
 
     .adm-nav-links {
-        flex-direction: row;
-        flex-wrap: wrap;
-        order: 3;
-        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+    }
+
+    .adm-nav-link {
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .adm-nav-foot {
-        margin: 0 0 0 auto;
+        margin: 0;
         flex-direction: row;
-        gap: 12px;
+        justify-content: space-between;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .adm-main {
+        padding: 24px 20px 56px;
     }
 
     .adm-cols {
         grid-template-columns: 1fr;
     }
 
+    .adm-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    /* Dépôts : la colonne actions ne doit pas être coupée */
+    .adm-deposits td,
+    .adm-deposits th {
+        padding: 10px 8px;
+    }
+
+    .adm-deposits th:nth-child(5),
+    .adm-deposits td[data-label="Statut"] {
+        display: none;
+    }
+
+    .adm-deposits .adm-row-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .adm-deposits .adm-btn-charge {
+        white-space: nowrap;
+    }
+
+    .adm-deposits td[data-label="Client"] {
+        max-width: 170px;
+        overflow-wrap: anywhere;
+    }
+}
+
+/* Planning sur tablette : les en-têtes de colonnes suffisent, on masque les libellés des interrupteurs */
+@media (max-width: 1024px) and (min-width: 761px) {
+    .adm-table .adm-toggle-label {
+        display: none;
+    }
+
+    .adm-table td,
+    .adm-table th {
+        padding: 10px 8px;
+    }
+}
+
+/* Clientes sur tablette : origine et date d'enregistrement restent visibles sur la fiche */
+@media (max-width: 1024px) and (min-width: 761px) {
+    .adm-customers th:nth-child(6),
+    .adm-customers th:nth-child(7),
+    .adm-customers td[data-label="Origine"],
+    .adm-customers td[data-label="Enregistrée le"] {
+        display: none;
+    }
+}
+
+/* Les cartes mobiles réaffichent le statut de la commande et gardent toute la largeur */
+@media (max-width: 760px) {
+    .adm-deposits td[data-label="Statut"] {
+        display: block;
+    }
+
+    .adm-deposits td[data-label="Client"] {
+        max-width: none;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
+    .adm-deposits td[data-label="Client"] .adm-muted {
+        overflow-wrap: anywhere;
+    }
+}
+
+/* Téléphone */
+@media (max-width: 760px) {
+    .adm-main {
+        padding: 18px 12px 48px;
+    }
+
+    .adm-page-head {
+        margin-bottom: 16px;
+        align-items: flex-start;
+    }
+
+    .adm-page-head h1 {
+        font-size: 26px;
+        line-height: 1.15;
+    }
+
+    .adm-card {
+        padding: 16px 14px;
+        border-radius: 10px;
+    }
+
+    .adm-card-title {
+        font-size: 18px;
+    }
+
+    /* Champs pleine largeur, 16px pour éviter le zoom automatique sur iPhone */
+    .adm-input,
+    .adm-btn,
+    .adm .adm-field > span + * {
+        font-size: 16px;
+    }
+
+    .adm-toolbar,
+    .adm-filters,
+    .adm-inline,
+    .adm-form-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .adm-toolbar,
+    .adm-tabs,
+    .adm-filters {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .adm-filters label {
+        justify-content: space-between;
+    }
+
+    .adm-inline.adm-week-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .adm-week-nav strong {
+        order: -1;
+        flex-basis: 100%;
+        text-align: center;
+    }
+
+    .adm-week-nav .adm-btn {
+        flex: 1;
+    }
+
+    .adm-filters .adm-input,
+    .adm-inline .adm-input,
+    .adm-form-inline .adm-input,
+    .adm-inline .adm-field,
+    .adm-toolbar > .adm-btn,
+    .adm-filters .adm-btn,
+    .adm-form-inline .adm-btn,
+    .adm-picker {
+        width: 100%;
+        max-width: none;
+    }
+
+    .adm-btn {
+        min-height: 44px;
+    }
+
+    .adm-btns .adm-btn {
+        flex: 1 1 auto;
+    }
+
+    .adm-seg {
+        display: flex;
+    }
+
+    .adm-seg > * {
+        flex: 1;
+        text-align: center;
+        min-height: 40px;
+    }
+
+    .adm-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        margin: 0 -12px;
+        padding: 0 12px 2px;
+    }
+
+    .adm-tabs a,
+    .adm-tabs button {
+        flex: none;
+        white-space: nowrap;
+        padding: 8px 12px;
+    }
+
+    .adm-pager {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .adm-quota {
+        padding-left: 14px;
+    }
+
+    /* Tableaux → cartes empilées */
+    .adm-table-wrap {
+        overflow: visible;
+    }
+
+    .adm-card.adm-table-wrap:has(.adm-table-cards) {
+        padding: 0;
+        background: none;
+        border: 0;
+    }
+
+    .adm-table-cards,
+    .adm-table-cards tbody,
+    .adm-table-cards tr,
+    .adm-table-cards td,
+    .adm-table-cards tbody th {
+        display: block;
+        width: 100%;
+    }
+
+    .adm-table-cards thead {
+        display: none;
+    }
+
+    .adm-table-cards tr {
+        margin-bottom: 10px;
+        padding: 12px 14px;
+        background: #fff;
+        border: 1px solid var(--adm-line);
+        border-radius: 10px;
+    }
+
+    .adm-table-cards td,
+    .adm-table-cards tbody th {
+        border: 0;
+        padding: 5px 0;
+    }
+
+    .adm-table-cards tbody th {
+        font-size: 17px;
+        padding-bottom: 8px;
+    }
+
+    /* Libellé à gauche, contenu (sur une ou plusieurs lignes) à droite */
+    .adm-table-cards td[data-label] {
+        position: relative;
+        padding-left: 116px;
+        min-height: 28px;
+        overflow-wrap: anywhere;
+    }
+
+    .adm-table-cards td[data-label]::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        top: 7px;
+        width: 106px;
+        font-size: 12px;
+        color: var(--adm-muted);
+    }
+
+    .adm-table-cards td[data-label="Actions"],
+    .adm-table-cards td[data-label="Commande"] {
+        padding-left: 0;
+    }
+
+    .adm-table-cards td[data-label="Actions"]::before,
+    .adm-table-cards td[data-label="Commande"]::before {
+        display: none;
+    }
+
+    .adm-table-cards td[data-label="Commande"] {
+        font-size: 17px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--adm-line);
+        margin-bottom: 4px;
+    }
+
+    .adm-table-cards td[data-label="Actions"] {
+        padding-top: 10px;
+    }
+
+    .adm-table-cards .is-num {
+        text-align: left;
+    }
+
+    .adm-table-cards tr.is-muted {
+        opacity: 0.65;
+    }
+
+    .adm-table-cards tr.is-muted td,
+    .adm-table-cards tr.is-muted th {
+        opacity: 1;
+    }
+
+    .adm-row-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .adm-row-actions .adm-btn,
+    .adm-charge .adm-btn {
+        width: 100%;
+    }
+
+    .adm-charge-confirm {
+        max-width: none;
+    }
+
+    /* Liste des rendez-vous */
     .adm-row {
         grid-template-columns: 48px minmax(0, 1fr) auto;
+        gap: 10px;
+        padding: 12px;
     }
 
     .adm-row .adm-tag,
@@ -1169,15 +1648,139 @@ textarea.adm-input {
         display: none;
     }
 
+    .adm-actions {
+        padding: 4px 12px 16px;
+    }
+
+    .adm-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .adm-panel {
+        padding: 12px;
+    }
+
+    .adm-panel > .adm-btn {
+        width: 100%;
+    }
+
+    .adm-list li > :nth-child(2) {
+        min-width: 0;
+        flex-basis: 100%;
+        order: 3;
+    }
+
+    /* Calendrier du mois : nombre de RDV par jour, un appui ouvre la liste du jour */
+    .adm-month-head h2 {
+        font-size: 18px;
+    }
+
+    .adm-month-wd {
+        padding: 6px 2px;
+        text-align: center;
+        font-size: 11px;
+    }
+
     .adm-month-cell {
-        min-height: 64px;
+        min-height: 58px;
+        padding: 4px 2px;
+        align-items: center;
     }
 
     .adm-chip {
-        font-size: 10px;
+        display: none;
     }
 
-    .adm-grid-2 {
+    .adm-month-num {
+        font-size: 13px;
+        padding: 2px 6px;
+    }
+
+    .adm-month-count {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 30px;
+        padding: 2px 4px;
+        border-radius: 6px;
+        background: var(--adm-blue-soft);
+        color: var(--adm-blue);
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 1.1;
+        text-decoration: none;
+    }
+
+    .adm-month-count span {
+        font-size: 9px;
+        font-weight: 500;
+    }
+
+    /* Retouches : agenda jour par jour */
+    .adm-planning-card {
+        padding: 0;
+        background: none;
+        border: 0;
+    }
+
+    .adm-planning,
+    .adm-planning-card > .adm-empty {
+        display: none;
+    }
+
+    .adm-agenda {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .adm-agenda-day {
+        padding: 12px 14px;
+        background: #fff;
+        border: 1px solid var(--adm-line);
+        border-radius: 10px;
+    }
+
+    .adm-agenda-day h3 {
+        margin-bottom: 8px !important;
+        font-size: 16px;
+        text-transform: capitalize;
+    }
+
+    .adm-agenda-day .adm-muted {
+        font-size: 13px;
+    }
+
+    .adm-agenda .adm-alt {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    /* Planning : créneaux d'une date */
+    .adm-slot-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .adm-quota {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Petits téléphones (iPhone SE…) */
+@media (max-width: 380px) {
+    .adm-slot-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .adm-table-cards td[data-label]:not([data-label="Actions"]):not([data-label="Commande"]) {
+        padding-left: 100px;
+    }
+
+    .adm-table-cards td[data-label]::before {
+        width: 92px;
+    }
+
+    .adm-nav-current {
+        font-size: 14px;
     }
 }

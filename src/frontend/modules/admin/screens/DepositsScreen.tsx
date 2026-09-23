@@ -44,7 +44,7 @@ export default function DepositsScreen({ filter, q, page, pages, total, counts, 
                 </div>
 
                 <div className="adm-card adm-table-wrap">
-                    <table className="adm-table adm-deposits">
+                    <table className="adm-table adm-deposits adm-table-cards">
                         <thead>
                             <tr>
                                 <th>Commande</th>
@@ -59,20 +59,20 @@ export default function DepositsScreen({ filter, q, page, pages, total, counts, 
                         <tbody>
                             {deposits.map(d => (
                                 <tr key={d.id}>
-                                    <td>
+                                    <td data-label="Commande">
                                         <Link href={`/admin/commandes/${d.number}`} className="adm-order-link">
                                             #{d.number}
                                         </Link>
                                     </td>
-                                    <td>
+                                    <td data-label="Client">
                                         <strong>{d.customer}</strong>
                                         <div className="adm-muted">{d.email ?? ""}</div>
                                     </td>
-                                    <td>
+                                    <td data-label="Date">
                                         {d.created.day}
                                         <div className="adm-muted">{d.created.time}</div>
                                     </td>
-                                    <td>
+                                    <td data-label="Rendez-vous">
                                         {d.appointment ? (
                                             <>
                                                 {d.appointment.day} · {d.appointment.time}
@@ -82,10 +82,10 @@ export default function DepositsScreen({ filter, q, page, pages, total, counts, 
                                             <span className="adm-muted">—</span>
                                         )}
                                     </td>
-                                    <td>
+                                    <td data-label="Statut">
                                         <span className={`adm-order-status order-${d.status}`}>{ORDER_STATUS_LABELS[d.status]}</span>
                                     </td>
-                                    <td>
+                                    <td data-label="Dépôt">
                                         <span className={`adm-deposit deposit-${d.depositStatus}`}>
                                             {d.depositStatus === "PENDING" ? "⏳ " : d.depositStatus === "CHARGED" ? "✓ " : ""}
                                             {DEPOSIT_STATUS_LABELS[d.depositStatus]}
@@ -99,7 +99,7 @@ export default function DepositsScreen({ filter, q, page, pages, total, counts, 
                                         </div>
                                         {d.chargeError && <div className="adm-deposit-error">{d.chargeError}</div>}
                                     </td>
-                                    <td>
+                                    <td data-label="Actions">
                                         <div className="adm-row-actions">
                                             {d.hasCard && (d.depositStatus === "PENDING" || d.depositStatus === "FAILED") && (
                                                 <ChargeDepositButton

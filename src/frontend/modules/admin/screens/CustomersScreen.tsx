@@ -52,7 +52,7 @@ export default function CustomersScreen({ filters, page, total, customers, bySta
                 </div>
 
                 <div className="adm-card adm-table-wrap">
-                    <table className="adm-table">
+                    <table className="adm-table adm-customers adm-table-cards">
                         <thead>
                             <tr>
                                 <th>Cliente</th>
@@ -69,7 +69,7 @@ export default function CustomersScreen({ filters, page, total, customers, bySta
                                 const last = c.appointments[0];
                                 return (
                                     <tr key={c.id}>
-                                        <td>
+                                        <td data-label="Cliente">
                                             <Link href={`/admin/clientes/${c.id}`}>
                                                 <strong>
                                                     {c.civility === "M" ? "M. " : c.civility === "MME" ? "Mme " : ""}
@@ -77,18 +77,18 @@ export default function CustomersScreen({ filters, page, total, customers, bySta
                                                 </strong>
                                             </Link>
                                         </td>
-                                        <td>
+                                        <td data-label="Contact">
                                             <div>{c.email ?? "—"}</div>
                                             <div className="adm-muted">{c.phone ?? ""}</div>
                                         </td>
-                                        <td>
+                                        <td data-label="Statut">
                                             <span className={`adm-badge status-${c.status}`}>{STATUS_LABELS[c.status]}</span>
                                         </td>
-                                        <td>
+                                        <td data-label="RDV">
                                             {c._count.appointments}
                                             {c._count.alterations ? ` + ${c._count.alterations} ret.` : ""}
                                         </td>
-                                        <td>
+                                        <td data-label="Dernier RDV">
                                             {last ? (
                                                 <>
                                                     {last.day.split("-").reverse().join("/")}
@@ -98,8 +98,8 @@ export default function CustomersScreen({ filters, page, total, customers, bySta
                                                 "—"
                                             )}
                                         </td>
-                                        <td className="adm-muted">{SOURCE_LABELS[c.source]}</td>
-                                        <td className="adm-muted">{toParisParts(c.createdAt).day.split("-").reverse().join("/")}</td>
+                                        <td data-label="Origine" className="adm-muted">{SOURCE_LABELS[c.source]}</td>
+                                        <td data-label="Enregistrée le" className="adm-muted">{toParisParts(c.createdAt).day.split("-").reverse().join("/")}</td>
                                     </tr>
                                 );
                             })}

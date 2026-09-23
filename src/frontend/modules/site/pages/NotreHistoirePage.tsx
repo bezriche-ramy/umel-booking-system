@@ -1,25 +1,20 @@
 import CTABand from "@frontend/shared/components/CTABand";
 import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import PageHero from "@frontend/shared/components/PageHero";
+import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
-import { siteConfig } from "@shared/siteData";
+import JsonLd from "@frontend/shared/components/JsonLd";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "Notre Histoire | Umel Couture — Maison de couture Servon, Seine-et-Marne",
+export const metadata: Metadata = buildPageMetadata({
+    path: "/notre-histoire",
+    title: "Notre histoire — Créatrices de robes de mariée en Seine-et-Marne | Umel Couture",
+    socialTitle: "Notre histoire | Umel Couture",
     description:
-        "Découvrez l'histoire d'Umel Couture — née de deux femmes, Umi et Melissa, passionnées par le sur-mesure et l'accompagnement sincère de chaque future mariée.",
-    alternates: {
-        canonical: `${siteConfig.url}/notre-histoire`,
-    },
-    openGraph: {
-        title: "Notre Histoire | Umel Couture",
-        description:
-            "Découvrez l'histoire d'Umel Couture — née de deux femmes, Umi et Melissa, passionnées par le sur-mesure et l'accompagnement sincère.",
-        url: `${siteConfig.url}/notre-histoire`,
-        images: ["/images/Notre histoire.webp"],
-    },
-};
+        "Umi & Melissa, créatrices de robes de mariée sur mesure à Servon (Seine-et-Marne). Deux visions, une maison de couture nuptiale au service des mariées d'Île-de-France.",
+    ogImage: "/images/og/notre-histoire.jpg",
+    ogImageAlt: "Umi et Melissa, fondatrices de la maison Umel Couture à Servon",
+});
 
 export default function NotreHistoirePage() {
     const breadcrumbSchema = getBreadcrumbSchema([
@@ -29,14 +24,12 @@ export default function NotreHistoirePage() {
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
-            />
+            <JsonLd data={breadcrumbSchema} />
 
             <PageHero
                 imageSrc="/images/Notre histoire.webp"
-                imageAlt="Umel Couture — Notre histoire"
+                eyebrow="Maison de couture nuptiale · Servon, Île-de-France"
+                imageAlt="Maison Umel Couture, créatrices de robes de mariée sur mesure à Servon (77)"
                 titleLines={["Née de deux femmes.", "Deux visions,", "un seul nom."]}
                 sub="Umi & Melissa — Servon, Île-de-France."
             />

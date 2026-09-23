@@ -9,10 +9,10 @@ interface HeroSliderProps {
 }
 
 const slides = [
-    { src: "/images/Hero1.webp", alt: "Mariée Umel Couture sur la côte amalfitaine", position: "center 48%" },
-    { src: "/images/Hero2.webp", alt: "Robe de mariée Umel Couture en mouvement", position: "center 32%" },
-    { src: "/images/Hero3.webp", alt: "Détail d'une création de mariée Umel Couture", position: "center 34%" },
-    { src: "/images/Hero4.webp", alt: "Silhouette nuptiale Umel Couture", position: "center 38%" },
+    { src: "/images/Hero1.webp", alt: "Mariée en robe sur mesure Umel Couture sur la côte amalfitaine", position: "center 48%" },
+    { src: "/images/Hero2.webp", alt: "Robe de mariée sur mesure Umel Couture en mouvement", position: "center 32%" },
+    { src: "/images/Hero3.webp", alt: "Détail couture d'une robe de mariée créée à Servon par Umel Couture", position: "center 34%" },
+    { src: "/images/Hero4.webp", alt: "Silhouette nuptiale — robe de mariée sur mesure Umel Couture, Seine-et-Marne", position: "center 38%" },
 ];
 
 export default function HeroSlider({ children, folio = "Collection privée — 2026" }: HeroSliderProps) {

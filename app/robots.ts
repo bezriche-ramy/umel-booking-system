@@ -6,8 +6,10 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: "*",
             allow: "/",
-            disallow: ["/retouches", "/admin", "/api"],
+            // /retouches reste explorable : sa balise noindex doit être lue par les robots pour être respectée.
+            disallow: ["/admin", "/api"],
         },
         sitemap: `${siteConfig.url}/sitemap.xml`,
+        host: siteConfig.url,
     };
 }

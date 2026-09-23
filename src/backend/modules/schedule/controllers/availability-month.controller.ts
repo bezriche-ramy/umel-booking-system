@@ -1,7 +1,10 @@
+import { clientIp, rateLimit, tooManyRequests } from "@backend/core/rate-limit";
 import { getMonthSummary } from "@backend/modules/schedule/schedule.service";
 import { todayInParis } from "@shared/tz";
 
 export async function GET(request: Request) {
+    if (!rateLimit(`availability:${clientIp(request)}`, 240, 60 * 1000)) return tooManyRequests();
+
     const month = new URL(request.url).searchParams.get("month");
     if (!month || !/^\d{4}-\d{2}$/.test(month)) {
         return Response.json({ error: "Paramètre month=AAAA-MM requis." }, { status: 400 });

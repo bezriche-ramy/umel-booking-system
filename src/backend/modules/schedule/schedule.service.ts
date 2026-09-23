@@ -20,8 +20,6 @@ import type {
 import { prisma } from "@backend/core/db";
 import { addDays, addMinutesToTime, parisToUtc, weekdayOf } from "@shared/tz";
 
-export const WEEKDAY_LABELS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
-
 /**
  * Horaires par défaut : mardi–samedi 10h–17h (dernier créneau), dimanche 11h–16h, lundi fermé.
  * Capacités reprises de la configuration Amelia existante : créneau simple en semaine,

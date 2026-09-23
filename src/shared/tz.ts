@@ -1,5 +1,5 @@
 /**
- * Europe/Paris time helpers. The atelier works in Paris time while servers (Vercel) run in UTC.
+ * Europe/Paris time helpers. The atelier works in Paris time while servers usually run in UTC.
  */
 
 export const ATELIER_TZ = "Europe/Paris";

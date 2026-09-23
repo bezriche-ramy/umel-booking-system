@@ -1,17 +1,29 @@
 import CTABand from "@frontend/shared/components/CTABand";
 import GoogleRating from "@frontend/modules/site/components/GoogleRating";
 import HeroVideo from "@frontend/modules/site/components/HeroVideo";
+import LocalAreaSection from "@frontend/modules/site/components/LocalAreaSection";
 import ServicesCarousel from "@frontend/modules/site/components/ServicesCarousel";
+import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import TestimonialsTrack from "@frontend/modules/site/components/TestimonialsTrack";
+import { siteConfig } from "@shared/siteData";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = buildPageMetadata({
+    path: "/",
+    title: siteConfig.titleDefault,
+    description: siteConfig.descriptionDefault,
+    ogImage: "/images/og/accueil.jpg",
+    ogImageAlt: "Umel Couture — robe de mariée sur mesure à Servon, Seine-et-Marne",
+});
 
 export default function HomePage() {
     return (
         <>
             <HeroVideo folio="Spot Officiel — Maison Umel">
-                <span className="hero-eyebrow">Maison de couture · Servon, France</span>
                 <h1 className="hero-title">
+                    <small className="hero-eyebrow">Robe de mariée sur mesure · Servon, Seine-et-Marne (77)</small>
                     <span className="line">
                         <span>La robe qui vous</span>
                     </span>
@@ -53,7 +65,7 @@ export default function HomePage() {
                 <figure className="home-image-story-main">
                     <Image
                         src="/images/Robes créées sur mesure4.webp"
-                        alt="Robe de mariée Umel Couture créée sur mesure"
+                        alt="Robe de mariée créée sur mesure dans l'atelier Umel Couture à Servon (77)"
                         fill
                         sizes="(max-width: 800px) 100vw, 62vw"
                     />
@@ -132,7 +144,7 @@ export default function HomePage() {
                 <figure className="home-atelier-wide">
                     <Image
                         src="/images/Ambiance atelier1.webp"
-                        alt="L'atelier Umel Couture à Servon"
+                        alt="Showroom et atelier de robes de mariée Umel Couture à Servon, Seine-et-Marne"
                         fill
                         sizes="(max-width: 800px) 100vw, 58vw"
                     />
@@ -181,7 +193,7 @@ export default function HomePage() {
                     <figure className="creation-c">
                         <Image
                             src="/images/Robes créées sur mesure3.webp"
-                            alt="Robe brodée créée sur mesure"
+                            alt="Robe de mariée brodée créée sur mesure par Umel Couture"
                             fill
                             sizes="(max-width: 700px) 82vw, 30vw"
                         />
@@ -202,6 +214,8 @@ export default function HomePage() {
                 <TestimonialsTrack />
             </section>
 
+            <LocalAreaSection />
+
             <CTABand
                 label="Votre histoire commence ici"
                 title={
@@ -214,7 +228,7 @@ export default function HomePage() {
                     <>
                         Rencontrez-nous dans notre atelier de Servon.
                         <br />
-                        Mardi — dimanche, sur rendez-vous.
+                        Mardi – samedi 10h–18h30, dimanche 11h–17h, sur rendez-vous.
                     </>
                 }
                 cornerStitches={false}

@@ -16,8 +16,8 @@ export default function PageHero({ imageSrc, imageAlt, eyebrow, titleLines, sub,
             <Image src={imageSrc} alt={imageAlt} fill priority sizes="100vw" className="page-hero-image" style={{ objectFit: "cover", objectPosition }} />
             <div className="hero-gradient" aria-hidden="true" />
             <div className="hero-content">
-                {eyebrow && <span className="hero-eyebrow">{eyebrow}</span>}
                 <h1 className="hero-title">
+                    {eyebrow && <small className="hero-eyebrow">{eyebrow}</small>}
                     {titleLines.map((line, idx) => <span key={idx} className="line"><span>{line}</span></span>)}
                 </h1>
                 {sub && <p className="hero-sub">{sub}</p>}

@@ -1,11 +1,15 @@
 import { prisma } from "@backend/core/db";
-import { describeStripeError, getStripe } from "@backend/modules/payments/stripe.service";
+import { clientIp, rateLimit, tooManyRequests } from "@backend/core/rate-limit";
+import { getStripe } from "@backend/modules/payments/stripe.service";
 
 /**
  * Crée un SetupIntent Stripe (usage off_session) : la carte est enregistrée pour l'empreinte de 20 €,
  * sans aucun débit au moment de la réservation.
  */
 export async function POST(request: Request) {
+    // Anti-spam : 10 formulaires de carte / 10 min par IP
+    if (!rateLimit(`setup-intent:${clientIp(request)}`, 10, 10 * 60 * 1000)) return tooManyRequests();
+
     let body: { email?: string; fullName?: string; phone?: string };
     try {
         body = await request.json();
@@ -43,7 +47,7 @@ export async function POST(request: Request) {
     } catch (err) {
         console.error("[stripe] create-setup-intent", err);
         return Response.json(
-            { error: `Impossible d'initialiser le paiement sécurisé. ${describeStripeError(err)}` },
+            { error: "Le paiement sécurisé est momentanément indisponible. Merci de réessayer ou de nous contacter." },
             { status: 502 },
         );
     }

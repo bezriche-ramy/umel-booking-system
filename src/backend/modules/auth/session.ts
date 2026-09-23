@@ -5,7 +5,8 @@
 
 import type { AdminRole } from "@prisma/client";
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "crypto";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { prisma } from "@backend/core/db";
 
 export const SESSION_COOKIE = "umel_admin";
 const SESSION_TTL_SECONDS = 60 * 60 * 12;
@@ -63,9 +64,36 @@ export function parseSessionToken(token: string | undefined): AdminSession | nul
     }
 }
 
+/**
+ * Session courante, revérifiée en base à chaque requête :
+ * un compte supprimé perd l'accès immédiatement et un changement de rôle s'applique tout de suite.
+ */
 export async function getSession(): Promise<AdminSession | null> {
     const store = await cookies();
-    return parseSessionToken(store.get(SESSION_COOKIE)?.value);
+    const session = parseSessionToken(store.get(SESSION_COOKIE)?.value);
+    if (!session) return null;
+    const user = await prisma.adminUser.findUnique({
+        where: { id: session.userId },
+        select: { name: true, role: true },
+    });
+    if (!user) return null;
+    return { ...session, name: user.name, role: user.role };
+}
+
+/**
+ * Protection CSRF (en plus du cookie SameSite=Lax) : une requête venant d'un autre site est refusée.
+ * Les navigateurs envoient toujours l'en-tête Origin sur les requêtes POST/PUT/PATCH/DELETE.
+ */
+export async function isSameOrigin(): Promise<boolean> {
+    const h = await headers();
+    const origin = h.get("origin");
+    if (!origin) return true;
+    const host = h.get("x-forwarded-host") ?? h.get("host");
+    try {
+        return new URL(origin).host === host;
+    } catch {
+        return false;
+    }
 }
 
 /**
@@ -75,6 +103,7 @@ export async function getSession(): Promise<AdminSession | null> {
 export async function requireApiSession(
     roles: AdminRole[] = ["ADMIN"],
 ): Promise<{ session: AdminSession; error?: never } | { session?: never; error: Response }> {
+    if (!(await isSameOrigin())) return { error: Response.json({ error: "Requête refusée." }, { status: 403 }) };
     const session = await getSession();
     if (!session) return { error: Response.json({ error: "Non authentifié." }, { status: 401 }) };
     if (!roles.includes(session.role)) return { error: Response.json({ error: "Accès refusé." }, { status: 403 }) };

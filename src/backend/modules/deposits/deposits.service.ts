@@ -5,7 +5,7 @@
  * et porte la carte enregistrée. Les 20 € ne sont débités que sur action de l'atelier (absence ou annulation < 72h).
  */
 
-import type { DepositStatus, OrderStatus, Prisma } from "@prisma/client";
+import type { DepositStatus, Prisma } from "@prisma/client";
 import { prisma } from "@backend/core/db";
 import { sendEmail } from "@backend/modules/mailing/email.service";
 import { depositChargedEmail } from "@backend/modules/mailing/email-templates";
@@ -21,14 +21,6 @@ export class DepositError extends Error {
         super(message);
     }
 }
-
-export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
-    ON_HOLD: "En attente",
-    COMPLETED: "Terminée",
-    FAILED: "Échouée",
-    CANCELLED: "Annulée",
-    REFUNDED: "Remboursée",
-};
 
 export const DEPOSIT_STATUS_LABELS: Record<DepositStatus, string> = {
     PENDING: "En attente",

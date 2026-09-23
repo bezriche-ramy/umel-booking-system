@@ -3,27 +3,22 @@ import CTABand from "@frontend/shared/components/CTABand";
 import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import PageHero from "@frontend/shared/components/PageHero";
 import ServicesCarousel from "@frontend/modules/site/components/ServicesCarousel";
+import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
-import { siteConfig } from "@shared/siteData";
+import JsonLd from "@frontend/shared/components/JsonLd";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-    title: "Nos Robes & Services | Umel Couture — Création sur mesure, Retouches, Location",
+export const metadata: Metadata = buildPageMetadata({
+    path: "/nos-robes-services",
+    title: "Robes de mariée, retouches & location en Île-de-France | Umel Couture",
+    socialTitle: "Robes de mariée, retouches & location | Umel Couture Servon",
     description:
-        "Umel Couture — Création sur mesure, retouches (dès 250€), location (dès 1000€) et pressing spécialisé. Maison de couture à Servon, Seine-et-Marne.",
-    alternates: {
-        canonical: `${siteConfig.url}/nos-robes-services`,
-    },
-    openGraph: {
-        title: "Nos Robes & Services | Umel Couture",
-        description:
-            "Création sur mesure, retouches (dès 250€), location (dès 1000€) et pressing spécialisé chez Umel Couture.",
-        url: `${siteConfig.url}/nos-robes-services`,
-        images: ["/images/Nos robes.webp"],
-    },
-};
+        "Robe de mariée sur mesure, retouches dès 250 €, location dès 1 000 € et pressing spécialisé dès 150 € à Servon (77), près de Brie-Comte-Robert, Melun et Créteil.",
+    ogImage: "/images/og/nos-robes-services.jpg",
+    ogImageAlt: "Robes de mariée du showroom Umel Couture à Servon (77)",
+});
 
 export default function NosRobesServicesPage() {
     const breadcrumbSchema = getBreadcrumbSchema([
@@ -33,14 +28,12 @@ export default function NosRobesServicesPage() {
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
-            />
+            <JsonLd data={breadcrumbSchema} />
 
             <PageHero
                 imageSrc="/images/Nos robes.webp"
-                imageAlt="Umel Couture — Nos Robes & Services"
+                eyebrow="Robes de mariée · Retouches · Location — Servon (77)"
+                imageAlt="Robes de mariée du showroom Umel Couture à Servon, Seine-et-Marne"
                 titleLines={["Chaque prestation,", "pensée avec", "la même exigence."]}
                 sub="Peu importe le service choisi — vous êtes accompagnée du début à la fin."
             >

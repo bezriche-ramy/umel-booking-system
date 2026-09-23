@@ -159,7 +159,7 @@ export default function MailingPanel({ quota, followUp, audiences, resendConfigu
             {campaigns.length > 0 && (
                 <section className="adm-card adm-table-wrap">
                     <h2 className="adm-card-title">Campagnes envoyées</h2>
-                    <table className="adm-table">
+                    <table className="adm-table adm-table-cards">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -172,14 +172,14 @@ export default function MailingPanel({ quota, followUp, audiences, resendConfigu
                         <tbody>
                             {campaigns.map(c => (
                                 <tr key={c.id}>
-                                    <td>{c.createdAt}</td>
-                                    <td>{c.subject}</td>
-                                    <td>{c.audience}</td>
-                                    <td>
+                                    <td data-label="Date">{c.createdAt}</td>
+                                    <td data-label="Objet">{c.subject}</td>
+                                    <td data-label="Destinataires">{c.audience}</td>
+                                    <td data-label="Envoyés">
                                         {c.sentCount}
                                         {c.failCount ? ` (${c.failCount} échecs)` : ""}
                                     </td>
-                                    <td>{c.sentBy ?? "—"}</td>
+                                    <td data-label="Par">{c.sentBy ?? "—"}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -189,7 +189,7 @@ export default function MailingPanel({ quota, followUp, audiences, resendConfigu
 
             <section className="adm-card adm-table-wrap">
                 <h2 className="adm-card-title">Historique des envois</h2>
-                <table className="adm-table">
+                <table className="adm-table adm-table-cards">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -202,11 +202,11 @@ export default function MailingPanel({ quota, followUp, audiences, resendConfigu
                     <tbody>
                         {logs.map(l => (
                             <tr key={l.id}>
-                                <td>{l.createdAt}</td>
-                                <td>{l.kind}</td>
-                                <td>{l.customer ?? l.to}</td>
-                                <td>{l.subject}</td>
-                                <td>
+                                <td data-label="Date">{l.createdAt}</td>
+                                <td data-label="Type">{l.kind}</td>
+                                <td data-label="Cliente">{l.customer ?? l.to}</td>
+                                <td data-label="Objet">{l.subject}</td>
+                                <td data-label="Statut">
                                     <span className={`adm-badge msg-${l.status}`} title={l.error ?? undefined}>
                                         {l.status === "SENT" ? "Envoyé" : l.status === "FAILED" ? "Échec" : "Non envoyé"}
                                     </span>

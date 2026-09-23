@@ -41,7 +41,7 @@ export default function AlterationsPlanner({
     return (
         <div className="adm-stack">
             <div className="adm-toolbar">
-                <div className="adm-inline">
+                <div className="adm-inline adm-week-nav">
                     <Link className="adm-btn" href={link(addDays(monday, -7))} aria-label="Semaine précédente">
                         ←
                     </Link>
@@ -80,7 +80,7 @@ export default function AlterationsPlanner({
                 />
             )}
 
-            <div className="adm-card adm-table-wrap">
+            <div className="adm-card adm-table-wrap adm-planning-card">
                 {rows.length === 0 ? (
                     <p className="adm-empty">Aucune retouche cette semaine. Ajoutez un rendez-vous avec « Nouvelle retouche ».</p>
                 ) : (
@@ -124,6 +124,38 @@ export default function AlterationsPlanner({
                         </tbody>
                     </table>
                 )}
+
+                {/* Téléphone : agenda jour par jour (le tableau par retoucheuse est trop large) */}
+                <div className="adm-agenda">
+                    {days.map(d => {
+                        const items = alterations.filter(a => a.day === d && rows.includes(a.seamstressName));
+                        return (
+                            <section key={d} className="adm-agenda-day">
+                                <h3>{formatDay(d, { weekday: "long", day: "numeric", month: "long" })}</h3>
+                                {items.length === 0 ? (
+                                    <p className="adm-muted">Aucune retouche</p>
+                                ) : (
+                                    items.map(a => (
+                                        <button key={a.id} type="button" className={`adm-alt status-${a.status}`} onClick={() => setEditing(a)}>
+                                            <strong>
+                                                {a.startTime} · {a.durationMinutes} min · {a.seamstressName}
+                                            </strong>
+                                            <span>
+                                                {a.customer.firstName} {a.customer.lastName}
+                                            </span>
+                                            {a.dressDetails && <em>{a.dressDetails}</em>}
+                                            <small>
+                                                {STATUS_LABELS[a.status]}
+                                                {a.devis !== null ? ` · ${a.devis.toLocaleString("fr-FR")} €` : ""}
+                                                {a.reminderSent ? " · relancée" : ""}
+                                            </small>
+                                        </button>
+                                    ))
+                                )}
+                            </section>
+                        );
+                    })}
+                </div>
             </div>
 
             {canEditSettings && <ReminderSetting initial={reminderDays} />}

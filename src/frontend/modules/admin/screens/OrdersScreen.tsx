@@ -39,7 +39,7 @@ export default function OrdersScreen({ status, q, page, pages, total, counts, or
                 </div>
 
                 <div className="adm-card adm-table-wrap">
-                    <table className="adm-table adm-orders">
+                    <table className="adm-table adm-orders adm-table-cards">
                         <thead>
                             <tr>
                                 <th>Commande</th>
@@ -52,17 +52,17 @@ export default function OrdersScreen({ status, q, page, pages, total, counts, or
                         <tbody>
                             {orders.map(o => (
                                 <tr key={o.number}>
-                                    <td>
+                                    <td data-label="Commande">
                                         <Link href={`/admin/commandes/${o.number}`} className="adm-order-link">
                                             #{o.number} {o.customer}
                                         </Link>
                                     </td>
-                                    <td className="adm-muted">{o.date}</td>
-                                    <td>
+                                    <td data-label="Date" className="adm-muted">{o.date}</td>
+                                    <td data-label="État">
                                         <span className={`adm-order-status order-${o.status}`}>{ORDER_STATUS_LABELS[o.status]}</span>
                                     </td>
-                                    <td className="is-num">{formatEuros(o.total)}</td>
-                                    <td className="adm-muted">{o.origin ?? "—"}</td>
+                                    <td data-label="Total" className="is-num">{formatEuros(o.total)}</td>
+                                    <td data-label="Origine" className="adm-muted">{o.origin ?? "—"}</td>
                                 </tr>
                             ))}
                         </tbody>

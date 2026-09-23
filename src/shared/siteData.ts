@@ -6,9 +6,9 @@ export interface Review {
 
 export const siteConfig = {
     name: "Umel Couture",
-    titleDefault: "Umel Couture | Robe de mariée sur mesure — Servon, Seine-et-Marne",
+    titleDefault: "Robe de mariée sur mesure Seine-et-Marne (77) | Umel Couture",
     descriptionDefault:
-        "Umel Couture — Maison de couture à Servon (77). Robes de mariée sur mesure, retouches, location et pressing spécialisé. Mardi–Dimanche sur rendez-vous.",
+        "Créatrice de robes de mariée sur mesure à Servon (77), près de Brie-Comte-Robert, Melun et Créteil. Retouches, location et pressing. Noté 4,9/5 sur Google.",
     url: "https://umelcouture.com",
     phone: "07 49 50 79 57",
     phoneIntl: "+33749507957",
@@ -26,6 +26,22 @@ export const siteConfig = {
         longitude: 2.5921,
     },
     openingHours: "Tu-Sa 10:00-18:30, Su 11:00-17:00",
+    openingHoursSpec: [
+        { days: ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], opens: "10:00", closes: "18:30" },
+        { days: ["Sunday"], opens: "11:00", closes: "17:00" },
+    ],
+    openingHoursText: {
+        weekdays: "Mardi au samedi : 10h–18h30",
+        sunday: "Dimanche : 11h–17h",
+        closed: "Fermé le lundi",
+    },
+    placeId: "ChIJ3wTGU2ch-kcRP6Cd9pQrkG0",
+    mapsUrl: "https://www.google.com/maps/place/?q=place_id:ChIJ3wTGU2ch-kcRP6Cd9pQrkG0",
+    areaServed: {
+        department: "Seine-et-Marne",
+        region: "Île-de-France",
+        cities: ["Servon", "Brie-Comte-Robert", "Santeny", "Marolles-en-Brie", "Lésigny", "Melun", "Créteil", "Torcy"],
+    },
     rating: {
         value: 4.9,
         count: 336,
@@ -73,6 +89,8 @@ export const siteConfig = {
             quote: '"On ne part jamais d\'une robe. On part de vous."',
             desc: "Une inspiration, une matière, un détail aperçu quelque part. Haut d'un modèle, bas d'un autre, dentelle spécifique — ou une robe créée à partir d'une photo. Plusieurs essayages jusqu'à la perfection.",
             price: "Sur devis — en maison",
+            priceFrom: null as number | null,
+            url: "/sur-mesure",
         },
         {
             num: "02",
@@ -80,6 +98,8 @@ export const siteConfig = {
             quote: '"Votre robe mérite d\'être parfaite. Peu importe son origine."',
             desc: "Umel retouche les robes ne venant pas de la maison. Envoyez une vidéo portée via WhatsApp au 07 49 50 79 57 pour une première estimation. Devis ajusté en cabine.",
             price: "À partir de 250€",
+            priceFrom: 250 as number | null,
+            url: "/nos-robes-services",
         },
         {
             num: "03",
@@ -87,6 +107,8 @@ export const siteConfig = {
             quote: "\"L'exigence d'une maison de couture. Une autre manière de vivre sa robe.\"",
             desc: "Les modèles du showroom sont disponibles à la location. Coupes : princesse, sirène, trapèze. Sélectionnés avec le même soin que les créations sur mesure.",
             price: "À partir de 1 000€",
+            priceFrom: 1000 as number | null,
+            url: "/nos-robes-services",
         },
         {
             num: "04",
@@ -94,6 +116,8 @@ export const siteConfig = {
             quote: '"Une robe conserve des souvenirs. Pas des traces."',
             desc: "Traitement soigné pour préserver les matières les plus délicates — tissus, dentelles, broderies. Pour le grand jour, et pour les années qui suivent.",
             price: "À partir de 150€",
+            priceFrom: 150 as number | null,
+            url: "/nos-robes-services",
         },
     ],
 };

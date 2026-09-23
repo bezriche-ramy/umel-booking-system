@@ -1,6 +1,7 @@
 # Guide de l'espace atelier — Umel Couture
 
 Adresse : **https://umelcouture.com/admin** (identifiant = votre e-mail + mot de passe).
+Fonctionne sur ordinateur, tablette et téléphone (bouton **Menu** en haut sur mobile).
 
 ## 1. Rendez-vous (calendrier Créations)
 
@@ -84,3 +85,13 @@ de la cliente.
 - Les clientes ayant coché « ne souhaite pas recevoir les offres » sont exclues.
 - **Une seule relance par rendez-vous**, et jamais pour les rendez-vous antérieurs à l'activation : l'historique importé
   d'Amelia ne reçoit rien.
+
+## 6. Comptes
+
+**Comptes** (administratrices uniquement) : qui peut se connecter à l'espace atelier.
+
+- **+ Ajouter un compte** : e-mail + mot de passe (10 caractères minimum). Le compte est créé en **Administratrice**.
+- **Rôle** : *Administratrice* (tout l'espace) ou *Retoucheuse* (onglet Retouches uniquement). Le changement est immédiat.
+- **Nouveau mot de passe** en cas d'oubli, **Supprimer** pour retirer un accès (effet immédiat, même si la personne est connectée).
+- Par sécurité : on ne peut pas supprimer ni rétrograder son propre compte, ni la dernière administratrice.
+- Après 5 mots de passe erronés, la connexion est bloquée 15 minutes pour ce compte.

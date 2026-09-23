@@ -259,7 +259,7 @@ export async function cancelAppointment(id: string, opts: { chargeLate?: boolean
 
 
 /**
- * Relances automatiques (exécutées chaque jour par le cron Vercel) :
+ * Relances automatiques (exécutées chaque matin par la crontab du serveur) :
  *  - Créations : J-3 (fin du délai d'annulation de 72h + avertissement avant prélèvement éventuel)
  *  - Retouches : J-X, X paramétrable dans l'admin
  */

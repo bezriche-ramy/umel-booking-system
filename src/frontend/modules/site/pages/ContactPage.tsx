@@ -2,25 +2,21 @@ import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import GoogleRating from "@frontend/modules/site/components/GoogleRating";
 import PageHero from "@frontend/shared/components/PageHero";
 import ReservationFlow from "@frontend/modules/reservation/components/ReservationFlow";
+import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
+import JsonLd from "@frontend/shared/components/JsonLd";
 import { siteConfig } from "@shared/siteData";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "Réservation & Contact | Umel Couture — Servon, Seine-et-Marne",
+export const metadata: Metadata = buildPageMetadata({
+    path: "/contact",
+    title: "Contact & rendez-vous — Boutique robe de mariée à Servon (77) | Umel Couture",
+    socialTitle: "Prendre rendez-vous | Umel Couture Servon",
     description:
-        "Réservez votre séance privée d'essayage chez Umel Couture — 12 rue Georges Truffaut, 77170 Servon. Création sur mesure, retouches, location. Mardi–Dimanche.",
-    alternates: {
-        canonical: `${siteConfig.url}/contact`,
-    },
-    openGraph: {
-        title: "Réservation & Contact | Umel Couture",
-        description:
-            "Prenez rendez-vous dans notre maison de couture à Servon (77). Atelier sur rendez-vous pour votre robe de mariée.",
-        url: `${siteConfig.url}/contact`,
-        images: ["/images/Contact.webp"],
-    },
-};
+        "Prenez rendez-vous à l'atelier Umel Couture, 12 rue Georges Truffaut, 77170 Servon — près de Brie-Comte-Robert, Melun, Créteil. Mar–sam 10h–18h30, dim 11h–17h.",
+    ogImage: "/images/og/contact.jpg",
+    ogImageAlt: "Atelier Umel Couture, 12 rue Georges Truffaut à Servon (77)",
+});
 
 export default function ContactPage() {
     const breadcrumbSchema = getBreadcrumbSchema([
@@ -30,14 +26,12 @@ export default function ContactPage() {
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
-            />
+            <JsonLd data={breadcrumbSchema} />
 
             <PageHero
                 imageSrc="/images/Contact.webp"
-                imageAlt="Umel Couture — Contact & Réservation"
+                eyebrow="Boutique robe de mariée · Servon (77)"
+                imageAlt="Boutique de robes de mariée Umel Couture, 12 rue Georges Truffaut à Servon"
                 titleLines={["Chaque robe", "commence par", "une conversation."]}
                 sub="Réservez votre essayage privé à l'atelier de Servon."
                 objectPosition="center 30%"

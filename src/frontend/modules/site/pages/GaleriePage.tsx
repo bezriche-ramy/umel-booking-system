@@ -4,26 +4,21 @@ import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import FluxMarquee from "@frontend/modules/site/components/FluxMarquee";
 import HeroSlider from "@frontend/modules/site/components/HeroSlider";
 import TiltGallery from "@frontend/modules/site/components/TiltGallery";
+import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
-import { siteConfig } from "@shared/siteData";
+import JsonLd from "@frontend/shared/components/JsonLd";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-    title: "Galerie | Umel Couture — Créations robes de mariée Servon, Seine-et-Marne",
+export const metadata: Metadata = buildPageMetadata({
+    path: "/galerie",
+    title: "Galerie robes de mariée sur mesure — Servon (77) | Umel Couture",
+    socialTitle: "Galerie des créations | Umel Couture",
     description:
-        "Galerie des créations Umel Couture — robes de mariée sur mesure, détails couture et ambiance atelier. Maison de couture à Servon, Seine-et-Marne.",
-    alternates: {
-        canonical: `${siteConfig.url}/galerie`,
-    },
-    openGraph: {
-        title: "Galerie | Umel Couture",
-        description:
-            "Explorez les créations sur mesure, détails couture et l'ambiance atelier de la maison Umel Couture à Servon.",
-        url: `${siteConfig.url}/galerie`,
-        images: ["/images/Galerie.webp"],
-    },
-};
+        "Découvrez les robes de mariée sur mesure créées dans notre atelier de Servon : dentelles, broderies, coupes sirène et princesse. Inspirations mariage en Île-de-France.",
+    ogImage: "/images/og/galerie.jpg",
+    ogImageAlt: "Galerie des robes de mariée sur mesure Umel Couture",
+});
 
 export default function GaleriePage() {
     const breadcrumbSchema = getBreadcrumbSchema([
@@ -33,14 +28,11 @@ export default function GaleriePage() {
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
-            />
+            <JsonLd data={breadcrumbSchema} />
 
             <HeroSlider folio="Galerie & Créations — 2026">
-                <span className="hero-eyebrow">Galerie &amp; Inspirations · Servon</span>
                 <h1 className="hero-title">
+                    <small className="hero-eyebrow">Galerie robes de mariée sur mesure · Servon (77)</small>
                     <span className="line">
                         <span>Chaque robe,</span>
                     </span>

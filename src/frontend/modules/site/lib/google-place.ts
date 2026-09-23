@@ -30,7 +30,7 @@ interface GooglePlacesApiResponse {
     };
 }
 
-const DEFAULT_PLACE_ID = "ChIJ3wTGU2ch-kcRP6Cd9pQrkG0";
+const DEFAULT_PLACE_ID = siteConfig.placeId;
 
 const DEFAULT_FALLBACK_RATING: GooglePlaceRating = {
     rating: siteConfig.rating.value,

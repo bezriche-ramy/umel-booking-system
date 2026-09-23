@@ -75,7 +75,7 @@ export default function ScheduleEditor({ week, overrides }: { week: Weekday[]; o
                     peuvent être actifs ensemble (jusqu&apos;à 3 clientes sur le même horaire).
                 </p>
                 <div className="adm-table-wrap">
-                    <table className="adm-table">
+                    <table className="adm-table adm-table-cards">
                         <thead>
                             <tr>
                                 <th>Jour</th>
@@ -92,10 +92,10 @@ export default function ScheduleEditor({ week, overrides }: { week: Weekday[]; o
                                 return (
                                     <tr key={wd} className={d.isOpen ? "" : "is-muted"}>
                                         <th scope="row">{LABELS[wd]}</th>
-                                        <td>
+                                        <td data-label="Ouvert">
                                             <Toggle checked={d.isOpen} onChange={v => update(wd, { isOpen: v })} label={d.isOpen ? "Ouvert" : "Fermé"} />
                                         </td>
-                                        <td>
+                                        <td data-label="Premier créneau">
                                             <select className="adm-input" value={d.startHour} disabled={!d.isOpen} onChange={e => update(wd, { startHour: Number(e.target.value) })}>
                                                 {HOUR_OPTIONS.map(h => (
                                                     <option key={h} value={h}>
@@ -104,7 +104,7 @@ export default function ScheduleEditor({ week, overrides }: { week: Weekday[]; o
                                                 ))}
                                             </select>
                                         </td>
-                                        <td>
+                                        <td data-label="Dernier créneau">
                                             <select className="adm-input" value={d.lastSlotHour} disabled={!d.isOpen} onChange={e => update(wd, { lastSlotHour: Number(e.target.value) })}>
                                                 {HOUR_OPTIONS.map(h => (
                                                     <option key={h} value={h}>
@@ -113,10 +113,10 @@ export default function ScheduleEditor({ week, overrides }: { week: Weekday[]; o
                                                 ))}
                                             </select>
                                         </td>
-                                        <td>
+                                        <td data-label="Créneau simple">
                                             <Toggle checked={d.simpleEnabled} onChange={v => update(wd, { simpleEnabled: v })} label="Simple" />
                                         </td>
-                                        <td>
+                                        <td data-label="Créneau double">
                                             <Toggle checked={d.doubleEnabled} onChange={v => update(wd, { doubleEnabled: v })} label="Double" />
                                         </td>
                                     </tr>

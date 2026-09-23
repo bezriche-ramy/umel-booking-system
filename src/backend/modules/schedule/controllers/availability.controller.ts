@@ -1,8 +1,11 @@
+import { clientIp, rateLimit, tooManyRequests } from "@backend/core/rate-limit";
 import { getDayAvailability } from "@backend/modules/schedule/schedule.service";
 import { DAY_RE } from "@shared/tz";
 import type { BookingSlot } from "@shared/reservation/types";
 
 export async function GET(request: Request) {
+    if (!rateLimit(`availability:${clientIp(request)}`, 240, 60 * 1000)) return tooManyRequests();
+
     const date = new URL(request.url).searchParams.get("date");
     if (!date || !DAY_RE.test(date)) {
         return Response.json({ error: "Paramètre date=AAAA-MM-JJ requis." }, { status: 400 });

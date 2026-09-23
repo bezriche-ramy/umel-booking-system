@@ -1,25 +1,23 @@
 import CTABand from "@frontend/shared/components/CTABand";
 import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import PageHero from "@frontend/shared/components/PageHero";
+import FaqSection from "@frontend/modules/site/components/FaqSection";
+import { surMesureFaq } from "@frontend/modules/site/lib/faq";
+import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
+import JsonLd from "@frontend/shared/components/JsonLd";
 import { siteConfig } from "@shared/siteData";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "Sur Mesure | Umel Couture — Création robe de mariée Servon, Seine-et-Marne",
+export const metadata: Metadata = buildPageMetadata({
+    path: "/sur-mesure",
+    title: "Création robe de mariée sur mesure en Seine-et-Marne (77) | Umel Couture",
+    socialTitle: "Robe de mariée sur mesure en Seine-et-Marne | Umel Couture",
     description:
-        "Le sur-mesure chez Umel Couture — pas une option premium, le point de départ. Chaque robe commence par une conversation. Atelier à Servon (77).",
-    alternates: {
-        canonical: `${siteConfig.url}/sur-mesure`,
-    },
-    openGraph: {
-        title: "Sur Mesure | Umel Couture",
-        description:
-            "Le sur-mesure chez Umel Couture — pas une option premium, le point de départ. Chaque robe commence par une conversation.",
-        url: `${siteConfig.url}/sur-mesure`,
-        images: ["/images/Hero3.webp"],
-    },
-};
+        "Créatrice de robes de mariée sur mesure dans le 77 : composition personnalisée, photo d'inspiration, essayages privés à Servon. Devis en maison, sur rendez-vous.",
+    ogImage: "/images/og/sur-mesure.jpg",
+    ogImageAlt: "Robe de mariée sur mesure Umel Couture — atelier de Servon, Seine-et-Marne",
+});
 
 export default function SurMesurePage() {
     const breadcrumbSchema = getBreadcrumbSchema([
@@ -29,14 +27,12 @@ export default function SurMesurePage() {
 
     return (
         <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
-            />
+            <JsonLd data={breadcrumbSchema} />
 
             <PageHero
                 imageSrc="/images/Hero3.webp"
-                imageAlt="Umel Couture — Sur mesure"
+                eyebrow="Création robe de mariée sur mesure · Seine-et-Marne (77)"
+                imageAlt="Création de robe de mariée sur mesure par l'atelier Umel Couture à Servon (77)"
                 titleLines={["On ne part jamais", "d'une robe.", "On part de vous."]}
                 sub="Plusieurs essayages jusqu'à la perfection."
             />
@@ -170,9 +166,9 @@ export default function SurMesurePage() {
                                     color: "var(--taupe)",
                                 }}
                             >
-                                Mardi au dimanche
+                                Mardi au samedi · 10h – 18h30
                                 <br />
-                                10h – 17h
+                                Dimanche · 11h – 17h
                                 <br />
                                 <em>Sur rendez-vous uniquement</em>
                             </p>
@@ -389,6 +385,16 @@ export default function SurMesurePage() {
                 </div>
             </section>
 
+            <FaqSection
+                id="sur-mesure-faq-title"
+                title={
+                    <>
+                        Robe de mariée sur mesure : <em>vos questions</em>
+                    </>
+                }
+                items={surMesureFaq}
+            />
+
             <EmbroideryDivider />
 
             <CTABand
@@ -402,7 +408,7 @@ export default function SurMesurePage() {
                 }
                 subtitle={
                     <>
-                        Mardi au dimanche, 10h–17h. Sur rendez-vous uniquement.
+                        Mardi–samedi 10h–18h30, dimanche 11h–17h. Sur rendez-vous.
                         <br />
                         Servon, Seine-et-Marne.
                     </>

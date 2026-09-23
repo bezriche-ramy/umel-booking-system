@@ -1,4 +1,5 @@
-import { getBridalShopSchema, getWebSiteSchema } from "@frontend/modules/site/lib/schema";
+import { getBridalShopSchema, getServicesSchema, getWebSiteSchema } from "@frontend/modules/site/lib/schema";
+import JsonLd from "@frontend/shared/components/JsonLd";
 import { siteConfig } from "@shared/siteData";
 import "@frontend/styles/globals.css";
 import type { Metadata } from "next";
@@ -28,19 +29,33 @@ export const metadata: Metadata = {
     },
     description: siteConfig.descriptionDefault,
     keywords: [
-        "robe mariée sur mesure Servon",
-        "robe mariée Seine-et-Marne",
-        "atelier couture mariage 77",
-        "retouche robe mariée IDF",
-        "création robe mariée sur mesure IDF",
-        "couture mariage Seine-et-Marne",
-        "robe mariée sur mesure Île-de-France",
+        "robe de mariée sur mesure Seine-et-Marne",
+        "créatrice robe de mariée 77",
+        "atelier retouche robe mariée Servon",
+        "robe de mariée sur mesure Île-de-France",
+        "magasin robe de mariée Brie-Comte-Robert",
+        "boutique robe de mariée Melun",
+        "robe de mariée Torcy",
+        "robe de mariée Créteil",
+        "location robe de mariée 77",
+        "pressing robe de mariée Seine-et-Marne",
     ],
-    authors: [{ name: "Umel Couture" }],
-    creator: "Umel Couture",
-    publisher: "Umel Couture",
-    alternates: {
-        canonical: siteConfig.url,
+    applicationName: siteConfig.name,
+    authors: [{ name: siteConfig.name, url: siteConfig.url }],
+    creator: siteConfig.name,
+    publisher: siteConfig.name,
+    category: "Robes de mariée",
+    formatDetection: { telephone: true, address: true, email: false },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1,
+        },
     },
     openGraph: {
         type: "website",
@@ -51,10 +66,11 @@ export const metadata: Metadata = {
         description: siteConfig.descriptionDefault,
         images: [
             {
-                url: "/images/Hero1.webp",
+                url: "/images/og/accueil.jpg",
                 width: 1200,
                 height: 630,
-                alt: "Umel Couture — Maison de couture sur mesure",
+                alt: "Umel Couture — robe de mariée sur mesure à Servon, Seine-et-Marne",
+                type: "image/jpeg",
             },
         ],
     },
@@ -62,7 +78,13 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: siteConfig.titleDefault,
         description: siteConfig.descriptionDefault,
-        images: ["/images/Hero1.webp"],
+        images: ["/images/og/accueil.jpg"],
+    },
+    other: {
+        "geo.region": "FR-77",
+        "geo.placename": siteConfig.address.city,
+        "geo.position": `${siteConfig.geo.latitude};${siteConfig.geo.longitude}`,
+        ICBM: `${siteConfig.geo.latitude}, ${siteConfig.geo.longitude}`,
     },
     icons: {
         icon: "/images/logo_umel_couture.webp",
@@ -75,9 +97,6 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const bridalShopSchema = getBridalShopSchema();
-    const webSiteSchema = getWebSiteSchema();
-
     return (
         <html
             lang="fr"
@@ -85,14 +104,9 @@ export default function RootLayout({
             data-scroll-behavior="smooth"
         >
             <head>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(bridalShopSchema).replace(/</g, "\\u003c") }}
-                />
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema).replace(/</g, "\\u003c") }}
-                />
+                <JsonLd data={getBridalShopSchema()} />
+                <JsonLd data={getServicesSchema()} />
+                <JsonLd data={getWebSiteSchema()} />
             </head>
             <body>{children}</body>
         </html>

@@ -2,6 +2,7 @@ import { SERVICE_IDS } from "@shared/reservation/services";
 import { validateCustomerInfo } from "@shared/reservation/validation";
 import { BookingError, createAppointment } from "@backend/modules/appointments/appointments.service";
 import { prisma } from "@backend/core/db";
+import { clientIp, rateLimit, tooManyRequests } from "@backend/core/rate-limit";
 import { splitFullName } from "@backend/core/phone";
 import { getStripe } from "@backend/modules/payments/stripe.service";
 import { DAY_RE, TIME_RE } from "@shared/tz";
@@ -19,6 +20,8 @@ const fail = (errorCode: string, errorMessage: string, status = 400) =>
     Response.json({ success: false, errorCode, errorMessage }, { status });
 
 export async function POST(request: Request) {
+    if (!rateLimit(`book:${clientIp(request)}`, 10, 10 * 60 * 1000)) return tooManyRequests();
+
     let body: BookBody;
     try {
         body = await request.json();

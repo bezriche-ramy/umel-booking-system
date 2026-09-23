@@ -487,9 +487,9 @@ body.splash #nav {
     }
 
     .intro-responsive-hero .hero-title .line span,
-    .intro-responsive-hero .hero-title .line:nth-child(1) span,
-    .intro-responsive-hero .hero-title .line:nth-child(2) span,
-    .intro-responsive-hero .hero-title .line:nth-child(3) span {
+    .intro-responsive-hero .hero-title .line:nth-of-type(1) span,
+    .intro-responsive-hero .hero-title .line:nth-of-type(2) span,
+    .intro-responsive-hero .hero-title .line:nth-of-type(3) span {
         font-size: clamp(26px, 7.8vw, 38px) !important;
         line-height: 1.08 !important;
     }
@@ -558,9 +558,9 @@ body.splash #nav {
         margin-bottom: 8px !important;
     }
     .intro-responsive-hero .hero-title .line span,
-    .intro-responsive-hero .hero-title .line:nth-child(1) span,
-    .intro-responsive-hero .hero-title .line:nth-child(2) span,
-    .intro-responsive-hero .hero-title .line:nth-child(3) span {
+    .intro-responsive-hero .hero-title .line:nth-of-type(1) span,
+    .intro-responsive-hero .hero-title .line:nth-of-type(2) span,
+    .intro-responsive-hero .hero-title .line:nth-of-type(3) span {
         font-size: clamp(23px, 6.5vw, 29px) !important;
     }
     .intro-responsive-hero .hero-sub {
@@ -641,17 +641,17 @@ body.splash #nav {
     color: var(--blanc);
 }
 
-.hero-title .line:nth-child(1) span {
+.hero-title .line:nth-of-type(1) span {
     animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
     font-size: clamp(34px, 4.8vw, 68px);
 }
 
-.hero-title .line:nth-child(2) span {
+.hero-title .line:nth-of-type(2) span {
     animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
     font-size: clamp(34px, 4.8vw, 68px);
 }
 
-.hero-title .line:nth-child(3) span {
+.hero-title .line:nth-of-type(3) span {
     animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
     font-size: clamp(30px, 4.2vw, 60px);
     font-style: italic;
@@ -2460,11 +2460,11 @@ footer {
         padding: 0 24px 70px;
         min-height: 100svh;
     }
-    .hero-title .line:nth-child(1) span,
-    .hero-title .line:nth-child(2) span {
+    .hero-title .line:nth-of-type(1) span,
+    .hero-title .line:nth-of-type(2) span {
         font-size: clamp(34px, 9vw, 52px);
     }
-    .hero-title .line:nth-child(3) span {
+    .hero-title .line:nth-of-type(3) span {
         font-size: clamp(30px, 8vw, 46px);
     }
     .hero-scroll-indicator {
@@ -3314,9 +3314,9 @@ nav.scrolled .nav-cta {
     margin: 0;
 }
 .hero-title .line span,
-.hero-title .line:nth-child(1) span,
-.hero-title .line:nth-child(2) span,
-.hero-title .line:nth-child(3) span {
+.hero-title .line:nth-of-type(1) span,
+.hero-title .line:nth-of-type(2) span,
+.hero-title .line:nth-of-type(3) span {
     font-size: clamp(48px, 5.4vw, 88px);
     font-weight: 300;
     line-height: 1.08;
@@ -4226,9 +4226,9 @@ footer {
         max-width: 100%;
     }
     .hero-title .line span,
-    .hero-title .line:nth-child(1) span,
-    .hero-title .line:nth-child(2) span,
-    .hero-title .line:nth-child(3) span {
+    .hero-title .line:nth-of-type(1) span,
+    .hero-title .line:nth-of-type(2) span,
+    .hero-title .line:nth-of-type(3) span {
         font-size: clamp(2rem, 10.5vw, 4rem);
         line-height: 1.1;
     }
@@ -7586,5 +7586,120 @@ section.s.res-page-section {
     }
     .etape {
         padding: 32px 0;
+    }
+}
+
+/* ─── SEO : sur-titre intégré au H1 ─── */
+.hero-title .hero-eyebrow {
+    line-height: 1.6;
+}
+
+/* ─── FAQ (details/summary, rendu serveur) ─── */
+.faq-inner {
+    max-width: 860px;
+    margin: 0 auto;
+}
+.faq-title {
+    font-family: var(--font-cormorant), serif;
+    font-size: clamp(30px, 3.5vw, 50px);
+    font-weight: 300;
+    line-height: 1.15;
+    text-align: center;
+    margin-bottom: clamp(32px, 4vw, 56px);
+    text-wrap: balance;
+}
+.faq-title em {
+    color: var(--accent-text);
+}
+.faq-item {
+    border-top: 1px solid rgba(197, 160, 89, 0.35);
+}
+.faq-item:last-child {
+    border-bottom: 1px solid rgba(197, 160, 89, 0.35);
+}
+.faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 0;
+    cursor: pointer;
+    list-style: none;
+}
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+.faq-item summary::after {
+    content: "+";
+    flex-shrink: 0;
+    color: var(--or);
+    font-size: 22px;
+    line-height: 1;
+    transition: transform 0.3s var(--ease-out-quart);
+}
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+.faq-item summary:focus-visible {
+    outline: 2px solid var(--or);
+    outline-offset: 4px;
+}
+.faq-item h3 {
+    font-family: var(--font-cormorant), serif;
+    font-size: clamp(18px, 1.7vw, 22px);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--charcoal);
+}
+.faq-item p {
+    padding: 0 40px 24px 0;
+    color: var(--taupe);
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+/* ─── Zone de chalandise (accueil / contact) ─── */
+.local-area-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(28px, 4vw, 64px);
+}
+.local-area-grid h3 {
+    font-family: var(--font-cormorant), serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 14px;
+}
+.local-area-grid p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+.local-area-cities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+}
+.local-area-cities li {
+    padding: 6px 14px;
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    border-radius: 999px;
+    font-size: 14px;
+    color: var(--charcoal);
+}
+@media (max-width: 800px) {
+    .local-area-grid {
+        grid-template-columns: 1fr;
+    }
+    .local-area .section-editorial-head {
+        grid-template-columns: 1fr;
+    }
+    .local-area .section-editorial-head > p {
+        grid-column: 1;
+        grid-row: auto;
+        padding-top: 0;
     }
 }

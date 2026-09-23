@@ -1,21 +1,53 @@
+import type { FaqItem } from "@frontend/modules/site/lib/faq";
 import { siteConfig } from "@shared/siteData";
+
+const BUSINESS_ID = `${siteConfig.url}/#bridalshop`;
+
+function absoluteUrl(path: string) {
+    return path.startsWith("http") ? path : `${siteConfig.url}${encodeURI(path)}`;
+}
+
+/** Zone de chalandise : Servon + villes limitrophes, Seine-et-Marne (77) et Île-de-France. */
+function getAreaServed() {
+    return [
+        ...siteConfig.areaServed.cities.map(name => ({
+            "@type": "City",
+            name,
+            containedInPlace: { "@type": "AdministrativeArea", name: "Île-de-France" },
+        })),
+        {
+            "@type": "AdministrativeArea",
+            name: `${siteConfig.areaServed.department} (77)`,
+            identifier: "FR-77",
+        },
+        {
+            "@type": "AdministrativeArea",
+            name: siteConfig.areaServed.region,
+            identifier: "FR-IDF",
+        },
+    ];
+}
 
 export function getBridalShopSchema() {
     return {
         "@context": "https://schema.org",
         "@type": "BridalShop",
-        "@id": `${siteConfig.url}/#bridalshop`,
+        "@id": BUSINESS_ID,
         name: siteConfig.name,
+        alternateName: "Umel Couture — Robe de mariée sur mesure Servon",
         url: siteConfig.url,
-        logo: `${siteConfig.url}/images/logo_umel_couture.webp`,
+        logo: absoluteUrl("/images/logo_umel_couture.webp"),
         image: [
-            `${siteConfig.url}/images/Hero1.webp`,
-            `${siteConfig.url}/images/Nos%20robes.webp`,
-            `${siteConfig.url}/images/Galerie.webp`,
+            absoluteUrl("/images/Hero1.webp"),
+            absoluteUrl("/images/Nos robes.webp"),
+            absoluteUrl("/images/Galerie.webp"),
         ],
         description: siteConfig.descriptionDefault,
+        slogan: siteConfig.signature,
         telephone: siteConfig.phoneIntl,
         priceRange: "€€€",
+        currenciesAccepted: "EUR",
+        paymentAccepted: "Cash, Credit Card",
         address: {
             "@type": "PostalAddress",
             streetAddress: siteConfig.address.street,
@@ -29,20 +61,20 @@ export function getBridalShopSchema() {
             latitude: siteConfig.geo.latitude,
             longitude: siteConfig.geo.longitude,
         },
-        openingHoursSpecification: [
-            {
-                "@type": "OpeningHoursSpecification",
-                dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday"],
-                opens: "10:00",
-                closes: "17:00",
-            },
-        ],
+        hasMap: siteConfig.mapsUrl,
+        areaServed: getAreaServed(),
+        openingHoursSpecification: siteConfig.openingHoursSpec.map(spec => ({
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: spec.days,
+            opens: spec.opens,
+            closes: spec.closes,
+        })),
         aggregateRating: {
             "@type": "AggregateRating",
             ratingValue: siteConfig.rating.value,
             reviewCount: siteConfig.rating.count,
-            bestRating: "5",
-            worstRating: "1",
+            bestRating: 5,
+            worstRating: 1,
         },
         founder: siteConfig.founders.map(f => ({
             "@type": "Person",
@@ -50,19 +82,50 @@ export function getBridalShopSchema() {
             jobTitle: f.role,
         })),
         sameAs: [siteConfig.social.instagram, siteConfig.social.facebook, siteConfig.social.tiktok],
+        knowsAbout: [
+            "Robe de mariée sur mesure",
+            "Retouche de robe de mariée",
+            "Location de robe de mariée",
+            "Pressing de robe de mariée",
+        ],
         hasOfferCatalog: {
             "@type": "OfferCatalog",
             name: "Services Umel Couture",
             itemListElement: siteConfig.services.map((svc, idx) => ({
                 "@type": "Offer",
-                itemOffered: {
-                    "@type": "Service",
-                    name: svc.title,
-                    description: svc.desc,
-                },
                 position: idx + 1,
+                itemOffered: { "@id": `${siteConfig.url}/#service-${svc.num}` },
             })),
         },
+    };
+}
+
+/** Un schéma `Service` par prestation, rattaché à la BridalShop via son @id. */
+export function getServicesSchema() {
+    return {
+        "@context": "https://schema.org",
+        "@graph": siteConfig.services.map(svc => ({
+            "@type": "Service",
+            "@id": `${siteConfig.url}/#service-${svc.num}`,
+            name: svc.title,
+            serviceType: svc.title,
+            description: svc.desc,
+            url: absoluteUrl(svc.url),
+            provider: { "@id": BUSINESS_ID },
+            areaServed: getAreaServed(),
+            offers: {
+                "@type": "Offer",
+                priceCurrency: "EUR",
+                description: svc.price,
+                ...(svc.priceFrom !== null && {
+                    priceSpecification: {
+                        "@type": "PriceSpecification",
+                        minPrice: svc.priceFrom,
+                        priceCurrency: "EUR",
+                    },
+                }),
+            },
+        })),
     };
 }
 
@@ -74,15 +137,8 @@ export function getWebSiteSchema() {
         url: siteConfig.url,
         name: siteConfig.name,
         description: siteConfig.descriptionDefault,
-        publisher: {
-            "@type": "Organization",
-            name: siteConfig.name,
-            url: siteConfig.url,
-            logo: {
-                "@type": "ImageObject",
-                url: `${siteConfig.url}/images/logo_umel_couture.webp`,
-            },
-        },
+        inLanguage: "fr-FR",
+        publisher: { "@id": BUSINESS_ID },
     };
 }
 
@@ -94,7 +150,19 @@ export function getBreadcrumbSchema(items: { name: string; url: string }[]) {
             "@type": "ListItem",
             position: index + 1,
             name: item.name,
-            item: item.url.startsWith("http") ? item.url : `${siteConfig.url}${item.url}`,
+            item: absoluteUrl(item.url),
+        })),
+    };
+}
+
+export function getFaqSchema(items: FaqItem[]) {
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: items.map(item => ({
+            "@type": "Question",
+            name: item.question,
+            acceptedAnswer: { "@type": "Answer", text: item.answer },
         })),
     };
 }

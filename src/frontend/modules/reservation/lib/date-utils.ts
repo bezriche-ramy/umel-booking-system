@@ -15,14 +15,6 @@ export function parseISODate(isoStr: string): Date {
 }
 
 /**
- * Returns true if the date is a Monday (day index 1 in JS getDay()).
- * Umel Couture atelier is closed on Mondays by default.
- */
-export function isMonday(date: Date): boolean {
-    return date.getDay() === 1;
-}
-
-/**
  * Checks if the given date is before today (midnight).
  */
 export function isPastDate(date: Date): boolean {
@@ -103,16 +95,6 @@ export function formatFrenchLongDate(dateStr: string): string {
         year: "numeric",
     }).format(date);
     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
-}
-
-export function formatFrenchShortDate(dateStr: string): string {
-    if (!dateStr) return "";
-    const date = parseISODate(dateStr);
-    return new Intl.DateTimeFormat("fr-FR", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-    }).format(date);
 }
 
 /**

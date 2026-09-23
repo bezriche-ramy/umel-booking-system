@@ -219,7 +219,15 @@ function MonthGrid({
                     <div key={i} className={`adm-month-cell ${day === today ? "is-today" : ""} ${day ? "" : "is-empty"}`}>
                         {day && (
                             <>
-                                <span className="adm-month-num">{Number(day.slice(8))}</span>
+                                <Link href={`?view=list&from=${day}&to=${day}`} className="adm-month-num" title="Voir la liste de ce jour">
+                                    {Number(day.slice(8))}
+                                </Link>
+                                {(byDay.get(day)?.filter(a => a.status !== "CANCELLED").length ?? 0) > 0 && (
+                                    <Link href={`?view=list&from=${day}&to=${day}`} className="adm-month-count">
+                                        {byDay.get(day)!.filter(a => a.status !== "CANCELLED").length}
+                                        <span> RDV</span>
+                                    </Link>
+                                )}
                                 {(byDay.get(day) ?? []).map(a => (
                                     <button
                                         key={a.id}
