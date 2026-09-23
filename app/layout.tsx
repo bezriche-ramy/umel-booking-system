@@ -1,10 +1,6 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import ScrollReveal from "@/components/ScrollReveal";
-import WhatsAppButton from "@/components/WhatsAppButton";
-import { getBridalShopSchema, getWebSiteSchema } from "@/lib/schema";
-import { siteConfig } from "@/lib/siteData";
-import "@/styles/globals.css";
+import { getBridalShopSchema, getWebSiteSchema } from "@frontend/modules/site/lib/schema";
+import { siteConfig } from "@shared/siteData";
+import "@frontend/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 
@@ -98,14 +94,7 @@ export default function RootLayout({
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema).replace(/</g, "\\u003c") }}
                 />
             </head>
-            <body>
-                <a className="skip-link" href="#main-content">Aller au contenu</a>
-                <Navbar />
-                <main id="main-content" tabIndex={-1}>{children}</main>
-                <Footer />
-                <WhatsAppButton />
-                <ScrollReveal />
-            </body>
+            <body>{children}</body>
         </html>
     );
 }

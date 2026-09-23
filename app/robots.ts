@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/siteData";
+import { siteConfig } from "@shared/siteData";
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: "*",
             allow: "/",
-            disallow: ["/retouches"],
+            disallow: ["/retouches", "/admin", "/api"],
         },
         sitemap: `${siteConfig.url}/sitemap.xml`,
     };

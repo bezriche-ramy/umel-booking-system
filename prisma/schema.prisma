@@ -1,0 +1,306 @@
+// Umel Couture — modèle de données
+// Deux calendriers totalement indépendants :
+//   - Appointment            : rendez-vous « Créations » réservés en ligne (public)
+//   - AlterationAppointment  : planning « Retouches » saisi à la main (privé)
+// Seule la fiche cliente (Customer) est commune, pour la future base / back-office client.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum CustomerStatus {
+  PROSPECT
+  CONVERTIE
+}
+
+enum CustomerSource {
+  AMELIA_IMPORT
+  WOOCOMMERCE_IMPORT
+  WEB
+  ADMIN
+}
+
+enum Civility {
+  MME
+  M
+}
+
+model Customer {
+  id             String          @id @default(uuid())
+  civility       Civility?
+  firstName      String
+  lastName       String
+  email          String?         @unique
+  phone          String?
+  status         CustomerStatus  @default(PROSPECT)
+  source         CustomerSource  @default(WEB)
+  weddingDate    String?
+  notes          String?
+  stripeCustomerId String?       @unique
+  marketingOptOut Boolean        @default(false)
+  legacyAmeliaId Int?            @unique
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  appointments   Appointment[]
+  alterations    AlterationAppointment[]
+  deposits       Deposit[]
+  messages       MessageLog[]
+
+  @@index([lastName, firstName])
+  @@index([status])
+}
+
+enum SlotType {
+  SIMPLE
+  DOUBLE
+}
+
+enum AppointmentStatus {
+  CONFIRMED
+  COMPLETED
+  NO_SHOW
+  CANCELLED
+}
+
+model Appointment {
+  id                     String            @id @default(uuid())
+  reference              String            @unique
+  customerId             String
+  customer               Customer          @relation(fields: [customerId], references: [id])
+  serviceId              String
+  /// Début du rendez-vous (instant UTC)
+  date                   DateTime
+  /// Jour local Europe/Paris « AAAA-MM-JJ » et heure « HH:mm » (clé de créneau)
+  day                    String
+  startTime              String
+  durationMinutes        Int               @default(60)
+  slotType               SlotType          @default(SIMPLE)
+  status                 AppointmentStatus @default(CONFIRMED)
+  projectNotes           String?
+  notes                  String?
+
+  cancelledAt            DateTime?
+  reminderSentAt         DateTime?
+  followUpSentAt         DateTime?
+  legacyAmeliaId         Int?              @unique
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+
+  deposit                Deposit?
+  messages               MessageLog[]
+
+  @@index([day, startTime])
+  @@index([date])
+  @@index([status])
+}
+
+/// État de la commande (équivalent des statuts WooCommerce)
+enum OrderStatus {
+  ON_HOLD
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+/// État de l'empreinte bancaire de 20 €
+enum DepositStatus {
+  /// Carte enregistrée, rien de débité : peut être débitée en cas d'absence
+  PENDING
+  /// 20 € débités (absence, annulation tardive, ou paiement direct de l'ancien système)
+  CHARGED
+  /// Dernière tentative de débit refusée
+  FAILED
+  /// Remboursé
+  REFUNDED
+  /// Ancienne pré-autorisation WooCommerce non capturée : plus débitable
+  EXPIRED
+  /// Aucune carte exploitable
+  NO_CARD
+}
+
+/// Commande / dépôt de garantie : une par réservation en ligne (numérotation reprise de WooCommerce)
+model Deposit {
+  id                    String        @id @default(uuid())
+  number                Int           @unique @default(autoincrement())
+  customerId            String
+  customer              Customer      @relation(fields: [customerId], references: [id])
+  appointmentId         String?       @unique
+  appointment           Appointment?  @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  status                OrderStatus   @default(COMPLETED)
+  totalCents            Int           @default(0)
+  depositCents          Int           @default(2000)
+  origin                String?
+  billingName           String?
+  billingEmail          String?
+  billingPhone          String?
+
+  stripeCustomerId      String?
+  stripePaymentMethodId String?
+  stripeSetupIntentId   String?       @unique
+  consentAt             DateTime?
+
+  depositStatus         DepositStatus @default(PENDING)
+  chargedAt             DateTime?
+  chargeIntentId        String?
+  chargeReason          String?
+  chargeError           String?
+
+  legacyWooOrderId      Int?          @unique
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  messages              MessageLog[]
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([depositStatus])
+}
+
+enum AlterationStatus {
+  SCHEDULED
+  DONE
+  NO_SHOW
+  CANCELLED
+}
+
+model AlterationAppointment {
+  id              String           @id @default(uuid())
+  customerId      String
+  customer        Customer         @relation(fields: [customerId], references: [id])
+  seamstressName  String
+  date            DateTime
+  durationMinutes Int              @default(60)
+  status          AlterationStatus @default(SCHEDULED)
+  dressDetails    String?
+  devis           Decimal?         @db.Decimal(10, 2)
+  notes           String?
+  reminderSentAt  DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  messages        MessageLog[]
+
+  @@index([date])
+  @@index([seamstressName])
+}
+
+/// Configuration hebdomadaire du calendrier Créations (0 = dimanche … 6 = samedi)
+model ScheduleConfig {
+  weekday       Int     @id
+  isOpen        Boolean @default(true)
+  startHour     Int     @default(10)
+  lastSlotHour  Int     @default(17)
+  /// Créneau simple : 1 cliente par horaire
+  simpleEnabled Boolean @default(true)
+  /// Créneau double : 2 clientes simultanément au même horaire
+  doubleEnabled Boolean @default(false)
+}
+
+/// Exception pour une date précise (fermeture, ouverture exceptionnelle, créneaux simples/doubles)
+model DateOverride {
+  day           String   @id
+  isOpen        Boolean?
+  simpleEnabled Boolean?
+  doubleEnabled Boolean?
+  note          String?
+  slots         SlotOverride[]
+}
+
+/// Exception pour un horaire précis d'une date (bloquer, ajouter, activer simple/double)
+model SlotOverride {
+  id            String       @id @default(uuid())
+  day           String
+  dateOverride  DateOverride @relation(fields: [day], references: [day], onDelete: Cascade)
+  startTime     String
+  simpleEnabled Boolean      @default(true)
+  doubleEnabled Boolean      @default(false)
+
+  @@unique([day, startTime])
+}
+
+model Setting {
+  key   String @id
+  value String
+}
+
+enum AdminRole {
+  ADMIN
+  SEAMSTRESS
+}
+
+model AdminUser {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         AdminRole @default(ADMIN)
+  createdAt    DateTime  @default(now())
+}
+
+enum MessageChannel {
+  EMAIL
+  SMS
+}
+
+enum MessageKind {
+  CONFIRMATION
+  REMINDER
+  FOLLOW_UP
+  ALTERATION_REMINDER
+  CANCELLATION
+  RESCHEDULE
+  DEPOSIT_CHARGED
+  DEPOSIT_FAILED
+  CAMPAIGN
+}
+
+enum MessageStatus {
+  SENT
+  FAILED
+  SKIPPED
+}
+
+model MessageLog {
+  id            String                 @id @default(uuid())
+  channel       MessageChannel         @default(EMAIL)
+  kind          MessageKind
+  status        MessageStatus
+  to            String
+  subject       String
+  providerId    String?
+  error         String?
+  customerId    String?
+  customer      Customer?              @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  appointmentId String?
+  appointment   Appointment?           @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  alterationId  String?
+  alteration    AlterationAppointment? @relation(fields: [alterationId], references: [id], onDelete: SetNull)
+  campaignId    String?
+  campaign      Campaign?              @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  depositId     String?
+  deposit       Deposit?               @relation(fields: [depositId], references: [id], onDelete: SetNull)
+  createdAt     DateTime               @default(now())
+
+  @@index([createdAt])
+  @@index([kind])
+}
+
+model Campaign {
+  id        String       @id @default(uuid())
+  subject   String
+  body      String
+  audience  String
+  sentCount Int          @default(0)
+  failCount Int          @default(0)
+  sentBy    String?
+  createdAt DateTime     @default(now())
+  messages  MessageLog[]
+}

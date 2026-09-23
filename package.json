@@ -4,19 +4,35 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build",
+        "build": "prisma generate && next build",
+        "vercel-build": "prisma generate && prisma migrate deploy && next build",
         "start": "next start",
-        "type-check": "tsc --noEmit"
+        "postinstall": "prisma generate",
+        "type-check": "tsc --noEmit",
+        "db:migrate": "prisma migrate dev",
+        "db:deploy": "prisma migrate deploy",
+        "db:seed": "tsx src/backend/scripts/seed.ts",
+        "db:import-amelia": "tsx src/backend/scripts/import-sql.ts",
+        "admin:create": "tsx src/backend/scripts/seed.ts admin",
+        "stripe:check": "tsx src/backend/scripts/check-stripe-cards.ts"
     },
     "dependencies": {
+        "@prisma/client": "^6.19.3",
+        "@stripe/react-stripe-js": "^6.11.0",
+        "@stripe/stripe-js": "^9.17.0",
         "next": "^16.3.5",
         "react": "^19.3.0",
-        "react-dom": "^19.3.0"
+        "react-dom": "^19.3.0",
+        "resend": "^6.28.1",
+        "stripe": "^22.6.2"
     },
     "devDependencies": {
         "@types/node": "^26.5.1",
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
+        "dotenv": "^18.0.3",
+        "prisma": "^6.19.3",
+        "tsx": "^4.23.15",
         "typescript": "^7.0.2"
     }
 }
