@@ -2,10 +2,10 @@ import CornerStitch from "@frontend/shared/components/CornerStitches";
 import CTABand from "@frontend/shared/components/CTABand";
 import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import PageHero from "@frontend/shared/components/PageHero";
-import ServicesCarousel from "@frontend/modules/site/components/ServicesCarousel";
 import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
 import JsonLd from "@frontend/shared/components/JsonLd";
+import { siteConfig } from "@shared/siteData";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,10 +15,36 @@ export const metadata: Metadata = buildPageMetadata({
     title: "Robes de mariée, retouches & location en Île-de-France | Umel Couture",
     socialTitle: "Robes de mariée, retouches & location | Umel Couture Servon",
     description:
-        "Robe de mariée sur mesure, retouches dès 250 €, location dès 1 000 € et pressing spécialisé dès 150 € à Servon (77), près de Brie-Comte-Robert, Melun et Créteil.",
+        "Robe de mariée sur mesure, location de robes de mariée et de soirée, costumes homme, retouches dès 250 € et pressing dès 150 € à Servon (77), près de Brie-Comte-Robert et Melun.",
     ogImage: "/images/og/nos-robes-services.jpg",
     ogImageAlt: "Robes de mariée du showroom Umel Couture à Servon (77)",
 });
+
+// TODO: remplacer par les photos du shooting studio
+const creationPhotos = [
+    {
+        src: "/images/Robes créées sur mesure1.webp",
+        alt: "Robe de mariée sirène en dentelle Umel Couture",
+    },
+    {
+        src: "/images/Robes créées sur mesure8.webp",
+        alt: "Création nuptiale Umel Couture",
+    },
+    {
+        src: "/images/Robes créées sur mesure10.webp",
+        alt: "Robe de mariée brodée créée par Umel Couture",
+    },
+    {
+        src: "/images/Robes créées sur mesure4.webp",
+        alt: "Robe de mariée fluide créée sur mesure",
+    },
+];
+
+/** Paragraphes complémentaires affichés sous la description d'une prestation. */
+const extraCopy: Record<string, string> = {
+    confection:
+        "Chaque robe commence par une conversation : vos envies, votre silhouette, ce qui vous ressemble vraiment. Vous pouvez venir avec une photo d'inspiration — on s'en empare et on construit à partir de là. Coupes, volumes et matières sont validés directement sur vous grâce aux modèles du showroom.",
+};
 
 export default function NosRobesServicesPage() {
     const breadcrumbSchema = getBreadcrumbSchema([
@@ -32,7 +58,7 @@ export default function NosRobesServicesPage() {
 
             <PageHero
                 imageSrc="/images/Nos robes.webp"
-                eyebrow="Robes de mariée · Retouches · Location — Servon (77)"
+                eyebrow="Confection · Location · Retouches · Pressing — Servon (77)"
                 imageAlt="Robes de mariée du showroom Umel Couture à Servon, Seine-et-Marne"
                 titleLines={["Chaque prestation,", "pensée avec", "la même exigence."]}
                 sub="Peu importe le service choisi — vous êtes accompagnée du début à la fin."
@@ -60,165 +86,104 @@ export default function NosRobesServicesPage() {
 
             <EmbroideryDivider />
 
-            {/* NOS CRÉATIONS — IMAGE SHOWCASE */}
-            <section
-                className="s"
-                style={{ background: "var(--cream)", padding: "0", position: "relative" }}
-                id="collection"
-                aria-labelledby="collection-title"
-            >
+            {/* NOS CRÉATIONS — SHOOTING STUDIO */}
+            <section className="s creations-studio" id="collection" aria-labelledby="collection-title">
                 <CornerStitch position="tl" />
                 <CornerStitch position="tr" />
 
-                <div
-                    style={{
-                        maxWidth: "1260px",
-                        margin: "0 auto",
-                        padding: "clamp(40px, 6vw, 80px) var(--page-gutter)",
-                    }}
-                >
-                    <div style={{ textAlign: "center", marginBottom: "clamp(36px, 5vw, 70px)" }} className="reveal">
-                        <h2
-                            id="collection-title"
-                            style={{
-                                fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
-                                fontSize: "clamp(38px,5vw,68px)",
-                                fontWeight: 300,
-                                lineHeight: 1.1,
-                                textWrap: "balance",
-                            }}
-                        >
-                            Chaque robe,
-                            <br />
-                            <em style={{ fontStyle: "italic", color: "var(--or)" }}>une histoire unique</em>
-                        </h2>
-                        <p
-                            style={{
-                                fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
-                                fontSize: "16px",
-                                color: "var(--taupe)",
-                                marginTop: "18px",
-                                lineHeight: 1.85,
-                            }}
-                        >
-                            Découvrez les détails délicats, le tombé des matières et le travail minutieux de la
-                            dentelle.
-                        </p>
-                    </div>
+                <div className="section-editorial-head reveal">
+                    <h2 id="collection-title">
+                        Nos <em>créations</em>
+                    </h2>
+                    <Link href="/galerie" className="editorial-link">
+                        Voir toute la galerie <span aria-hidden="true">→</span>
+                    </Link>
+                </div>
 
-                    <div className="stage">
-                        <div className="viewer-grid-wrap reveal">
-                            <Image
-                                src="/images/Nos créations.webp"
-                                alt="Nos Créations — Umel Couture"
-                                fill
-                                sizes="(max-width: 768px) 100vw, 50vw"
-                                style={{ objectFit: "cover", objectPosition: "center", zIndex: 1 }}
-                            />
-                        </div>
-
-                        <div className="reveal reveal-d1">
-                            <h3
-                                id="rtitle"
-                                style={{
-                                    fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
-                                    fontSize: "clamp(26px,2.8vw,42px)",
-                                    fontWeight: 300,
-                                    lineHeight: 1.2,
-                                    marginBottom: "20px",
-                                    textWrap: "balance",
-                                }}
-                            >
-                                La <em style={{ fontStyle: "italic" }}>Silhouette</em>
-                                <br />
-                                Sirène
-                            </h3>
-                            <p
-                                id="rdesc"
-                                style={{
-                                    fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
-                                    fontSize: "15.5px",
-                                    lineHeight: 1.9,
-                                    color: "var(--taupe)",
-                                    marginBottom: "28px",
-                                }}
-                            >
-                                Un corset brodé de dentelle fine, une jupe qui épouse chaque courbe avant de
-                                s&apos;évaser en traîne vaporeuse. Élégance absolue pour la mariée qui veut se sentir
-                                enveloppée et libre.
-                            </p>
-                            <div
-                                id="rtags"
-                                style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "36px" }}
-                            >
-                                <span className="rtag">Dentelle française</span>
-                                <span className="rtag">Corset sur mesure</span>
-                                <span className="rtag">Traîne vaporeuse</span>
-                            </div>
-                            <Link
-                                href="/contact#reservation"
-                                className="bp"
-                                style={{ minHeight: "44px", display: "inline-flex", alignItems: "center" }}
-                            >
-                                Essayer cette robe
-                            </Link>
-                        </div>
-                    </div>
+                <div className="creations-studio-grid">
+                    {creationPhotos.map((photo, idx) => (
+                        <figure key={photo.src} className={idx ? `reveal reveal-d${idx}` : "reveal"}>
+                            <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 700px) 50vw, 25vw" />
+                        </figure>
+                    ))}
                 </div>
             </section>
 
             <EmbroideryDivider />
 
-            {/* PRESTATIONS SERVICES */}
-            <section
-                id="svcScroll"
-                className="s"
-                style={{
-                    background: "var(--cream)",
-                    padding: "clamp(60px, 8vw, 110px) 0",
-                    position: "relative",
-                }}
-                aria-labelledby="services-overview-title"
-            >
-                <div
-                    style={{
-                        maxWidth: "1260px",
-                        margin: "0 auto",
-                        padding: "0 var(--page-gutter)",
-                    }}
-                >
-                    <div className="reveal" style={{ textAlign: "center", marginBottom: "clamp(40px, 5vw, 64px)" }}>
-                        <h2
-                            id="services-overview-title"
-                            style={{
-                                fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
-                                fontSize: "clamp(34px,4vw,54px)",
-                                fontWeight: 300,
-                                marginBottom: "12px",
-                                textWrap: "balance",
-                            }}
-                        >
-                            Quatre services.
-                            <br />
-                            <em style={{ fontStyle: "italic", color: "var(--or)" }}>Une même attention.</em>
-                        </h2>
-                        <p
-                            style={{
-                                fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
-                                fontSize: "16px",
-                                color: "var(--taupe)",
-                                lineHeight: 1.85,
-                                maxWidth: "560px",
-                                margin: "0 auto",
-                            }}
-                        >
-                            Chaque prestation chez Umel est pensée avec le même niveau d&apos;attention. Vous êtes
-                            accompagnée du début à la fin.
-                        </p>
-                    </div>
-
-                    <ServicesCarousel />
+            {/* PRESTATIONS EN DÉTAIL */}
+            <section className="s prestations" aria-labelledby="services-overview-title">
+                <div className="section-editorial-head reveal">
+                    <h2 id="services-overview-title">
+                        Nos prestations,
+                        <br />
+                        <em>une même attention.</em>
+                    </h2>
+                    <p>
+                        Chaque prestation chez Umel est pensée avec le même niveau d&apos;attention. Vous êtes
+                        accompagnée du début à la fin.
+                    </p>
                 </div>
+
+                {siteConfig.services.map(service => (
+                    <article
+                        key={service.id}
+                        id={service.id}
+                        className={`prestation reveal${service.image ? "" : " prestation--text"}`}
+                        aria-labelledby={`${service.id}-title`}
+                    >
+                        {service.image && (
+                            <figure className="prestation-media">
+                                <Image
+                                    src={service.image.src}
+                                    alt={service.image.alt}
+                                    fill
+                                    sizes="(max-width: 800px) 92vw, 40vw"
+                                />
+                            </figure>
+                        )}
+                        <div className="prestation-body">
+                            <span className="service-line-number">{service.num}</span>
+                            <h3 id={`${service.id}-title`}>
+                                {service.title}
+                                {service.badge && <span className="service-badge">{service.badge}</span>}
+                            </h3>
+                            <p className="prestation-quote">{service.quote}</p>
+                            <p className="prestation-copy">{service.desc}</p>
+                            {extraCopy[service.id] && <p className="prestation-copy">{extraCopy[service.id]}</p>}
+
+                            {service.id === "pressing" && (
+                                <table className="pressing-rates">
+                                    <caption>Grille tarifaire</caption>
+                                    <tbody>
+                                        {siteConfig.pressingRates.map(rate => (
+                                            <tr key={rate.label}>
+                                                <th scope="row">{rate.label}</th>
+                                                <td>{rate.price}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
+
+                            <div className="service-line-meta prestation-meta">
+                                <span>{service.price}</span>
+                                {service.id === "retouches" ? (
+                                    <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                        Envoyer ma vidéo sur WhatsApp <span aria-hidden="true">→</span>
+                                    </a>
+                                ) : (
+                                    <Link
+                                        href="/contact#reservation"
+                                        aria-label={`Prendre rendez-vous pour ${service.title}`}
+                                    >
+                                        Prendre rendez-vous <span aria-hidden="true">→</span>
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+                    </article>
+                ))}
             </section>
 
             <EmbroideryDivider />

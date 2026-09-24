@@ -7708,3 +7708,186 @@ section.s.res-page-section {
         padding-top: 0;
     }
 }
+
+/* ===== Nos Robes & Services : créations + prestations détaillées ===== */
+.creations-studio {
+    position: relative;
+    background: var(--cream);
+}
+.creations-studio-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(12px, 2vw, 28px);
+}
+.creations-studio-grid figure {
+    position: relative;
+    aspect-ratio: 3 / 4.4;
+    overflow: hidden;
+}
+.creations-studio-grid img {
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-out-quint);
+}
+.creations-studio-grid figure:hover img {
+    transform: scale(1.025);
+}
+.prestations {
+    max-width: 1260px;
+    margin: 0 auto;
+}
+.prestation {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 6vw, 100px);
+    align-items: center;
+    padding: clamp(40px, 5vw, 72px) 0;
+    border-top: 1px solid var(--hairline);
+    scroll-margin-top: 100px;
+}
+.prestation:nth-of-type(even) .prestation-media {
+    order: 2;
+}
+.prestation--text {
+    grid-template-columns: minmax(0, 1fr);
+}
+.prestation--text .prestation-body {
+    max-width: 760px;
+}
+.prestation-media {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+}
+.prestation-media img {
+    object-fit: cover;
+}
+.prestation-body h3 {
+    margin: 12px 0 10px;
+    font:
+        300 clamp(28px, 3vw, 44px) var(--font-cormorant),
+        serif;
+    line-height: 1.15;
+}
+.prestation-quote {
+    margin-bottom: 20px;
+    color: var(--accent-text);
+    font-style: italic;
+    line-height: 1.5;
+}
+.prestation-copy {
+    margin-bottom: 16px;
+    color: var(--muted);
+    font-size: var(--type-body);
+    line-height: 1.85;
+}
+.prestation-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--hairline);
+    text-align: left;
+}
+.service-badge {
+    display: inline-block;
+    margin-left: 12px;
+    padding: 3px 10px;
+    border: 1px solid var(--or);
+    color: var(--accent-text);
+    font:
+        500 11px var(--font-jost),
+        sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+.pressing-rates {
+    width: 100%;
+    margin: 12px 0 4px;
+    border-collapse: collapse;
+}
+.pressing-rates caption {
+    padding-bottom: 10px;
+    color: var(--ink);
+    font:
+        500 var(--type-label) var(--font-jost),
+        sans-serif;
+    letter-spacing: 0.14em;
+    text-align: left;
+    text-transform: uppercase;
+}
+.pressing-rates th,
+.pressing-rates td {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--hairline);
+    font-size: var(--type-body);
+}
+.pressing-rates th {
+    font-weight: 400;
+    text-align: left;
+}
+.pressing-rates td {
+    color: var(--accent-text);
+    text-align: right;
+    white-space: nowrap;
+}
+@media (max-width: 800px) {
+    .creations-studio-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .prestation {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .prestation:nth-of-type(even) .prestation-media {
+        order: 0;
+    }
+    .prestation-media {
+        aspect-ratio: 4 / 5;
+    }
+}
+
+.rdv-answer {
+    margin-bottom: 60px;
+    padding: 24px 0 24px 28px;
+    border-left: 2px solid var(--or);
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.8;
+}
+.rdv-answer-q {
+    margin-bottom: 8px;
+    color: var(--ink);
+    font:
+        italic 300 clamp(20px, 2.2vw, 26px) var(--font-cormorant),
+        serif;
+    line-height: 1.4;
+}
+.rdv-answer strong {
+    color: var(--accent-text);
+    font-weight: 600;
+}
+
+/* ===== Boutons arrondis ===== */
+.bp,
+.bl,
+.hero-btn-primary,
+.hero-btn-ghost,
+.nav-cta,
+.contact-whatsapp-btn,
+.res-btn-primary,
+.res-btn-secondary,
+.res-btn-whatsapp,
+.res-calendar-retry,
+.res-summary-mobile-btn,
+.service-badge {
+    border-radius: 999px !important;
+}
+.res-calendar-nav-btn {
+    border-radius: 50% !important;
+}
+.res-calendar-day-btn,
+.res-slot-btn {
+    border-radius: 12px !important;
+}

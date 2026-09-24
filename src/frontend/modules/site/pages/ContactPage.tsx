@@ -203,8 +203,7 @@ export default function ContactPage() {
                         <em>directement ?</em>
                     </h2>
                     <p className="contact-whatsapp-sub">
-                        Envoyez-nous un message ou une vidéo portée via WhatsApp pour une première estimation rapide ou
-                        pour toute question.
+                        Envoyez-nous un message via WhatsApp pour toute question.
                     </p>
                     <a
                         href={siteConfig.whatsappUrl}

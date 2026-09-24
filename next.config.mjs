@@ -37,6 +37,8 @@ const nextConfig = {
                 permanent: true,
             })),
             { source: "/robes-de-mariee-servon", destination: "/nos-robes-services", permanent: true },
+            // Page « Sur mesure » fusionnée dans « Le déroulé d'un rendez-vous »
+            { source: "/sur-mesure", destination: "/comment-ca-marche", permanent: true },
         ];
     },
 };

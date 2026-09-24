@@ -96,7 +96,7 @@ export default function HomePage() {
                             <dd>Essayages privés</dd>
                         </div>
                     </dl>
-                    <Link href="/sur-mesure" className="editorial-link">
+                    <Link href="/nos-robes-services#confection" className="editorial-link">
                         Notre approche du sur-mesure <span aria-hidden="true">→</span>
                     </Link>
                 </div>
@@ -115,7 +115,7 @@ export default function HomePage() {
                     <h2 id="services-title">
                         Une même exigence,
                         <br />
-                        <em>quatre gestes.</em>
+                        <em>six savoir-faire.</em>
                     </h2>
                     <p>De la création à la conservation, chaque prestation est menée avec le même soin.</p>
                 </div>

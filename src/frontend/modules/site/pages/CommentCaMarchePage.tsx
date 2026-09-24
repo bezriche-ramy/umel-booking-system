@@ -11,10 +11,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/comment-ca-marche",
-    title: "Robe de mariée sur mesure : comment ça marche ? | Umel Couture (77)",
-    socialTitle: "Comment se déroule votre robe de mariée sur mesure | Umel Couture",
+    title: "Le déroulé d'un rendez-vous — robe de mariée sur mesure | Umel Couture (77)",
+    socialTitle: "Le déroulé d'un rendez-vous chez Umel Couture",
     description:
-        "Premier rendez-vous, composition, essayages, ajustements, essayage final : les 5 étapes de votre robe de mariée sur mesure à Servon (77). Tarifs, délais, FAQ.",
+        "Accueil, essayage des robes du showroom, composition, devis, essayages : comment se déroule votre rendez-vous robe de mariée sur mesure à Servon (77). FAQ.",
     ogImage: "/images/og/comment-ca-marche.jpg",
     ogImageAlt: "Essayage privé dans l'atelier Umel Couture à Servon",
 });
@@ -22,7 +22,7 @@ export const metadata: Metadata = buildPageMetadata({
 export default function CommentCaMarchePage() {
     const breadcrumbSchema = getBreadcrumbSchema([
         { name: "Accueil", url: "/" },
-        { name: "Comment ça marche", url: "/comment-ca-marche" },
+        { name: "Le déroulé d'un rendez-vous", url: "/comment-ca-marche" },
     ]);
 
     return (
@@ -31,13 +31,13 @@ export default function CommentCaMarchePage() {
 
             <PageHero
                 imageSrc="/images/Ambiance atelier3.webp"
-                eyebrow="Robe de mariée sur mesure en Île-de-France · 5 étapes"
+                eyebrow="Le déroulé d'un rendez-vous · Servon (77)"
                 imageAlt="Salon d'essayage privé de l'atelier Umel Couture à Servon, Seine-et-Marne"
-                titleLines={["Un accompagnement", "du début", "à la fin."]}
-                sub="De la première conversation au jour J, sans catalogue imposé."
+                titleLines={["On ne part jamais", "d'une robe.", "On part de vous."]}
+                sub="De la première conversation au jour J — et oui, vous essayez des robes dès votre rendez-vous."
             />
 
-            {/* 5 ÉTAPES */}
+            {/* DÉROULÉ D'UN RENDEZ-VOUS */}
             <section className="s" aria-labelledby="process-title">
                 <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
                     <h2
@@ -46,83 +46,78 @@ export default function CommentCaMarchePage() {
                             fontFamily: "var(--font-cormorant), 'Cormorant Garamond', serif",
                             fontSize: "clamp(30px,3.5vw,50px)",
                             fontWeight: 300,
-                            marginBottom: "60px",
+                            marginBottom: "28px",
                             textWrap: "balance",
                         }}
                     >
-                        Cinq étapes. <em style={{ fontStyle: "italic", color: "var(--or)" }}>Zéro précipitation.</em>
+                        Le déroulé <em style={{ fontStyle: "italic", color: "var(--or)" }}>d&apos;un rendez-vous.</em>
                     </h2>
+
+                    <div className="rdv-answer">
+                        <p className="rdv-answer-q">
+                            &laquo;&nbsp;J&apos;ai pris rendez-vous, est-ce que je pourrai essayer des
+                            robes&nbsp;?&nbsp;&raquo;
+                        </p>
+                        <p>
+                            <strong>Oui.</strong> Pendant votre rendez-vous, vous essayez les modèles du showroom :
+                            c&apos;est ce qui nous permet de valider ensemble coupes, volumes et matières directement
+                            sur vous.
+                        </p>
+                    </div>
 
                     <div className="timeline-wrap">
                         <div className="etape" style={{ "--ei": 0 } as React.CSSProperties}>
                             <div className="etape-num">01</div>
                             <div className="etape-content">
-                                <h3>Premier rendez-vous</h3>
+                                <h3>Accueil & échange</h3>
                                 <p>
-                                    On écoute vos envies, votre style, vos inspirations. Sans pression. Sans catalogue
-                                    imposé. Ce premier contact est là pour vous connaître — pas pour vous vendre quelque
-                                    chose.
+                                    On prend le temps de vous connaître : vos envies, votre style, vos inspirations.
+                                    Vous pouvez venir avec une photo — on s&apos;en empare et on construit à partir de
+                                    là. Sans pression. Sans catalogue imposé.
                                 </p>
                             </div>
                         </div>
-
-                        <div
-                            className="etape"
-                            style={
-                                {
-                                    "--ei": 1,
-                                } as React.CSSProperties
-                            }
-                        >
+                        <div className="etape" style={{ "--ei": 1 } as React.CSSProperties}>
                             <div className="etape-num">02</div>
                             <div className="etape-content">
-                                <h3>Composition de votre robe</h3>
+                                <h3>Essayage des robes du showroom</h3>
                                 <p>
-                                    Haut, bas, matières, dentelles, couleur, détails. On compose ensemble à partir de
-                                    vos envies et des modèles présents en showroom. Rien n&apos;est figé — tout se
-                                    construit avec vous.
+                                    Oui, vous essayez des robes dès votre rendez-vous. Les modèles du showroom
+                                    permettent de voir coupes, volumes et matières directement sur vous — vous voyez,
+                                    vous ressentez, vous décidez.
                                 </p>
                             </div>
                         </div>
-
                         <div className="etape" style={{ "--ei": 2 } as React.CSSProperties}>
                             <div className="etape-num">03</div>
                             <div className="etape-content">
-                                <h3>Essayages en boutique</h3>
+                                <h3>Composition de votre robe</h3>
                                 <p>
-                                    Validation des coupes et volumes sur les modèles du showroom. Vous voyez, vous
-                                    ressentez, vous décidez. Chaque essayage est un moment de dialogue — entre votre
-                                    vision et la réalité de votre silhouette.
+                                    Haut d&apos;un modèle, bas d&apos;un autre, dentelle particulière, couleur, détails.
+                                    On compose ensemble à partir de vos envies et de vos essayages. Rien n&apos;est figé
+                                    — tout se construit avec vous.
                                 </p>
                             </div>
                         </div>
-
-                        <div
-                            className="etape"
-                            style={
-                                {
-                                    "--ei": 3,
-                                } as React.CSSProperties
-                            }
-                        >
+                        <div className="etape" style={{ "--ei": 3 } as React.CSSProperties}>
                             <div className="etape-num">04</div>
                             <div className="etape-content">
-                                <h3>Ajustements</h3>
+                                <h3>Devis & calendrier</h3>
                                 <p>
-                                    Chaque détail est peaufiné selon vos retours. On ne passe pas à la suite tant que
-                                    c&apos;est pas parfait. Cette étape peut se répéter autant que nécessaire —
-                                    l&apos;exigence n&apos;a pas de deadline artificielle.
+                                    Le devis est établi en maison, avec un tarif adapté à votre projet. Un acompte est
+                                    demandé à la commande, et le calendrier des essayages est fixé ensemble selon la
+                                    date de votre mariage.
                                 </p>
                             </div>
                         </div>
-
                         <div className="etape" style={{ "--ei": 4 } as React.CSSProperties}>
                             <div className="etape-num">05</div>
                             <div className="etape-content">
-                                <h3>Essayage final</h3>
+                                <h3>Essayages & ajustements</h3>
                                 <p>
-                                    La robe définitive. Sur vous. Pour le jour J. Ce moment où tout ce qu&apos;on a
-                                    construit ensemble prend vie — et où vous voyez la femme que vous serez ce jour-là.
+                                    Plusieurs essayages en boutique : chaque détail est peaufiné selon vos retours,
+                                    autant de fois que nécessaire, jusqu&apos;à l&apos;essayage final de la robe
+                                    définitive. Sur vous. Pour le jour J.
                                 </p>
                             </div>
                         </div>
@@ -149,7 +144,13 @@ export default function CommentCaMarchePage() {
                         </h2>
                     </div>
                     <div className="infos-grid">
-                        <div style={{ background: "var(--white)", padding: "40px", textAlign: "center" }}>
+                        <div
+                            style={{
+                                background: "var(--white)",
+                                padding: "40px",
+                                textAlign: "center",
+                            }}
+                        >
                             <p
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
@@ -171,15 +172,19 @@ export default function CommentCaMarchePage() {
                                     color: "var(--taupe)",
                                 }}
                             >
-                                Mardi au samedi · 10h – 18h30
-                                <br />
-                                Dimanche · 11h – 17h
+                                Du mardi au dimanche
                                 <br />
                                 Sur rendez-vous uniquement
                             </p>
                         </div>
 
-                        <div style={{ background: "var(--white)", padding: "40px", textAlign: "center" }}>
+                        <div
+                            style={{
+                                background: "var(--white)",
+                                padding: "40px",
+                                textAlign: "center",
+                            }}
+                        >
                             <p
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
@@ -209,7 +214,13 @@ export default function CommentCaMarchePage() {
                             </p>
                         </div>
 
-                        <div style={{ background: "var(--white)", padding: "40px", textAlign: "center" }}>
+                        <div
+                            style={{
+                                background: "var(--white)",
+                                padding: "40px",
+                                textAlign: "center",
+                            }}
+                        >
                             <p
                                 style={{
                                     fontFamily: "var(--font-jost), 'Jost', sans-serif",
@@ -256,7 +267,7 @@ export default function CommentCaMarchePage() {
                 id="comment-ca-marche-faq-title"
                 title={
                     <>
-                        Questions fréquentes des <em>futures mariées</em>
+                        Vos questions sur <em>le rendez-vous</em>
                     </>
                 }
                 items={commentCaMarcheFaq}

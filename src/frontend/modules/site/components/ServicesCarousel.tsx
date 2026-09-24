@@ -8,7 +8,10 @@ export default function ServicesCarousel() {
                 <article className="service-line" key={service.num}>
                     <span className="service-line-number">{service.num}</span>
                     <div className="service-line-heading">
-                        <h3>{service.title}</h3>
+                        <h3>
+                            {service.title}
+                            {service.badge && <span className="service-badge">{service.badge}</span>}
+                        </h3>
                         <p>{service.quote}</p>
                     </div>
                     <p className="service-line-copy">{service.desc}</p>
