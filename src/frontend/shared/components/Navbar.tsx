@@ -6,6 +6,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+/** Pages sans photo en en-tête : la barre de navigation est claire (lisible) dès le chargement. */
+const SOLID_NAV_PATHS = ["/mentions-legales", "/cgv", "/politique-de-confidentialite"];
+
 export default function Navbar() {
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
@@ -89,7 +92,7 @@ export default function Navbar() {
         <nav
             ref={navRef}
             id="nav"
-            className={`${isScrolled ? "scrolled" : ""} ${isMenuOpen ? "open" : ""}`}
+            className={`${isScrolled || SOLID_NAV_PATHS.includes(pathname) ? "scrolled" : ""} ${isMenuOpen ? "open" : ""}`}
             aria-label="Navigation principale"
         >
             <Link href="/" className="nav-logo" onClick={() => setIsMenuOpen(false)}>

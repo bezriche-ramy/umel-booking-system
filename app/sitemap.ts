@@ -18,6 +18,9 @@ const pages: { path: string; priority: number; images: string[] }[] = [
         ],
     },
     { path: "/notre-histoire", priority: 0.7, images: ["/images/Notre histoire.webp"] },
+    { path: "/cgv", priority: 0.3, images: [] },
+    { path: "/mentions-legales", priority: 0.2, images: [] },
+    { path: "/politique-de-confidentialite", priority: 0.2, images: [] },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -26,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return pages.map(({ path, priority, images }) => ({
         url: path === "/" ? siteConfig.url : `${siteConfig.url}${path}`,
         lastModified,
-        changeFrequency: "weekly",
+        changeFrequency: priority < 0.5 ? "yearly" : "weekly",
         priority,
         images: images.map(src => `${siteConfig.url}${encodeURI(src)}`),
     }));

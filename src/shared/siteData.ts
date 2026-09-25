@@ -14,6 +14,30 @@ export const siteConfig = {
     phoneIntl: "+33749507957",
     whatsappUrl: "https://wa.me/33749507957",
     signature: "La robe qui vous ressemble. Vraiment.",
+    email: "contact@umelcouture.com",
+    /** Informations légales (registre national des entreprises, CGV de la maison). */
+    legal: {
+        companyName: "SARL UMEL COUTURE",
+        legalForm: "Société à responsabilité limitée (SARL)",
+        capital: "2 000 €",
+        rcs: "RCS Melun 921 247 185",
+        siren: "921 247 185",
+        siret: "921 247 185 00017",
+        vat: "FR10921247185",
+        naf: "47.71Z",
+        managers: "Umlihan Gumus et Melissa Hezer, gérantes",
+        host: {
+            name: "OVH SAS",
+            address: "2 rue Kellermann, 59100 Roubaix, France",
+            website: "https://www.ovhcloud.com",
+        },
+        mediator: {
+            name: "Proxidroit",
+            address: "11 chemin de Varennes, 77170 Brie-Comte-Robert",
+            email: "proxidroit@hotmail.com",
+            website: "https://www.proxidroit.com/contact",
+        },
+    },
     address: {
         street: "12 rue Georges Truffaut",
         city: "Servon",
@@ -83,7 +107,7 @@ export const siteConfig = {
         { href: "/comment-ca-marche", label: "Le déroulé d'un rendez-vous" },
         { href: "/galerie", label: "Galerie" },
         { href: "/contact", label: "Contact" },
-        { href: "#", label: "Conditions générales" },
+        { href: "/cgv", label: "Conditions générales" },
     ],
     services: [
         {

@@ -383,7 +383,11 @@ export default function StepGuarantee({
                     />
                     <span className="res-checkbox-text">
                         J&apos;accepte les conditions de réservation : prévenir au moins 72h avant sinon acompte de 20 €
-                        perdu, et acompte de 20 € perdu en cas de non-présentation.
+                        perdu, et acompte de 20 € perdu en cas de non-présentation (
+                        <a href="/cgv" target="_blank" rel="noopener noreferrer">
+                            conditions générales de vente
+                        </a>
+                        ).
                     </span>
                 </label>
                 {errors.acceptedTerms && (

@@ -30,12 +30,21 @@ const nextConfig = {
     },
     async redirects() {
         return [
+            // Une seule adresse pour Google : www.umelcouture.com → umelcouture.com
+            {
+                source: "/:path*",
+                has: [{ type: "host", value: "www.umelcouture.com" }],
+                destination: "https://umelcouture.com/:path*",
+                permanent: true,
+            },
             // Anciennes adresses du site WordPress (liens Instagram, Google, anciens e-mails)
-            ...["/reservation", "/rdv", "/mon-rendez-vous", "/panier", "/commander", "/mon-compte", "/test-amelia"].map(source => ({
+            ...["/reservation", "/rdv", "/mon-rendez-vous", "/panier", "/commander", "/mon-compte", "/test-amelia", "/boutique"].map(source => ({
                 source,
                 destination: "/contact#reservation",
                 permanent: true,
             })),
+            // Anciennes fiches produit WooCommerce (ex. /produit/rendez-vous)
+            { source: "/produit/:path*", destination: "/contact#reservation", permanent: true },
             { source: "/robes-de-mariee-servon", destination: "/nos-robes-services", permanent: true },
             // Page « Sur mesure » fusionnée dans « Le déroulé d'un rendez-vous »
             { source: "/sur-mesure", destination: "/comment-ca-marche", permanent: true },

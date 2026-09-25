@@ -94,6 +94,13 @@ export default function Footer() {
 
             <div className="fbot">
                 <p>© Umel Couture 2026 · Tous droits réservés</p>
+                <p className="fbot-legal">
+                    <Link href="/mentions-legales">Mentions légales</Link>
+                    <span aria-hidden="true">·</span>
+                    <Link href="/cgv">CGV</Link>
+                    <span aria-hidden="true">·</span>
+                    <Link href="/politique-de-confidentialite">Confidentialité</Link>
+                </p>
                 <p>Servon · Seine-et-Marne</p>
             </div>
         </>
