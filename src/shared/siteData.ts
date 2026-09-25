@@ -10,8 +10,12 @@ export const siteConfig = {
     descriptionDefault:
         "Créatrice de robes de mariée sur mesure à Servon (77), près de Brie-Comte-Robert, Melun et Créteil. Retouches, location et pressing. Noté 4,9/5 sur Google.",
     url: "https://umelcouture.com",
+    /** Mobile, aussi utilisé pour WhatsApp */
     phone: "07 49 50 79 57",
     phoneIntl: "+33749507957",
+    /** Ligne fixe de l'atelier */
+    landline: "01 70 33 06 49",
+    landlineIntl: "+33170330649",
     whatsappUrl: "https://wa.me/33749507957",
     signature: "La robe qui vous ressemble. Vraiment.",
     email: "contact@umelcouture.com",

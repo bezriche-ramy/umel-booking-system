@@ -39,8 +39,8 @@ export default function RetouchesPrivateBookingPage() {
                             créneau : nous vous confirmons la date par e-mail et vous recevez un rappel quelques jours avant.
                         </p>
                         <div className="retouches-contact-actions">
-                            <a href={`tel:${siteConfig.phoneIntl}`} className="bp">
-                                Appeler l&apos;atelier · {siteConfig.phone}
+                            <a href={`tel:${siteConfig.landlineIntl}`} className="bp">
+                                Appeler l&apos;atelier · {siteConfig.landline}
                             </a>
                             <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer" className="bl">
                                 Écrire sur WhatsApp
@@ -129,9 +129,13 @@ export default function RetouchesPrivateBookingPage() {
                             <div className="cdt">
                                 <strong>Horaires de l&apos;Atelier</strong>
                                 <span>
-                                    Mardi au Samedi : 10h à 18h30 (dernier créneau 17h)
+                                    Mardi au samedi : 10h à 18h30
                                     <br />
-                                    Dimanche : 11h à 17h (dernier créneau 16h) · Fermé le lundi
+                                    Dimanche : 11h à 17h
+                                    <br />
+                                    Fermé le lundi
+                                    <br />
+                                    Sur rendez-vous uniquement
                                 </span>
                             </div>
                         </div>

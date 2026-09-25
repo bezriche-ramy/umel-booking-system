@@ -122,21 +122,26 @@ export default function ContactPage() {
                                 </svg>
                             </div>
                             <div className="cdt">
-                                <strong>Téléphone &amp; WhatsApp</strong>
-                                <span>
-                                    <a
-                                        href={siteConfig.whatsappUrl}
-                                        style={{
-                                            color: "var(--ink)",
-                                            fontWeight: 600,
-                                            textDecoration: "underline",
-                                            textUnderlineOffset: "3px",
-                                            display: "inline-block",
-                                            padding: "4px 0",
-                                        }}
-                                    >
-                                        {siteConfig.phone} · Écrire à l&apos;atelier
-                                    </a>
+                                <strong>Téléphone, WhatsApp &amp; e-mail</strong>
+                                <span className="contact-lines">
+                                    <span>
+                                        Atelier :{" "}
+                                        <a href={`tel:${siteConfig.landlineIntl}`} style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                                            {siteConfig.landline}
+                                        </a>
+                                    </span>
+                                    <span>
+                                        Mobile &amp; WhatsApp :{" "}
+                                        <a href={siteConfig.whatsappUrl} style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                                            {siteConfig.phone}
+                                        </a>
+                                    </span>
+                                    <span>
+                                        E-mail :{" "}
+                                        <a href={`mailto:${siteConfig.email}`} style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                                            {siteConfig.email}
+                                        </a>
+                                    </span>
                                 </span>
                             </div>
                         </div>
@@ -161,11 +166,13 @@ export default function ContactPage() {
                             <div className="cdt">
                                 <strong>Horaires d&apos;ouverture</strong>
                                 <span>
-                                    Mardi au Samedi : 10h à 18h30 (dernier rendez-vous 17h)
+                                    Mardi au samedi : 10h à 18h30
                                     <br />
-                                    Dimanche : 11h à 17h (dernier rendez-vous 16h)
+                                    Dimanche : 11h à 17h
                                     <br />
-                                    Fermé le lundi · Sur rendez-vous uniquement
+                                    Fermé le lundi
+                                    <br />
+                                    Sur rendez-vous uniquement
                                 </span>
                             </div>
                         </div>

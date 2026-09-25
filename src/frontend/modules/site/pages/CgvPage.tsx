@@ -64,7 +64,8 @@ export default function CgvPage() {
                     E-mail : <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
                 </li>
                 <li>
-                    Téléphone : <a href={`tel:${siteConfig.phoneIntl}`}>{siteConfig.phone}</a>
+                    Téléphone : <a href={`tel:${siteConfig.landlineIntl}`}>{siteConfig.landline}</a> (atelier) ·{" "}
+                    <a href={`tel:${siteConfig.phoneIntl}`}>{siteConfig.phone}</a> (mobile)
                 </li>
                 <li>Numéro de TVA intracommunautaire : {legal.vat}</li>
             </ul>

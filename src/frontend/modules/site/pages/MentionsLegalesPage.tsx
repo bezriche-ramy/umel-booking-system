@@ -32,7 +32,8 @@ export default function MentionsLegalesPage() {
                 <li>N° de TVA intracommunautaire : {legal.vat}</li>
                 <li>Code APE : {legal.naf} (commerce de détail d&apos;habillement)</li>
                 <li>
-                    Téléphone : <a href={`tel:${siteConfig.phoneIntl}`}>{siteConfig.phone}</a>
+                    Téléphone : <a href={`tel:${siteConfig.landlineIntl}`}>{siteConfig.landline}</a> (atelier) ·{" "}
+                    <a href={`tel:${siteConfig.phoneIntl}`}>{siteConfig.phone}</a> (mobile)
                 </li>
                 <li>
                     E-mail : <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>

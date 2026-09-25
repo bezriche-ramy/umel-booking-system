@@ -18,7 +18,15 @@ export default function Footer() {
                     <p>
                         <em>La robe qui vous ressemble. Vraiment.</em>
                     </p>
-                    <address>{siteConfig.address.street}<br />{siteConfig.address.postalCode} {siteConfig.address.city}<br />{siteConfig.phone}</address>
+                    <address>
+                        {siteConfig.address.street}
+                        <br />
+                        {siteConfig.address.postalCode} {siteConfig.address.city}
+                        <br />
+                        <a href={`tel:${siteConfig.landlineIntl}`}>{siteConfig.landline}</a> · <a href={`tel:${siteConfig.phoneIntl}`}>{siteConfig.phone}</a>
+                        <br />
+                        <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+                    </address>
                 </div>
 
                 <div className="fl">

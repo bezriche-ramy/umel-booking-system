@@ -252,9 +252,12 @@ export default function CommentCaMarchePage() {
                                     }}
                                 >
                                     {siteConfig.phone}
-                                </a>
+                                </a>{" "}
+                                (WhatsApp)
                                 <br />
-                                WhatsApp
+                                Atelier : <a href={`tel:${siteConfig.landlineIntl}`} style={{ color: "var(--ink)" }}>{siteConfig.landline}</a>
+                                <br />
+                                <a href={`mailto:${siteConfig.email}`} style={{ color: "var(--ink)" }}>{siteConfig.email}</a>
                                 <br />
                                 12 rue Georges Truffaut, Servon
                             </p>

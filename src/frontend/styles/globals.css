@@ -1948,7 +1948,7 @@ section.s.vis {
 .fg {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 2px;
 }
 
 .fg label {
@@ -8615,4 +8615,21 @@ nav::before {
 }
 .wa-float {
     margin-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Contact : une ligne par moyen de contact (fixe, mobile/WhatsApp, e-mail) */
+.contact-lines {
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+}
+.contact-lines a {
+    overflow-wrap: anywhere;
+}
+.fb address a {
+    color: inherit;
+    text-decoration: none;
+}
+.fb address a:hover {
+    color: var(--charcoal);
 }
