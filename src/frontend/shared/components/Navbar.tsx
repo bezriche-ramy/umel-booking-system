@@ -92,7 +92,7 @@ export default function Navbar() {
         <nav
             ref={navRef}
             id="nav"
-            className={`${isScrolled || SOLID_NAV_PATHS.includes(pathname) ? "scrolled" : ""} ${isMenuOpen ? "open" : ""}`}
+            className={`${isScrolled || SOLID_NAV_PATHS.includes(pathname) || pathname.startsWith("/mon-rendez-vous/") ? "scrolled" : ""} ${isMenuOpen ? "open" : ""}`}
             aria-label="Navigation principale"
         >
             <Link href="/" className="nav-logo" onClick={() => setIsMenuOpen(false)}>

@@ -1,5 +1,5 @@
 import type { Appointment, Customer, Prisma, SlotType } from "@prisma/client";
-import { randomInt } from "crypto";
+import { randomBytes, randomInt } from "crypto";
 import { DEPOSIT_AMOUNT_CENTS, FREE_CANCELLATION_HOURS } from "@shared/reservation/services";
 import { prisma } from "@backend/core/db";
 import { emailLayout, sendEmail, textToHtml } from "@backend/modules/mailing/email.service";
@@ -23,6 +23,11 @@ export class BookingError extends Error {
     ) {
         super(message);
     }
+}
+
+/** Code privé du lien « Gérer mon rendez-vous » (32 caractères, impossible à deviner). */
+export function generateManageToken(): string {
+    return randomBytes(24).toString("base64url");
 }
 
 export function generateReference(): string {
@@ -144,6 +149,7 @@ export async function createAppointment(input: CreateAppointmentInput) {
             const created = await tx.appointment.create({
                 data: {
                     reference: generateReference(),
+                    manageToken: generateManageToken(),
                     customerId: customer.id,
                     serviceId: input.serviceId,
                     date: parisToUtc(input.day, input.startTime),

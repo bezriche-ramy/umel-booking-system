@@ -33,6 +33,7 @@ interface BookResponse {
     success: boolean;
     reference?: string;
     createdAt?: string;
+    manageToken?: string | null;
     errorCode?: "SLOT_NO_LONGER_AVAILABLE" | "VALIDATION_FAILED" | "PAYMENT_REQUIRED" | "UNKNOWN";
     errorMessage?: string;
 }
@@ -60,7 +61,8 @@ export default function ReservationFlow({ initialServiceId, isSubmarineRetouches
         startTime: undefined,
         endTime: undefined,
         customer: {
-            fullName: "",
+            firstName: "",
+            lastName: "",
             email: "",
             phone: "",
             weddingDate: "",
@@ -223,6 +225,7 @@ export default function ReservationFlow({ initialServiceId, isSubmarineRetouches
                 const service = services.find(s => s.id === draft.serviceId) || services[0];
                 setConfirmation({
                     reference: result.reference,
+                    manageToken: result.manageToken,
                     draft,
                     service,
                     createdAt: result.createdAt ?? new Date().toISOString(),

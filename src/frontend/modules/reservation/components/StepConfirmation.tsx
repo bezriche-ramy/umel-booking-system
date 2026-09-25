@@ -51,7 +51,7 @@ export default function StepConfirmation({ confirmation }: StepConfirmationProps
                 <h2 id="confirm-heading" className="res-confirm-title">
                     Votre rendez-vous est réservé,
                     <br />
-                    <em>chère {draft.customer.fullName}.</em>
+                    <em>chère {draft.customer.firstName.trim()}.</em>
                 </h2>
                 <p className="res-confirm-sub">
                     Nous avons le plaisir de vous accueillir dans notre atelier de Servon pour commencer l&apos;histoire
@@ -156,6 +156,18 @@ export default function StepConfirmation({ confirmation }: StepConfirmationProps
             </div>
 
             {/* Actions */}
+            {confirmation.manageToken && (
+                <div className="res-confirm-manage">
+                    <p>
+                        Un empêchement ? Vous pouvez <strong>déplacer ou annuler votre rendez-vous en ligne</strong> jusqu&apos;à
+                        72 heures avant, sans frais. Le lien figure aussi dans votre e-mail de confirmation.
+                    </p>
+                    <Link href={`/mon-rendez-vous/${confirmation.manageToken}`} className="bl">
+                        Gérer mon rendez-vous
+                    </Link>
+                </div>
+            )}
+
             <div className="res-confirm-actions">
                 <button
                     type="button"

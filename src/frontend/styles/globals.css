@@ -8455,3 +8455,164 @@ section.s.res-page-section {
 .sic {
     border-radius: 50% !important;
 }
+
+/* Retouches : contact direct avec l'atelier (pas de réservation en ligne) */
+.retouches-contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 32px;
+}
+@media (max-width: 800px) {
+    .retouches-contact-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .retouches-contact-actions a {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+.res-guarantee-intro {
+    margin: 0 0 18px;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.res-step-note {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-left: 2px solid var(--champagne);
+    background: rgba(184, 147, 74, 0.08);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* « Gérer mon rendez-vous » (lien privé reçu par e-mail) */
+.manage {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 150px var(--page-gutter) 110px;
+}
+.manage-head h1 {
+    font:
+        300 clamp(34px, 5vw, 56px)/1.05 var(--font-cormorant),
+        serif;
+    letter-spacing: -0.03em;
+}
+.manage-card {
+    margin: 32px 0 24px;
+    padding: 24px 28px;
+    border: 1px solid var(--hairline);
+    background: #fff;
+}
+.manage-card.is-cancelled {
+    opacity: 0.6;
+}
+.manage-card dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 32px;
+    margin: 0;
+}
+.manage-card dt {
+    color: var(--muted);
+    font:
+        400 var(--type-label) var(--font-jost),
+        sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+.manage-card dd {
+    margin: 6px 0 0;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+.manage-text {
+    margin: 0 0 20px;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+}
+.manage-text a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--champagne);
+}
+.manage-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 24px;
+}
+.manage-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.manage-success {
+    margin: 0 0 20px;
+    padding: 14px 18px;
+    border-left: 2px solid #2f7a4f;
+    background: #e8f3ec;
+    color: #1f5c39;
+    font-size: 15px;
+}
+@media (max-width: 800px) {
+    .manage {
+        padding: 118px 20px 80px;
+    }
+    .manage-card {
+        padding: 18px;
+    }
+    .manage-card dl {
+        grid-template-columns: 1fr;
+    }
+    .manage-buttons {
+        flex-direction: column;
+    }
+    .manage-buttons > * {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.res-confirm-manage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 28px;
+    padding: 18px 20px;
+    border: 1px solid var(--hairline);
+    background: #fff;
+}
+.res-confirm-manage p {
+    flex: 1 1 280px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* iPhone (viewport-fit=cover) : la barre de navigation se place sous la barre d'état
+   et son fond remplit la zone de la barre d'état, pour que le contenu de la page n'y apparaisse jamais. */
+nav {
+    top: env(safe-area-inset-top, 0px) !important;
+}
+nav::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: env(safe-area-inset-top, 0px);
+    background: inherit;
+    pointer-events: none;
+}
+.wa-float {
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+}

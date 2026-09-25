@@ -4,45 +4,50 @@
 
 import { ServiceOption } from "@shared/reservation/types";
 
+/** Prestations réservables en ligne par les clientes (retouches, pressing et retouches externes : fixés par l'atelier). */
 export const RESERVATION_SERVICES: ServiceOption[] = [
     {
         id: "sur-mesure",
-        title: "Création sur mesure",
+        title: "Confection sur mesure",
         description:
-            "Premier essayage et échange privé sur votre silhouette, vos matières et vos envies pour imaginer votre robe unique.",
+            "Premier rendez-vous pour imaginer votre robe unique : essayage des modèles du showroom, échange sur votre silhouette, vos matières et vos envies.",
         duration: "1h00",
-        priceHint: "Sur devis en atelier",
+        priceHint: "À partir de 2 200 €",
         badge: "Cœur de maison",
     },
     {
         id: "essayage-location",
-        title: "Essayage collection & Location",
-        description:
-            "Découverte des pièces et coupes de notre showroom (princesse, sirène, trapèze) disponibles à la location.",
+        title: "Location de robes de mariée",
+        description: "Essayage des robes de mariée de notre showroom disponibles à la location, tailles 38 à 42.",
         duration: "1h00",
         priceHint: "À partir de 1 000 €",
     },
     {
-        id: "retouches",
-        title: "Retouches & Ajustements",
-        description: "Ajustement soigné et reprise de votre robe existante pour l'adapter parfaitement à vos mesures.",
+        id: "location-soiree",
+        title: "Location de robes de soirée",
+        description: "Robes de soirée perlées, drapées ou brodées, à louer pour vos soirées et événements, tailles 36 à 42.",
         duration: "1h00",
         priceHint: "À partir de 250 €",
     },
     {
-        id: "decouverte",
-        title: "Découverte de l'atelier",
-        description:
-            "Premier rendez-vous de conseil pour faire connaissance, découvrir nos étoffes et orienter votre projet.",
+        id: "costume-homme",
+        title: "Essayage de costumes (marié)",
+        description: "Essayage de costumes pour le marié, en rendez-vous privé à l'atelier.",
         duration: "1h00",
-        priceHint: "Sans engagement",
+        priceHint: "Sur rendez-vous",
     },
 ];
+
+/** Prestations qui ne se réservent plus en ligne mais existent dans l'historique (anciens rendez-vous). */
+const LEGACY_SERVICE_TITLES: Record<string, string> = {
+    retouches: "Retouches & ajustements",
+    decouverte: "Découverte de l'atelier",
+};
 
 export const SERVICE_IDS = RESERVATION_SERVICES.map(s => s.id);
 
 export function getServiceTitle(serviceId: string): string {
-    return RESERVATION_SERVICES.find(s => s.id === serviceId)?.title ?? serviceId;
+    return RESERVATION_SERVICES.find(s => s.id === serviceId)?.title ?? LEGACY_SERVICE_TITLES[serviceId] ?? serviceId;
 }
 
 /** Montant de l'empreinte bancaire (en centimes). */

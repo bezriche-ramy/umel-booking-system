@@ -9,12 +9,22 @@ interface AppointmentLike {
     reference: string;
     serviceId: string;
     date: Date;
+    /** Code du lien privé « Gérer mon rendez-vous » */
+    manageToken?: string | null;
+}
+
+/** Bouton « Déplacer ou annuler mon rendez-vous » (lien privé, utilisable jusqu'à 72 h avant). */
+function manageButton(a: AppointmentLike): string {
+    if (!a.manageToken) return "";
+    const url = `${siteConfig.url}/mon-rendez-vous/${a.manageToken}`;
+    return `<p style="margin:22px 0 6px;text-align:center">
+<a href="${url}" style="display:inline-block;padding:13px 24px;background:#201d1b;color:#ffffff;text-decoration:none;font-size:13px;letter-spacing:1px;text-transform:uppercase">Déplacer ou annuler mon rendez-vous</a></p>
+<p style="margin:0;text-align:center;font-size:12px;color:#766e69">Possible en ligne jusqu'à ${FREE_CANCELLATION_HOURS} h avant le rendez-vous.</p>`;
 }
 
 const policyHtml = `<p style="margin:16px 0 0;padding:14px 16px;background:#f2ede6;font-size:13px">
 <strong>Empreinte bancaire de ${deposit}</strong> : aucun montant n'est débité si vous êtes présente à votre rendez-vous.
-Elle est prélevée uniquement en cas d'absence ou d'annulation moins de ${FREE_CANCELLATION_HOURS}h avant le rendez-vous.
-Pour annuler ou déplacer : ${siteConfig.phone}.</p>`;
+Elle est prélevée uniquement en cas d'absence ou d'annulation moins de ${FREE_CANCELLATION_HOURS}h avant le rendez-vous.</p>`;
 
 function details(a: AppointmentLike): string {
     return `<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:12px 0;font-size:14px">
@@ -33,7 +43,8 @@ export function confirmationEmail(firstName: string, a: AppointmentLike) {
         html: emailLayout(
             "Votre rendez-vous est confirmé",
             `<p>Chère ${escapeHtml(firstName)},</p><p>Nous avons le plaisir de confirmer votre rendez-vous à l'atelier.</p>
-${details(a)}${a.serviceId === "retouches" ? retouchesNote : ""}${policyHtml}
+${details(a)}${a.serviceId === "retouches" ? retouchesNote : ""}${policyHtml}${manageButton(a)}
+<p style="margin-top:18px">Une question ? Appelez-nous au ${siteConfig.phone}.</p>
 <p style="margin-top:18px">À très bientôt,<br>L'équipe ${siteConfig.name}</p>`,
         ),
     };
@@ -49,7 +60,7 @@ ${details(a)}${a.serviceId === "retouches" ? retouchesNote : ""}
 <p style="margin:16px 0 0;padding:14px 16px;background:#f2ede6;font-size:13px">
 <strong>Important :</strong> le délai d'annulation gratuite (${FREE_CANCELLATION_HOURS}h) arrive à échéance. Sans annulation de votre part,
 l'empreinte de ${deposit} sera prélevée en cas d'absence. Merci de vérifier que votre carte est approvisionnée.
-Un empêchement ? Appelez-nous au ${siteConfig.phone}.</p>
+Un empêchement ? Appelez-nous au ${siteConfig.phone}.</p>${manageButton(a)}
 <p style="margin-top:18px">À très bientôt,<br>L'équipe ${siteConfig.name}</p>`,
         ),
     };
@@ -72,7 +83,7 @@ export function rescheduleEmail(firstName: string, a: AppointmentLike) {
         subject: `Votre rendez-vous Umel Couture a été déplacé (${a.reference})`,
         html: emailLayout(
             "Nouvel horaire de rendez-vous",
-            `<p>Chère ${escapeHtml(firstName)},</p><p>Votre rendez-vous a été déplacé. Voici les nouvelles informations :</p>${details(a)}${policyHtml}`,
+            `<p>Chère ${escapeHtml(firstName)},</p><p>Votre rendez-vous a été déplacé. Voici les nouvelles informations :</p>${details(a)}${policyHtml}${manageButton(a)}`,
         ),
     };
 }
@@ -102,5 +113,13 @@ export function alterationReminderEmail(firstName: string, date: Date, days: num
 <strong>${escapeHtml(formatParisDateTime(date))}</strong>.</p>${retouchesNote}
 <p>Un empêchement ? Appelez-nous au ${siteConfig.phone}.</p>`,
         ),
+    };
+}
+
+/** Notification interne à l'atelier (rendez-vous déplacé ou annulé par la cliente elle-même). */
+export function atelierNotificationEmail(subject: string, lines: string[]) {
+    return {
+        subject,
+        html: emailLayout(subject, lines.map(l => `<p style="margin:0 0 10px">${escapeHtml(l)}</p>`).join("")),
     };
 }

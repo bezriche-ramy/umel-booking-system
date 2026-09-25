@@ -53,6 +53,8 @@ function parseCustomFields(raw: string): CustomFields {
 function mapService(subject?: string): string {
     const s = (subject ?? "").toLowerCase();
     if (s.includes("confection") || s.includes("sur mesure")) return "sur-mesure";
+    if (s.includes("soirée") || s.includes("soiree")) return "location-soiree";
+    if (s.includes("homme") || s.includes("costume")) return "costume-homme";
     if (s.includes("location") || s.includes("achat")) return "essayage-location";
     if (s.includes("retouche")) return "retouches";
     return "decouverte";

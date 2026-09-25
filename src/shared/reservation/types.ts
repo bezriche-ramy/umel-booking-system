@@ -28,12 +28,18 @@ export interface CalendarDayAvailability {
 }
 
 export interface CustomerInfo {
-    fullName: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phone: string;
-    weddingDate?: string;
-    projectNotes?: string;
+    /** Date du mariage, saisie libre (JJ/MM/AAAA ou « été 2027 ») */
+    weddingDate: string;
+    /** « Dites-nous en davantage sur vous et ce que vous recherchez » */
+    projectNotes: string;
 }
+
+export const customerFullName = (c: Pick<CustomerInfo, "firstName" | "lastName">) =>
+    `${c.firstName.trim()} ${c.lastName.trim()}`.trim();
 
 export interface ReservationDraft {
     serviceId?: string;
@@ -50,6 +56,8 @@ export interface ReservationConfirmation {
     draft: ReservationDraft;
     service: ServiceOption;
     createdAt: string;
+    /** Lien privé pour déplacer / annuler le rendez-vous */
+    manageToken?: string | null;
     atelierDetails: {
         name: string;
         address: string;

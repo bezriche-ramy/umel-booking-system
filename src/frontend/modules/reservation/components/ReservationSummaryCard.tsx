@@ -1,7 +1,7 @@
 "use client";
 
 import { formatFrenchLongDate } from "@frontend/modules/reservation/lib/date-utils";
-import { ReservationDraft, ServiceOption } from "@shared/reservation/types";
+import { ReservationDraft, ServiceOption, customerFullName } from "@shared/reservation/types";
 import { siteConfig } from "@shared/siteData";
 import { useState } from "react";
 
@@ -98,11 +98,11 @@ export default function ReservationSummaryCard({ draft, service }: ReservationSu
                     </div>
 
                     {/* Client recap (if filled) */}
-                    {draft.customer.fullName && (
+                    {customerFullName(draft.customer) && (
                         <div className="res-summary-row">
                             <dt>Cliente</dt>
                             <dd>
-                                <strong>{draft.customer.fullName}</strong>
+                                <strong>{customerFullName(draft.customer)}</strong>
                                 <span className="res-summary-sub">{draft.customer.email}</span>
                             </dd>
                         </div>

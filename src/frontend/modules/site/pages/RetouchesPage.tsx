@@ -1,12 +1,12 @@
 import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import PageHero from "@frontend/shared/components/PageHero";
-import ReservationFlow from "@frontend/modules/reservation/components/ReservationFlow";
+import { siteConfig } from "@shared/siteData";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Espace Privé Retouches & Ajustements | Umel Couture",
     description:
-        "Accès privé réservé aux futures mariées Umel Couture pour la réservation de leur séance de retouches et finitions.",
+        "Espace réservé aux futures mariées Umel Couture : préparation de vos séances de retouches et ajustements, fixées avec l'atelier.",
     robots: {
         index: false,
         follow: false,
@@ -24,22 +24,29 @@ export default function RetouchesPrivateBookingPage() {
                 objectPosition="center 30%"
             />
 
-            {/* MODULE DE RÉSERVATION PRIVÉ RETOUCHES */}
+            {/* RETOUCHES : rendez-vous fixés par l'atelier (pas de réservation en ligne) */}
             <section className="s res-page-section" id="reservation" aria-labelledby="retouches-res-title">
                 <div className="contact-res-container">
                     <div className="contact-res-header">
                         <h2 className="contact-res-title" id="retouches-res-title" style={{ textWrap: "balance" }}>
-                            Planifier vos retouches
+                            Vos séances de retouches
                             <br />
-                            <em>en salon privé</em>
+                            <em>fixées avec l&apos;atelier</em>
                         </h2>
                         <p className="contact-res-sub">
-                            Ce calendrier privé vous permet de convenir de votre créneau d&apos;ajustement. Merci de
-                            consulter les recommandations ci-dessous avant de choisir votre horaire.
+                            Les rendez-vous de retouches, de pressing et de retouches externes sont fixés directement par
+                            notre équipe, selon l&apos;avancement de votre robe. Contactez-nous pour convenir de votre
+                            créneau : nous vous confirmons la date par e-mail et vous recevez un rappel quelques jours avant.
                         </p>
+                        <div className="retouches-contact-actions">
+                            <a href={`tel:${siteConfig.phoneIntl}`} className="bp">
+                                Appeler l&apos;atelier · {siteConfig.phone}
+                            </a>
+                            <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer" className="bl">
+                                Écrire sur WhatsApp
+                            </a>
+                        </div>
                     </div>
-
-                    <ReservationFlow initialServiceId="retouches" isSubmarineRetouches={true} />
                 </div>
             </section>
 

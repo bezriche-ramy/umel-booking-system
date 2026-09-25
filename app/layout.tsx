@@ -2,7 +2,7 @@ import { getBridalShopSchema, getServicesSchema, getWebSiteSchema } from "@front
 import JsonLd from "@frontend/shared/components/JsonLd";
 import { siteConfig } from "@shared/siteData";
 import "@frontend/styles/globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 
 const headingFont = Plus_Jakarta_Sans({
@@ -20,6 +20,14 @@ const bodyFont = Inter({
     variable: "--font-eb-garamond",
     display: "swap",
 });
+
+/** iPhone : le site peut s'afficher sous la barre d'état ; la barre de navigation remplit cette zone (voir globals.css). */
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+    themeColor: "#faf9f6",
+};
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),

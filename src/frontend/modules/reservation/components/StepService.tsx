@@ -22,6 +22,10 @@ export default function StepService({ services, selectedServiceId, onSelectServi
                 <p className="res-step-sub">
                     Chaque rendez-vous dure 1 heure et se déroule dans notre atelier de Servon.
                 </p>
+                <p className="res-step-note">
+                    Rendez-vous gratuit et sans obligation d&apos;achat. Une empreinte bancaire de 20 € garantit votre
+                    créneau : rien n&apos;est débité si vous venez ou si vous annulez plus de 72 h avant.
+                </p>
             </div>
 
             <div className="res-services-list" role="radiogroup" aria-label="Services disponibles">

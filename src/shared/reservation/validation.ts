@@ -1,13 +1,16 @@
 /**
- * Client-side validation for customer details in the reservation flow.
+ * Validation des coordonnées de la cliente (formulaire de réservation, côté navigateur et côté serveur).
  */
 
 import { CustomerInfo } from "@shared/reservation/types";
 
 export interface ValidationErrors {
-    fullName?: string;
+    firstName?: string;
+    lastName?: string;
     email?: string;
     phone?: string;
+    weddingDate?: string;
+    projectNotes?: string;
     acceptedTerms?: string;
 }
 
@@ -20,20 +23,29 @@ export function validateCustomerInfo(
 ): { isValid: boolean; errors: ValidationErrors } {
     const errors: ValidationErrors = {};
 
-    if (!info.fullName || info.fullName.trim().length < 2) {
-        errors.fullName = "Veuillez renseigner votre nom complet.";
+    if (!info.firstName || info.firstName.trim().length < 2) {
+        errors.firstName = "Veuillez renseigner votre prénom.";
+    }
+    if (!info.lastName || info.lastName.trim().length < 2) {
+        errors.lastName = "Veuillez renseigner votre nom de famille.";
     }
 
     if (!info.email || !EMAIL_REGEX.test(info.email.trim())) {
         errors.email = "Veuillez saisir une adresse e-mail valide.";
     }
 
-    // Phone validation: allows international format (+) and digits/spaces/hyphens
-    const cleanPhone = (info.phone || "").replace(/[\s.-]/g, "");
-    const phoneDigits = cleanPhone.replace(/\D/g, "");
-
+    // Téléphone : format français ou international (+), chiffres / espaces / tirets
+    const phoneDigits = (info.phone || "").replace(/\D/g, "");
     if (!info.phone || info.phone.trim().length < 6 || phoneDigits.length < 8) {
         errors.phone = "Veuillez renseigner un numéro de téléphone joignable.";
+    }
+
+    if (!info.weddingDate || info.weddingDate.trim().length < 4) {
+        errors.weddingDate = "Veuillez indiquer la date de votre mariage (même approximative).";
+    }
+
+    if (!info.projectNotes || info.projectNotes.trim().length < 3) {
+        errors.projectNotes = "Dites-nous en quelques mots ce que vous recherchez.";
     }
 
     if (requireTerms && !acceptedTerms) {

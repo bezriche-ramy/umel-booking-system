@@ -3,7 +3,6 @@ import { validateCustomerInfo } from "@shared/reservation/validation";
 import { BookingError, createAppointment } from "@backend/modules/appointments/appointments.service";
 import { prisma } from "@backend/core/db";
 import { clientIp, rateLimit, tooManyRequests } from "@backend/core/rate-limit";
-import { splitFullName } from "@backend/core/phone";
 import { getStripe } from "@backend/modules/payments/stripe.service";
 import { DAY_RE, TIME_RE } from "@shared/tz";
 
@@ -13,7 +12,7 @@ interface BookBody {
     startTime?: string;
     setupIntentId?: string;
     acceptedTerms?: boolean;
-    customer?: { fullName?: string; email?: string; phone?: string; weddingDate?: string; projectNotes?: string };
+    customer?: { firstName?: string; lastName?: string; email?: string; phone?: string; weddingDate?: string; projectNotes?: string };
 }
 
 const fail = (errorCode: string, errorMessage: string, status = 400) =>
@@ -30,10 +29,11 @@ export async function POST(request: Request) {
     }
 
     const customer = {
-        fullName: body.customer?.fullName?.trim() ?? "",
+        firstName: body.customer?.firstName?.trim().slice(0, 80) ?? "",
+        lastName: body.customer?.lastName?.trim().slice(0, 80) ?? "",
         email: body.customer?.email?.trim() ?? "",
         phone: body.customer?.phone?.trim() ?? "",
-        weddingDate: body.customer?.weddingDate?.trim().slice(0, 40) ?? "",
+        weddingDate: body.customer?.weddingDate?.trim().slice(0, 60) ?? "",
         projectNotes: body.customer?.projectNotes?.trim().slice(0, 2000) ?? "",
     };
     const { isValid } = validateCustomerInfo(customer, true, body.acceptedTerms === true);
@@ -74,9 +74,14 @@ export async function POST(request: Request) {
 
     // 2. Bloque le créneau, crée la fiche cliente et envoie la confirmation.
     try {
-        const { firstName, lastName } = splitFullName(customer.fullName);
         const appointment = await createAppointment({
-            customer: { firstName, lastName, email: customer.email, phone: customer.phone, weddingDate: customer.weddingDate },
+            customer: {
+                firstName: customer.firstName,
+                lastName: customer.lastName,
+                email: customer.email,
+                phone: customer.phone,
+                weddingDate: customer.weddingDate,
+            },
             serviceId: body.serviceId,
             day: body.date,
             startTime: body.startTime,
@@ -89,6 +94,7 @@ export async function POST(request: Request) {
             success: true,
             reference: appointment.reference,
             createdAt: appointment.createdAt.toISOString(),
+            manageToken: appointment.manageToken,
         });
     } catch (err) {
         if (err instanceof BookingError) {

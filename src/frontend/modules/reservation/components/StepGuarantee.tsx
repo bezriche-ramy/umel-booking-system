@@ -1,7 +1,7 @@
 "use client";
 
 import { formatFrenchLongDate } from "@frontend/modules/reservation/lib/date-utils";
-import { ReservationDraft, ServiceOption } from "@shared/reservation/types";
+import { ReservationDraft, ServiceOption, customerFullName } from "@shared/reservation/types";
 import { ValidationErrors } from "@shared/reservation/validation";
 import { siteConfig } from "@shared/siteData";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
@@ -220,7 +220,8 @@ export default function StepGuarantee({
     const [clientSecret, setClientSecret] = useState<string>();
     const [setupError, setSetupError] = useState<string>();
     const [retryCount, setRetryCount] = useState(0);
-    const { fullName, email, phone } = draft.customer;
+    const { email, phone } = draft.customer;
+    const fullName = customerFullName(draft.customer);
 
     // Create a real Stripe SetupIntent for this customer (off_session usage, €0 charged)
     useEffect(() => {
@@ -318,7 +319,7 @@ export default function StepGuarantee({
                     <div>
                         <span className="res-review-label">Contact</span>
                         <strong>
-                            {draft.customer.fullName} · {draft.customer.phone}
+                            {fullName} · {draft.customer.phone}
                         </strong>
                     </div>
                 </div>
@@ -335,6 +336,13 @@ export default function StepGuarantee({
                         <span className="res-zero-badge">0 € débité aujourd&apos;hui</span>
                     </div>
                 </div>
+
+                <p className="res-guarantee-intro">
+                    Nos rendez-vous sont gratuits, sur réservation et sans obligation d&apos;achat. Le showroom est
+                    privatisé pendant près d&apos;une heure et une conseillère vous est dédiée. En cas d&apos;annulation à
+                    moins de 72 h ou d&apos;absence le jour J, un acompte de 20 € sera encaissé. Cet acompte n&apos;est
+                    pas débité si vous assistez à votre rendez-vous ou annulez plus de 72 h avant la date prévue.
+                </p>
 
                 <ul className="res-guarantee-rules">
                     <li>
