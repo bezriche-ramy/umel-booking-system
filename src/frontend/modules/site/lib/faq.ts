@@ -22,8 +22,8 @@ export const commentCaMarcheFaq: FaqItem[] = [
         answer: "Non, le premier rendez-vous ne coûte rien. Une garantie bancaire de 20 € est simplement enregistrée à la réservation, sans aucun débit : elle n'est prélevée qu'en cas d'annulation moins de 72 h avant le rendez-vous ou d'absence.",
     },
     {
-        question: "Où se trouve votre atelier de robe de mariée sur mesure en Seine-et-Marne ?",
-        answer: `L'atelier Umel Couture est situé au ${address.street}, ${address.postalCode} ${address.city} (77), aux portes de Brie-Comte-Robert, Santeny, Lésigny et Marolles-en-Brie. Les futures mariées viennent aussi de Melun, Créteil, Torcy et de toute l'Île-de-France. Les essayages se font uniquement sur rendez-vous.`,
+        question: "Où se trouve votre atelier de robe de mariée sur mesure ?",
+        answer: `L'atelier Umel Couture est situé au ${address.street}, ${address.postalCode} ${address.city}, France. Nos clientes viennent de toute la France et même de l'étranger. Les essayages se font uniquement sur rendez-vous.`,
     },
     {
         question: "Puis-je venir avec une photo d'inspiration ?",

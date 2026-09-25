@@ -7,25 +7,9 @@ function absoluteUrl(path: string) {
     return path.startsWith("http") ? path : `${siteConfig.url}${encodeURI(path)}`;
 }
 
-/** Zone de chalandise : Servon + villes limitrophes, Seine-et-Marne (77) et Île-de-France. */
+/** Zone servie : toute la France (les clientes viennent de partout). */
 function getAreaServed() {
-    return [
-        ...siteConfig.areaServed.cities.map(name => ({
-            "@type": "City",
-            name,
-            containedInPlace: { "@type": "AdministrativeArea", name: "Île-de-France" },
-        })),
-        {
-            "@type": "AdministrativeArea",
-            name: `${siteConfig.areaServed.department} (77)`,
-            identifier: "FR-77",
-        },
-        {
-            "@type": "AdministrativeArea",
-            name: siteConfig.areaServed.region,
-            identifier: "FR-IDF",
-        },
-    ];
+    return { "@type": "Country", name: siteConfig.areaServed.country, identifier: "FR" };
 }
 
 export function getBridalShopSchema() {

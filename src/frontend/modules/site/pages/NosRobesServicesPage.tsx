@@ -16,7 +16,7 @@ export const metadata: Metadata = buildPageMetadata({
     title: "Robes de mariée, retouches & location en Île-de-France | Umel Couture",
     socialTitle: "Robes de mariée, retouches & location | Umel Couture Servon",
     description:
-        "Robe de mariée sur mesure, location de robes de mariée et de soirée, costumes homme, retouches et pressing à Servon (77), près de Brie-Comte-Robert et Melun.",
+        "Robe de mariée sur mesure, location de robes de mariée et de soirée, costumes homme, retouches et pressing à Servon (77), pour des mariées venues de toute la France.",
     ogImage: "/images/og/nos-robes-services.jpg",
     ogImageAlt: "Robes de mariée du showroom Umel Couture à Servon (77)",
 });

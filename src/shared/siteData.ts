@@ -8,7 +8,7 @@ export const siteConfig = {
     name: "Umel Couture",
     titleDefault: "Robe de mariée sur mesure Seine-et-Marne (77) | Umel Couture",
     descriptionDefault:
-        "Créatrice de robes de mariée sur mesure à Servon (77), près de Brie-Comte-Robert, Melun et Créteil. Retouches, location et pressing. Noté 4,9/5 sur Google.",
+        "Créatrice de robes de mariée sur mesure à Servon (77), des mariées venues de toute la France. Location, retouches et pressing. Noté 4,9/5 sur Google.",
     url: "https://umelcouture.com",
     /** Mobile, aussi utilisé pour WhatsApp */
     phone: "07 49 50 79 57",
@@ -69,10 +69,9 @@ export const siteConfig = {
     },
     placeId: "ChIJ3wTGU2ch-kcRP6Cd9pQrkG0",
     mapsUrl: "https://www.google.com/maps/place/?q=place_id:ChIJ3wTGU2ch-kcRP6Cd9pQrkG0",
+    /** Clientes de toute la France : pas de ciblage de villes voisines */
     areaServed: {
-        department: "Seine-et-Marne",
-        region: "Île-de-France",
-        cities: ["Servon", "Brie-Comte-Robert", "Santeny", "Marolles-en-Brie", "Lésigny", "Melun", "Créteil", "Torcy"],
+        country: "France",
     },
     rating: {
         value: 4.9,
