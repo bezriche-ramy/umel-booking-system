@@ -19,6 +19,13 @@ export const metadata: Metadata = buildPageMetadata({
     ogImageAlt: "Essayage privé dans l'atelier Umel Couture à Servon",
 });
 
+const contactLinkStyle = {
+    color: "var(--ink)",
+    fontWeight: 600,
+    textDecoration: "underline",
+    textUnderlineOffset: "3px",
+} as const;
+
 export default function CommentCaMarchePage() {
     const breadcrumbSchema = getBreadcrumbSchema([
         { name: "Accueil", url: "/" },
@@ -208,8 +215,6 @@ export default function CommentCaMarchePage() {
                             >
                                 Requis à la commande
                                 <br />
-                                Devis sur demande
-                                <br />
                                 Tarif adapté à votre projet
                             </p>
                         </div>
@@ -242,24 +247,23 @@ export default function CommentCaMarchePage() {
                                     color: "var(--taupe)",
                                 }}
                             >
-                                <a
-                                    href={siteConfig.whatsappUrl}
-                                    style={{
-                                        color: "var(--ink)",
-                                        fontWeight: 600,
-                                        textDecoration: "underline",
-                                        textUnderlineOffset: "3px",
-                                    }}
-                                >
+                                Fixe :{" "}
+                                <a href={`tel:${siteConfig.landlineIntl}`} style={contactLinkStyle}>
+                                    {siteConfig.landline}
+                                </a>
+                                <br />
+                                Mobile &amp; WhatsApp :{" "}
+                                <a href={siteConfig.whatsappUrl} style={contactLinkStyle}>
                                     {siteConfig.phone}
-                                </a>{" "}
-                                (WhatsApp)
+                                </a>
                                 <br />
-                                Atelier : <a href={`tel:${siteConfig.landlineIntl}`} style={{ color: "var(--ink)" }}>{siteConfig.landline}</a>
+                                <a href={`mailto:${siteConfig.email}`} style={contactLinkStyle}>
+                                    {siteConfig.email}
+                                </a>
                                 <br />
-                                <a href={`mailto:${siteConfig.email}`} style={{ color: "var(--ink)" }}>{siteConfig.email}</a>
+                                {siteConfig.address.street}
                                 <br />
-                                12 rue Georges Truffaut, Servon
+                                {siteConfig.address.postalCode} {siteConfig.address.city}, France
                             </p>
                         </div>
                     </div>
