@@ -96,9 +96,8 @@ export const siteConfig = {
             priceFrom: null as number | null,
             url: "/nos-robes-services#confection",
             badge: null as string | null,
-            // TODO: remplacer par une photo du shooting studio
             image: {
-                src: "/images/Robes créées sur mesure7.webp",
+                src: "/images/shooting/princesse-perles-2.webp",
                 alt: "Robe de mariée créée sur mesure par Umel Couture",
             },
         },
@@ -112,9 +111,8 @@ export const siteConfig = {
             priceFrom: 1000 as number | null,
             url: "/nos-robes-services#location",
             badge: null as string | null,
-            // TODO: remplacer par une photo du shooting studio
             image: {
-                src: "/images/Robes créées sur mesure9.webp",
+                src: "/images/shooting/princesse-corset-dentelle-3.webp",
                 alt: "Robe de mariée du showroom Umel Couture disponible à la location",
             },
         },

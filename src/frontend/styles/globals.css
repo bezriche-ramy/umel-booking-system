@@ -4065,6 +4065,117 @@ section.s {
     color: var(--champagne);
 }
 
+/* Collection — shooting studio, une ligne par modèle */
+.collection {
+    padding: var(--section-space) var(--page-gutter);
+    background: var(--paper);
+}
+.collection-head {
+    display: grid;
+    grid-template-columns: 1fr 0.55fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 120px;
+}
+.collection-head h2 {
+    font:
+        300 clamp(52px, 7vw, 104px)/0.9 var(--font-cormorant),
+        serif;
+    letter-spacing: -0.04em;
+}
+.collection-head h2 em {
+    color: var(--champagne);
+    font-weight: 300;
+}
+.collection-head p {
+    max-width: 420px;
+    margin-top: 28px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8;
+}
+.collection-head-img {
+    position: relative;
+    aspect-ratio: 2 / 3;
+}
+.collection-model {
+    display: grid;
+    grid-template-columns: 0.3fr 1fr;
+    gap: clamp(24px, 4vw, 64px);
+    padding: 56px 0;
+    border-top: 1px solid var(--hairline);
+}
+.collection-model-head span {
+    color: var(--champagne);
+    font:
+        400 var(--type-label) var(--font-jost),
+        sans-serif;
+    letter-spacing: 0.12em;
+}
+.collection-model-head h3 {
+    margin: 14px 0 16px;
+    font:
+        300 clamp(30px, 3vw, 44px)/1 var(--font-cormorant),
+        serif;
+    letter-spacing: -0.02em;
+}
+.collection-model-head p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+}
+.collection-photos {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: clamp(10px, 1.4vw, 22px);
+    align-items: end;
+}
+.collection-photos figure {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+}
+.collection-model:nth-of-type(even) .collection-photos {
+    grid-template-columns: 1fr 1fr 1fr 1.4fr;
+}
+.collection-model:nth-of-type(even) .collection-photos figure:first-child {
+    order: 4;
+}
+.collection img {
+    object-fit: cover;
+    transition: transform 800ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.collection-photos figure:hover img {
+    transform: scale(1.02);
+}
+@media (max-width: 800px) {
+    .collection {
+        padding: 90px 16px;
+    }
+    .collection-head {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-bottom: 64px;
+    }
+    .collection-model {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 40px 0;
+    }
+    .collection-photos,
+    .collection-model:nth-of-type(even) .collection-photos {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    .collection-photos figure:first-child {
+        grid-column: span 3;
+        aspect-ratio: 4 / 5;
+    }
+    .collection-model:nth-of-type(even) .collection-photos figure:first-child {
+        order: 0;
+    }
+}
+
 .atelier-strip {
     padding: var(--section-space) 0;
     background: var(--silk);

@@ -1,4 +1,5 @@
 import AmbianceGallery from "@frontend/modules/site/components/AmbianceGallery";
+import CollectionShowcase from "@frontend/modules/site/components/CollectionShowcase";
 import CTABand from "@frontend/shared/components/CTABand";
 import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import FluxMarquee from "@frontend/modules/site/components/FluxMarquee";
@@ -50,9 +51,8 @@ export default function GaleriePage() {
                 </div>
             </HeroSlider>
 
-            <aside className="gallery-note" aria-label="Information galerie">
-                <p>Galerie en cours de mise à jour — Nouvelles créations à découvrir bientôt</p>
-            </aside>
+            {/* COLLECTION — shooting studio, tous les modèles */}
+            <CollectionShowcase />
 
             {/* ROBES SUR MESURE — galerie 3D inclinée pilotée par scroll */}
             <TiltGallery />
