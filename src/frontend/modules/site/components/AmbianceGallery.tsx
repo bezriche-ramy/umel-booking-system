@@ -21,7 +21,7 @@ export default function AmbianceGallery() {
                 {atelierImages.map((item, index) => (
                     <figure key={item.src}>
                         <Image src={item.src} alt={item.alt} fill sizes="(max-width: 700px) 78vw, 30vw" />
-                        <figcaption>{String(index + 1).padStart(2, "0")} — Umel, Servon</figcaption>
+                        <figcaption>{String(index + 1).padStart(2, "0")} · Umel, Servon</figcaption>
                     </figure>
                 ))}
             </div>

@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/notre-histoire",
-    title: "Notre histoire — Créatrices de robes de mariée en Seine-et-Marne | Umel Couture",
+    title: "Notre histoire : créatrices de robes de mariée en Seine-et-Marne | Umel Couture",
     socialTitle: "Notre histoire | Umel Couture",
     description:
         "Umi & Melissa, créatrices de robes de mariée sur mesure à Servon (Seine-et-Marne). Deux visions, une maison de couture nuptiale au service des mariées d'Île-de-France.",
@@ -31,7 +31,7 @@ export default function NotreHistoirePage() {
                 eyebrow="Maison de couture nuptiale · Servon, Île-de-France"
                 imageAlt="Maison Umel Couture, créatrices de robes de mariée sur mesure à Servon (77)"
                 titleLines={["Née de deux femmes.", "Deux visions,", "un seul nom."]}
-                sub="Umi & Melissa — Servon, Île-de-France."
+                sub="Umi & Melissa · Servon, Île-de-France."
             />
 
             {/* BIOGRAPHIE COMPLÈTE */}
@@ -83,7 +83,7 @@ export default function NotreHistoirePage() {
                         }}
                     >
                         Avant la première robe. Avant la première cliente. La marque portait déjà quelque chose de rare
-                        — une histoire vraie.
+                        : une histoire vraie.
                     </p>
                     <div style={{ width: "48px", height: "1px", background: "var(--nude)", margin: "32px 0" }} />
                     <p
@@ -134,7 +134,7 @@ export default function NotreHistoirePage() {
                         }}
                     >
                         Parmi les premières en Île-de-France à avoir placé le sur-mesure au centre de leur identité. Des
-                        milliers de femmes accompagnées. Une réputation construite par le bouche-à-oreille — pas par le
+                        milliers de femmes accompagnées. Une réputation construite par le bouche-à-oreille, pas par le
                         bruit.
                     </p>
                     <blockquote

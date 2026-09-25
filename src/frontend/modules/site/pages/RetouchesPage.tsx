@@ -18,7 +18,7 @@ export default function RetouchesPrivateBookingPage() {
         <>
             <PageHero
                 imageSrc="/images/Contact.webp"
-                imageAlt="Umel Couture — Espace Privé Retouches"
+                imageAlt="Umel Couture, espace privé retouches"
                 titleLines={["L'art du détail.", "Le tombé", "parfait."]}
                 sub="Espace privé réservé pour vos séances de retouches et ajustements."
                 objectPosition="center 30%"
@@ -122,9 +122,9 @@ export default function RetouchesPrivateBookingPage() {
                             <div className="cdt">
                                 <strong>Horaires de l&apos;Atelier</strong>
                                 <span>
-                                    Mardi au Samedi : 10h–18h30 (dernier créneau 17h)
+                                    Mardi au Samedi : 10h à 18h30 (dernier créneau 17h)
                                     <br />
-                                    Dimanche : 11h–17h (dernier créneau 16h) · Fermé le lundi
+                                    Dimanche : 11h à 17h (dernier créneau 16h) · Fermé le lundi
                                 </span>
                             </div>
                         </div>
@@ -140,7 +140,7 @@ export default function RetouchesPrivateBookingPage() {
                                 allowFullScreen={false}
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                title="Umel Couture — 12 rue Georges Truffaut, 77170 Servon"
+                                title="Umel Couture, 12 rue Georges Truffaut, 77170 Servon"
                             />
                         </div>
                     </div>

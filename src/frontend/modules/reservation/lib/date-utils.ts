@@ -131,7 +131,7 @@ export function generateICSContent(params: {
         `DTSTAMP:${dtStamp}`,
         `DTSTART:${dtStart}`,
         `DTEND:${dtEnd}`,
-        `SUMMARY:${params.title} — Umel Couture`,
+        `SUMMARY:${params.title} · Umel Couture`,
         `DESCRIPTION:${params.description}`,
         `LOCATION:${params.location}`,
         "STATUS:CONFIRMED",

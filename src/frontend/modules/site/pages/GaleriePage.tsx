@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/galerie",
-    title: "Galerie robes de mariée sur mesure — Servon (77) | Umel Couture",
+    title: "Galerie robes de mariée sur mesure à Servon (77) | Umel Couture",
     socialTitle: "Galerie des créations | Umel Couture",
     description:
         "Découvrez les robes de mariée sur mesure créées dans notre atelier de Servon : dentelles, broderies, coupes sirène et princesse. Inspirations mariage en Île-de-France.",
@@ -31,7 +31,7 @@ export default function GaleriePage() {
         <>
             <JsonLd data={breadcrumbSchema} />
 
-            <HeroSlider folio="Galerie & Créations — 2026">
+            <HeroSlider folio="Galerie & Créations · 2026">
                 <h1 className="hero-title">
                     <small className="hero-eyebrow">Galerie robes de mariée sur mesure · Servon (77)</small>
                     <span className="line">

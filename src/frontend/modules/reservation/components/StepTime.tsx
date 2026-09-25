@@ -78,10 +78,10 @@ export default function StepTime({ dateStr, slots, selectedSlotId, isLoading, on
                                 role="radio"
                                 aria-label={`Créneau de ${slot.startTime} à ${slot.endTime}${
                                     isFull
-                                        ? " — Complet"
+                                        ? ", complet"
                                         : isLowCapacity
-                                          ? " — Dernière place disponible"
-                                          : " — Disponible"
+                                          ? ", dernière place disponible"
+                                          : ", disponible"
                                 }`}
                                 className={`res-slot-btn ${
                                     isSelected ? "is-selected" : ""
@@ -89,7 +89,7 @@ export default function StepTime({ dateStr, slots, selectedSlotId, isLoading, on
                             >
                                 <span className="res-slot-time">
                                     {slot.startTime}
-                                    <span className="res-slot-end"> — {slot.endTime}</span>
+                                    <span className="res-slot-end"> à {slot.endTime}</span>
                                 </span>
 
                                 <span className="res-slot-status">

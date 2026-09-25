@@ -11,7 +11,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/comment-ca-marche",
-    title: "Le déroulé d'un rendez-vous — robe de mariée sur mesure | Umel Couture (77)",
+    title: "Le déroulé d'un rendez-vous, robe de mariée sur mesure | Umel Couture (77)",
     socialTitle: "Le déroulé d'un rendez-vous chez Umel Couture",
     description:
         "Accueil, essayage des robes du showroom, composition, devis, essayages : comment se déroule votre rendez-vous robe de mariée sur mesure à Servon (77). FAQ.",
@@ -34,7 +34,7 @@ export default function CommentCaMarchePage() {
                 eyebrow="Le déroulé d'un rendez-vous · Servon (77)"
                 imageAlt="Salon d'essayage privé de l'atelier Umel Couture à Servon, Seine-et-Marne"
                 titleLines={["On ne part jamais", "d'une robe.", "On part de vous."]}
-                sub="De la première conversation au jour J — et oui, vous essayez des robes dès votre rendez-vous."
+                sub="De la première conversation au jour J. Et oui, vous essayez des robes dès votre rendez-vous."
             />
 
             {/* DÉROULÉ D'UN RENDEZ-VOUS */}
@@ -72,7 +72,7 @@ export default function CommentCaMarchePage() {
                                 <h3>Accueil & échange</h3>
                                 <p>
                                     On prend le temps de vous connaître : vos envies, votre style, vos inspirations.
-                                    Vous pouvez venir avec une photo — on s&apos;en empare et on construit à partir de
+                                    Vous pouvez venir avec une photo : on s&apos;en empare et on construit à partir de
                                     là. Sans pression. Sans catalogue imposé.
                                 </p>
                             </div>
@@ -83,7 +83,7 @@ export default function CommentCaMarchePage() {
                                 <h3>Essayage des robes du showroom</h3>
                                 <p>
                                     Oui, vous essayez des robes dès votre rendez-vous. Les modèles du showroom
-                                    permettent de voir coupes, volumes et matières directement sur vous — vous voyez,
+                                    permettent de voir coupes, volumes et matières directement sur vous : vous voyez,
                                     vous ressentez, vous décidez.
                                 </p>
                             </div>
@@ -95,7 +95,7 @@ export default function CommentCaMarchePage() {
                                 <p>
                                     Haut d&apos;un modèle, bas d&apos;un autre, dentelle particulière, couleur, détails.
                                     On compose ensemble à partir de vos envies et de vos essayages. Rien n&apos;est figé
-                                    — tout se construit avec vous.
+                                    : tout se construit avec vous.
                                 </p>
                             </div>
                         </div>

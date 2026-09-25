@@ -23,7 +23,7 @@ export default function PageHero({ imageSrc, imageAlt, eyebrow, titleLines, sub,
                 {sub && <p className="hero-sub">{sub}</p>}
                 {children}
             </div>
-            <div className="hero-folio" aria-hidden="true">Umel Couture <span>—</span> Servon, France</div>
+            <div className="hero-folio" aria-hidden="true">Umel Couture <span>·</span> Servon, France</div>
             <div className="hero-scroll-indicator" aria-hidden="true"><span>Défiler</span><div className="hero-scroll-line" /></div>
         </header>
     );

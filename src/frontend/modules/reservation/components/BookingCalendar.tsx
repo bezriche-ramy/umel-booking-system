@@ -124,15 +124,15 @@ export default function BookingCalendar({ selectedDateStr, onSelectDate }: Booki
                     let ariaLabel = `${date.getDate()} ${formatFrenchMonthYear(date.getFullYear(), date.getMonth())}`;
 
                     if (isClosed) {
-                        ariaLabel += " — Atelier fermé";
+                        ariaLabel += ", atelier fermé";
                     } else if (isPast) {
-                        ariaLabel += " — Date passée";
+                        ariaLabel += ", date passée";
                     } else if (isFull) {
-                        ariaLabel += " — Complet";
+                        ariaLabel += ", complet";
                     } else if (isSelected) {
-                        ariaLabel += " — Date sélectionnée";
+                        ariaLabel += ", date sélectionnée";
                     } else if (isAvailable) {
-                        ariaLabel += " — Créneaux disponibles";
+                        ariaLabel += ", créneaux disponibles";
                     }
 
                     return (

@@ -34,7 +34,7 @@ export function getBridalShopSchema() {
         "@type": "BridalShop",
         "@id": BUSINESS_ID,
         name: siteConfig.name,
-        alternateName: "Umel Couture — Robe de mariée sur mesure Servon",
+        alternateName: "Umel Couture, robe de mariée sur mesure à Servon",
         url: siteConfig.url,
         logo: absoluteUrl("/images/logo_umel_couture.webp"),
         image: [

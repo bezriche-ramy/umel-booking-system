@@ -67,7 +67,7 @@ export default function CollectionShowcase() {
                         La <em>collection</em>
                     </h2>
                     <p>
-                        Shooting studio 2026 — {models.length} modèles de la maison, à essayer à l&apos;atelier de Servon.
+                        Shooting studio 2026 : {models.length} modèles de la maison, à essayer à l&apos;atelier de Servon.
                     </p>
                 </div>
                 <figure className="collection-head-img">

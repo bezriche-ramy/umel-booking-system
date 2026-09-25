@@ -69,7 +69,7 @@ export const metadata: Metadata = {
                 url: "/images/og/accueil.jpg",
                 width: 1200,
                 height: 630,
-                alt: "Umel Couture — robe de mariée sur mesure à Servon, Seine-et-Marne",
+                alt: "Umel Couture, robe de mariée sur mesure à Servon, Seine-et-Marne",
                 type: "image/jpeg",
             },
         ],

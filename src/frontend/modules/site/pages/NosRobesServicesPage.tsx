@@ -43,7 +43,7 @@ const creationPhotos = [
 /** Paragraphes complémentaires affichés sous la description d'une prestation. */
 const extraCopy: Record<string, string> = {
     confection:
-        "Chaque robe commence par une conversation : vos envies, votre silhouette, ce qui vous ressemble vraiment. Vous pouvez venir avec une photo d'inspiration — on s'en empare et on construit à partir de là. Coupes, volumes et matières sont validés directement sur vous grâce aux modèles du showroom.",
+        "Chaque robe commence par une conversation : vos envies, votre silhouette, ce qui vous ressemble vraiment. Vous pouvez venir avec une photo d'inspiration : on s'en empare et on construit à partir de là. Coupes, volumes et matières sont validés directement sur vous grâce aux modèles du showroom.",
 };
 
 export default function NosRobesServicesPage() {
@@ -58,10 +58,10 @@ export default function NosRobesServicesPage() {
 
             <PageHero
                 imageSrc="/images/Nos robes.webp"
-                eyebrow="Confection · Location · Retouches · Pressing — Servon (77)"
+                eyebrow="Confection · Location · Retouches · Pressing · Servon (77)"
                 imageAlt="Robes de mariée du showroom Umel Couture à Servon, Seine-et-Marne"
                 titleLines={["Chaque prestation,", "pensée avec", "la même exigence."]}
-                sub="Peu importe le service choisi — vous êtes accompagnée du début à la fin."
+                sub="Peu importe le service choisi, vous êtes accompagnée du début à la fin."
             >
                 <div className="hero-actions">
                     <Link href="/contact#reservation" className="hero-btn-primary">
@@ -192,7 +192,7 @@ export default function NosRobesServicesPage() {
                 label="Rendez-vous"
                 title={
                     <>
-                        Prenez rendez-vous —
+                        Prenez rendez-vous :
                         <br />
                         <em>découverte en maison</em>
                     </>

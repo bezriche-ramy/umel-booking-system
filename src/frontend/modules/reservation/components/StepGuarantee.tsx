@@ -305,7 +305,7 @@ export default function StepGuarantee({
                     <div>
                         <span className="res-review-label">Date &amp; Horaire</span>
                         <strong>
-                            {draft.date ? formatFrenchLongDate(draft.date) : "—"} à {draft.startTime}
+                            {draft.date ? formatFrenchLongDate(draft.date) : ""} à {draft.startTime}
                         </strong>
                     </div>
                     <div>

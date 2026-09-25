@@ -7,7 +7,7 @@ export default function Footer() {
         <>
             <footer>
                 <div className="fb">
-                    <Link href="/" className="footer-logo" aria-label="Umel Couture — Accueil">
+                    <Link href="/" className="footer-logo" aria-label="Umel Couture, accueil">
                         <Image
                             src="/images/logo_umel_couture.webp"
                             alt="Umel Couture"
@@ -93,7 +93,7 @@ export default function Footer() {
             </footer>
 
             <div className="fbot">
-                <p>© Umel Couture 2026 — Tous droits réservés</p>
+                <p>© Umel Couture 2026 · Tous droits réservés</p>
                 <p>Servon · Seine-et-Marne</p>
             </div>
         </>

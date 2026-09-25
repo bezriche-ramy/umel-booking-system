@@ -10,10 +10,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/contact",
-    title: "Contact & rendez-vous — Boutique robe de mariée à Servon (77) | Umel Couture",
+    title: "Contact & rendez-vous : boutique robe de mariée à Servon (77) | Umel Couture",
     socialTitle: "Prendre rendez-vous | Umel Couture Servon",
     description:
-        "Prenez rendez-vous à l'atelier Umel Couture, 12 rue Georges Truffaut, 77170 Servon — près de Brie-Comte-Robert, Melun, Créteil. Mar–sam 10h–18h30, dim 11h–17h.",
+        "Prenez rendez-vous à l'atelier Umel Couture, 12 rue Georges Truffaut, 77170 Servon, près de Brie-Comte-Robert, Melun et Créteil. Du mardi au samedi de 10h à 18h30, le dimanche de 11h à 17h.",
     ogImage: "/images/og/contact.jpg",
     ogImageAlt: "Atelier Umel Couture, 12 rue Georges Truffaut à Servon (77)",
 });
@@ -135,7 +135,7 @@ export default function ContactPage() {
                                             padding: "4px 0",
                                         }}
                                     >
-                                        {siteConfig.phone} — Écrire à l&apos;atelier
+                                        {siteConfig.phone} · Écrire à l&apos;atelier
                                     </a>
                                 </span>
                             </div>
@@ -161,9 +161,9 @@ export default function ContactPage() {
                             <div className="cdt">
                                 <strong>Horaires d&apos;ouverture</strong>
                                 <span>
-                                    Mardi au Samedi : 10h–18h30 (dernier rendez-vous 17h)
+                                    Mardi au Samedi : 10h à 18h30 (dernier rendez-vous 17h)
                                     <br />
-                                    Dimanche : 11h–17h (dernier rendez-vous 16h)
+                                    Dimanche : 11h à 17h (dernier rendez-vous 16h)
                                     <br />
                                     Fermé le lundi · Sur rendez-vous uniquement
                                 </span>
@@ -185,7 +185,7 @@ export default function ContactPage() {
                                 allowFullScreen={false}
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                title="Umel Couture — 12 rue Georges Truffaut, 77170 Servon"
+                                title="Umel Couture, 12 rue Georges Truffaut, 77170 Servon"
                             />
                         </div>
                     </div>

@@ -29,7 +29,7 @@ const retouchesNote = `<p style="margin:12px 0 0"><strong>Pour vos retouches :</
 
 export function confirmationEmail(firstName: string, a: AppointmentLike) {
     return {
-        subject: `Votre rendez-vous Umel Couture est confirmé — ${a.reference}`,
+        subject: `Votre rendez-vous Umel Couture est confirmé (${a.reference})`,
         html: emailLayout(
             "Votre rendez-vous est confirmé",
             `<p>Chère ${escapeHtml(firstName)},</p><p>Nous avons le plaisir de confirmer votre rendez-vous à l'atelier.</p>
@@ -57,7 +57,7 @@ Un empêchement ? Appelez-nous au ${siteConfig.phone}.</p>
 
 export function cancellationEmail(firstName: string, a: AppointmentLike, charged: boolean) {
     return {
-        subject: `Annulation de votre rendez-vous — ${a.reference}`,
+        subject: `Annulation de votre rendez-vous (${a.reference})`,
         html: emailLayout(
             "Rendez-vous annulé",
             `<p>Chère ${escapeHtml(firstName)},</p><p>Votre rendez-vous a bien été annulé.</p>${details(a)}
@@ -69,7 +69,7 @@ export function cancellationEmail(firstName: string, a: AppointmentLike, charged
 
 export function rescheduleEmail(firstName: string, a: AppointmentLike) {
     return {
-        subject: `Votre rendez-vous Umel Couture a été déplacé — ${a.reference}`,
+        subject: `Votre rendez-vous Umel Couture a été déplacé (${a.reference})`,
         html: emailLayout(
             "Nouvel horaire de rendez-vous",
             `<p>Chère ${escapeHtml(firstName)},</p><p>Votre rendez-vous a été déplacé. Voici les nouvelles informations :</p>${details(a)}${policyHtml}`,
@@ -84,7 +84,7 @@ export function depositChargedEmail(
     const amount = `${a.amountCents / 100} €`;
     const appointment = a.serviceId && a.date ? details({ reference: a.reference, serviceId: a.serviceId, date: a.date }) : "";
     return {
-        subject: `Prélèvement de l'empreinte bancaire — ${a.reference}`,
+        subject: `Prélèvement de l'empreinte bancaire (${a.reference})`,
         html: emailLayout(
             "Empreinte bancaire prélevée",
             `<p>Chère ${escapeHtml(firstName)},</p><p>Suite à votre absence (ou à une annulation moins de ${FREE_CANCELLATION_HOURS}h avant), l'empreinte bancaire de ${amount} a été prélevée conformément aux conditions acceptées lors de la réservation.</p>${appointment}

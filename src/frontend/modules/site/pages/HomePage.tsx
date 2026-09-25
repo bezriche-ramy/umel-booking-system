@@ -15,13 +15,13 @@ export const metadata: Metadata = buildPageMetadata({
     title: siteConfig.titleDefault,
     description: siteConfig.descriptionDefault,
     ogImage: "/images/og/accueil.jpg",
-    ogImageAlt: "Umel Couture — robe de mariée sur mesure à Servon, Seine-et-Marne",
+    ogImageAlt: "Umel Couture, robe de mariée sur mesure à Servon, Seine-et-Marne",
 });
 
 export default function HomePage() {
     return (
         <>
-            <HeroVideo folio="Spot Officiel — Maison Umel">
+            <HeroVideo folio="Spot Officiel · Maison Umel">
                 <h1 className="hero-title">
                     <small className="hero-eyebrow">Robe de mariée sur mesure · Servon, Seine-et-Marne (77)</small>
                     <span className="line">
@@ -69,7 +69,7 @@ export default function HomePage() {
                         fill
                         sizes="(max-width: 800px) 100vw, 62vw"
                     />
-                    <figcaption>Création sur mesure — Umel Couture</figcaption>
+                    <figcaption>Création sur mesure · Umel Couture</figcaption>
                 </figure>
                 <div className="home-image-story-copy">
                     <h2 id="savoir-faire-title">
@@ -156,7 +156,7 @@ export default function HomePage() {
                         fill
                         sizes="(max-width: 800px) 64vw, 22vw"
                     />
-                    <figcaption>Atelier de Servon — sur rendez-vous</figcaption>
+                    <figcaption>Atelier de Servon · sur rendez-vous</figcaption>
                 </figure>
             </section>
 
@@ -179,7 +179,7 @@ export default function HomePage() {
                             fill
                             sizes="(max-width: 700px) 92vw, 34vw"
                         />
-                        <figcaption>01 — Dentelle sculptée</figcaption>
+                        <figcaption>01 · Dentelle sculptée</figcaption>
                     </figure>
                     <figure className="creation-b">
                         <Image
@@ -188,7 +188,7 @@ export default function HomePage() {
                             fill
                             sizes="(max-width: 700px) 78vw, 28vw"
                         />
-                        <figcaption>02 — Ligne couture</figcaption>
+                        <figcaption>02 · Ligne couture</figcaption>
                     </figure>
                     <figure className="creation-c">
                         <Image
@@ -197,7 +197,7 @@ export default function HomePage() {
                             fill
                             sizes="(max-width: 700px) 82vw, 30vw"
                         />
-                        <figcaption>03 — Broderie lumière</figcaption>
+                        <figcaption>03 · Broderie lumière</figcaption>
                     </figure>
                 </div>
             </section>
@@ -228,7 +228,7 @@ export default function HomePage() {
                     <>
                         Rencontrez-nous dans notre atelier de Servon.
                         <br />
-                        Mardi – samedi 10h–18h30, dimanche 11h–17h, sur rendez-vous.
+                        Du mardi au samedi de 10h à 18h30, le dimanche de 11h à 17h, sur rendez-vous.
                     </>
                 }
                 cornerStitches={false}

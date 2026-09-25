@@ -13,13 +13,13 @@ const desktopSlides = [
     { src: "/images/Hero1.webp", alt: "Mariée en robe sur mesure Umel Couture sur la côte amalfitaine", position: "center 48%" },
     { src: "/images/Hero2.webp", alt: "Robe de mariée sur mesure Umel Couture en mouvement", position: "center 32%" },
     { src: "/images/Hero3.webp", alt: "Détail couture d'une robe de mariée créée à Servon par Umel Couture", position: "center 34%" },
-    { src: "/images/Hero4.webp", alt: "Silhouette nuptiale — robe de mariée sur mesure Umel Couture, Seine-et-Marne", position: "center 38%" },
+    { src: "/images/Hero4.webp", alt: "Silhouette nuptiale, robe de mariée sur mesure Umel Couture, Seine-et-Marne", position: "center 38%" },
 ];
 
 export default function HeroVideo({
     children,
     videoSrc = "/videos/spot-4-b.mp4",
-    folio = "Collection privée — 2026",
+    folio = "Collection privée · 2026",
 }: HeroVideoProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -141,9 +141,9 @@ export default function HeroVideo({
 
             {/* Desktop View: Folio */}
             <div className="hero-folio hero-desktop-folio" aria-hidden="true">
-                {folio.includes("—") ? (
+                {folio.includes("·") ? (
                     <>
-                        {folio.split("—")[0].trim()} <span>—</span> {folio.split("—")[1].trim()}
+                        {folio.split("·")[0].trim()} <span>·</span> {folio.split("·")[1].trim()}
                     </>
                 ) : (
                     folio

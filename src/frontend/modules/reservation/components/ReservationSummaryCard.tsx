@@ -55,7 +55,7 @@ export default function ReservationSummaryCard({ draft, service }: ReservationSu
                     <div className="res-summary-row">
                         <dt>Prestation</dt>
                         <dd>
-                            <strong>{service ? service.title : "—"}</strong>
+                            <strong>{service ? service.title : "À choisir"}</strong>
                             {service && <span className="res-summary-sub">{service.duration}</span>}
                         </dd>
                     </div>
@@ -77,7 +77,7 @@ export default function ReservationSummaryCard({ draft, service }: ReservationSu
                         <dt>Horaire</dt>
                         <dd>
                             {hasSlot && draft.startTime && draft.endTime ? (
-                                `${draft.startTime} — ${draft.endTime}`
+                                `${draft.startTime} à ${draft.endTime}`
                             ) : (
                                 <span className="res-placeholder-text">À choisir</span>
                             )}

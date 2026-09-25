@@ -22,7 +22,7 @@ export default function StepConfirmation({ confirmation }: StepConfirmationProps
 
         const icsContent = generateICSContent({
             reference,
-            title: isRetouches ? `Retouches Robe — Umel Couture` : `Essayage ${service.title} — Umel Couture`,
+            title: isRetouches ? `Retouches robe · Umel Couture` : `Essayage ${service.title} · Umel Couture`,
             dateStr: draft.date,
             startTime: draft.startTime,
             endTime: draft.endTime,
@@ -74,13 +74,13 @@ export default function StepConfirmation({ confirmation }: StepConfirmationProps
 
                     <div className="res-ticket-row">
                         <span className="res-ticket-key">Date</span>
-                        <span className="res-ticket-val">{draft.date ? formatFrenchLongDate(draft.date) : "—"}</span>
+                        <span className="res-ticket-val">{draft.date ? formatFrenchLongDate(draft.date) : ""}</span>
                     </div>
 
                     <div className="res-ticket-row">
                         <span className="res-ticket-key">Horaire</span>
                         <span className="res-ticket-val">
-                            {draft.startTime} — {draft.endTime}
+                            {draft.startTime} à {draft.endTime}
                         </span>
                     </div>
 
