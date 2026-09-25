@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 /** Shooting studio 2026 — une sélection de photos par modèle, la première est l'image principale. */
 const models = [
@@ -62,26 +63,46 @@ export default function CollectionShowcase() {
     return (
         <section className="collection" aria-labelledby="collection-title">
             <div className="collection-head">
-                <div>
+                <div className="collection-head-copy">
+                    <span className="collection-eyebrow">Shooting studio 2026</span>
                     <h2 id="collection-title" style={{ textWrap: "balance" }}>
                         La <em>collection</em>
                     </h2>
                     <p>
-                        Shooting studio 2026 : {models.length} modèles de la maison, à essayer à l&apos;atelier de Servon.
+                        {models.length} modèles de la maison, photographiés en studio et à essayer à l&apos;atelier de
+                        Servon, sur rendez-vous.
                     </p>
+                    <ol className="collection-index" aria-label="Les modèles de la collection">
+                        {models.map((model, index) => (
+                            <li key={model.slug}>
+                                <a href={`#modele-${model.slug}`}>
+                                    <span>{String(index + 1).padStart(2, "0")}</span>
+                                    {model.name}
+                                </a>
+                            </li>
+                        ))}
+                    </ol>
+                    <Link href="/contact#reservation" className="collection-cta">
+                        Essayer en atelier <span aria-hidden="true">→</span>
+                    </Link>
                 </div>
                 <figure className="collection-head-img">
                     <Image
                         src="/images/shooting/duo-2.webp"
                         alt="Deux mariées en robes Umel Couture en studio"
                         fill
-                        sizes="(max-width: 800px) 92vw, 36vw"
+                        sizes="(max-width: 800px) 92vw, 40vw"
                     />
                 </figure>
             </div>
 
             {models.map((model, index) => (
-                <article className="collection-model" key={model.slug} aria-labelledby={`model-${model.slug}`}>
+                <article
+                    className="collection-model"
+                    key={model.slug}
+                    id={`modele-${model.slug}`}
+                    aria-labelledby={`model-${model.slug}`}
+                >
                     <header className="collection-model-head">
                         <span>{String(index + 1).padStart(2, "0")}</span>
                         <h3 id={`model-${model.slug}`}>{model.name}</h3>
