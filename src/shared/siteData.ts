@@ -194,7 +194,6 @@ export const siteConfig = {
     ],
     /** Grille tarifaire du pressing affichée sur /nos-robes-services#pressing. */
     // TODO: compléter avec la grille tarifaire réelle transmise par l'atelier
-    pressingRates: [{ label: "Robe de mariée", price: "À partir de 150 €" }],
 };
 
 export const reviewsList: Review[] = [

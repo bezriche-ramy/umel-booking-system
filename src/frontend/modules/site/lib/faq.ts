@@ -43,10 +43,10 @@ export const commentCaMarcheFaq: FaqItem[] = [
     },
     {
         question: "Retouchez-vous les robes de mariée achetées ailleurs ?",
-        answer: `Oui, Umel Couture retouche aussi les robes qui ne viennent pas de la maison, à partir de 250 €. Envoyez une vidéo de la robe portée sur WhatsApp au ${phone} pour une première estimation ; le devis est ajusté en cabine.`,
+        answer: `Oui, Umel Couture retouche aussi les robes qui ne viennent pas de la maison. Envoyez une vidéo de la robe portée sur WhatsApp au ${phone} pour une première estimation ; le devis est ajusté en cabine.`,
     },
     {
         question: "Proposez-vous la location de robes et le pressing ?",
-        answer: "Oui. Les robes de mariée du showroom sont disponibles à la location à partir de 1 000 €, ainsi qu'une sélection de robes de soirée. Notre pressing spécialisé pour robes de mariée démarre à partir de 150 €.",
+        answer: "Oui. Les robes de mariée du showroom sont disponibles à la location, ainsi qu'une sélection de robes de soirée. Nous proposons aussi un pressing spécialisé pour robes de mariée.",
     },
 ];

@@ -113,18 +113,6 @@ export function getServicesSchema() {
             url: absoluteUrl(svc.url),
             provider: { "@id": BUSINESS_ID },
             areaServed: getAreaServed(),
-            offers: {
-                "@type": "Offer",
-                priceCurrency: "EUR",
-                description: svc.price,
-                ...(svc.priceFrom !== null && {
-                    priceSpecification: {
-                        "@type": "PriceSpecification",
-                        minPrice: svc.priceFrom,
-                        priceCurrency: "EUR",
-                    },
-                }),
-            },
         })),
     };
 }

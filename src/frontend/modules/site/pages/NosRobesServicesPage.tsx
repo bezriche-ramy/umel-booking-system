@@ -5,6 +5,7 @@ import PageHero from "@frontend/shared/components/PageHero";
 import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
 import JsonLd from "@frontend/shared/components/JsonLd";
+import MobileCarousel from "@frontend/shared/components/MobileCarousel";
 import { siteConfig } from "@shared/siteData";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -15,7 +16,7 @@ export const metadata: Metadata = buildPageMetadata({
     title: "Robes de mariée, retouches & location en Île-de-France | Umel Couture",
     socialTitle: "Robes de mariée, retouches & location | Umel Couture Servon",
     description:
-        "Robe de mariée sur mesure, location de robes de mariée et de soirée, costumes homme, retouches dès 250 € et pressing dès 150 € à Servon (77), près de Brie-Comte-Robert et Melun.",
+        "Robe de mariée sur mesure, location de robes de mariée et de soirée, costumes homme, retouches et pressing à Servon (77), près de Brie-Comte-Robert et Melun.",
     ogImage: "/images/og/nos-robes-services.jpg",
     ogImageAlt: "Robes de mariée du showroom Umel Couture à Servon (77)",
 });
@@ -125,65 +126,57 @@ export default function NosRobesServicesPage() {
                     </p>
                 </div>
 
-                {siteConfig.services.map(service => (
-                    <article
-                        key={service.id}
-                        id={service.id}
-                        className={`prestation reveal${service.image ? "" : " prestation--text"}`}
-                        aria-labelledby={`${service.id}-title`}
-                    >
-                        {service.image && (
-                            <figure className="prestation-media">
-                                <Image
-                                    src={service.image.src}
-                                    alt={service.image.alt}
-                                    fill
-                                    sizes="(max-width: 800px) 92vw, 40vw"
-                                />
-                            </figure>
-                        )}
-                        <div className="prestation-body">
-                            <span className="service-line-number">{service.num}</span>
-                            <h3 id={`${service.id}-title`}>
-                                {service.title}
-                                {service.badge && <span className="service-badge">{service.badge}</span>}
-                            </h3>
-                            <p className="prestation-quote">{service.quote}</p>
-                            <p className="prestation-copy">{service.desc}</p>
-                            {extraCopy[service.id] && <p className="prestation-copy">{extraCopy[service.id]}</p>}
-
-                            {service.id === "pressing" && (
-                                <table className="pressing-rates">
-                                    <caption>Grille tarifaire</caption>
-                                    <tbody>
-                                        {siteConfig.pressingRates.map(rate => (
-                                            <tr key={rate.label}>
-                                                <th scope="row">{rate.label}</th>
-                                                <td>{rate.price}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                <MobileCarousel
+                    trackClassName="prestations-track"
+                    itemLabels={siteConfig.services.map(service => service.title)}
+                    prevLabel="Prestation précédente"
+                    nextLabel="Prestation suivante"
+                >
+                    {siteConfig.services.map(service => (
+                        <article
+                            key={service.id}
+                            id={service.id}
+                            className={`prestation reveal${service.image ? "" : " prestation--text"}`}
+                            aria-labelledby={`${service.id}-title`}
+                        >
+                            {service.image && (
+                                <figure className="prestation-media">
+                                    <Image
+                                        src={service.image.src}
+                                        alt={service.image.alt}
+                                        fill
+                                        sizes="(max-width: 800px) 92vw, 40vw"
+                                    />
+                                </figure>
                             )}
+                            <div className="prestation-body">
+                                <span className="service-line-number">{service.num}</span>
+                                <h3 id={`${service.id}-title`}>
+                                    {service.title}
+                                    {service.badge && <span className="service-badge">{service.badge}</span>}
+                                </h3>
+                                <p className="prestation-quote">{service.quote}</p>
+                                <p className="prestation-copy">{service.desc}</p>
+                                {extraCopy[service.id] && <p className="prestation-copy">{extraCopy[service.id]}</p>}
 
-                            <div className="service-line-meta prestation-meta">
-                                <span>{service.price}</span>
-                                {service.id === "retouches" ? (
-                                    <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                        Envoyer ma vidéo sur WhatsApp <span aria-hidden="true">→</span>
-                                    </a>
-                                ) : (
-                                    <Link
-                                        href="/contact#reservation"
-                                        aria-label={`Prendre rendez-vous pour ${service.title}`}
-                                    >
-                                        Prendre rendez-vous <span aria-hidden="true">→</span>
-                                    </Link>
-                                )}
+                                <div className="service-line-meta prestation-meta">
+                                    {service.id === "retouches" ? (
+                                        <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer">
+                                            Envoyer ma vidéo sur WhatsApp <span aria-hidden="true">→</span>
+                                        </a>
+                                    ) : (
+                                        <Link
+                                            href="/contact#reservation"
+                                            aria-label={`Prendre rendez-vous pour ${service.title}`}
+                                        >
+                                            Prendre rendez-vous <span aria-hidden="true">→</span>
+                                        </Link>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    </article>
-                ))}
+                        </article>
+                    ))}
+                </MobileCarousel>
             </section>
 
             <EmbroideryDivider />

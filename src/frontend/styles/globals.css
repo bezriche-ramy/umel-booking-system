@@ -2960,7 +2960,7 @@ footer {
         line-height: 1.8;
     }
     .flux-journal {
-        padding: 82px 12px;
+        padding: var(--section-space) 12px;
     }
     .flux-journal-head {
         display: block;
@@ -4279,7 +4279,7 @@ section.s {
     display: flex;
     gap: 18px;
     overflow-x: auto;
-    padding: 0 var(--page-gutter) 28px;
+    padding: 0 var(--page-gutter) 60px;
     scroll-snap-type: x mandatory;
     scrollbar-width: thin;
     scrollbar-color: var(--champagne) transparent;
@@ -4368,7 +4368,7 @@ footer {
 @media (max-width: 800px) {
     :root {
         --page-gutter: 22px;
-        --section-space: 82px;
+        --section-space: 52px;
     }
     nav {
         min-height: 66px !important;
@@ -4617,7 +4617,7 @@ footer {
         padding: 0 22px;
     }
     .atelier-strip-track {
-        padding: 0 22px 28px;
+        padding: 0 22px 56px;
     }
     .atelier-strip-track figure,
     .atelier-strip-track figure:nth-child(even) {
@@ -7641,7 +7641,7 @@ section.s.res-page-section {
         gap: 4px;
     }
     .footer-logo {
-        margin-left: 0;
+        margin: 0 auto 18px;
     }
     .intro-dot,
     .intro-dot.active {
@@ -8225,4 +8225,233 @@ section.s.res-page-section {
     .fbot {
         padding-right: calc(var(--page-gutter) + 260px);
     }
+}
+
+/* Mobile: tighter vertical rhythm, large desktop gaps are not needed on small screens */
+@media (max-width: 800px) {
+    .embroidery-divider {
+        height: 24px;
+        padding: 0 var(--page-gutter);
+    }
+
+    .embroidery-divider svg {
+        height: 24px;
+    }
+
+    section:has(+ .embroidery-divider) {
+        padding-bottom: 28px !important;
+    }
+
+    .embroidery-divider + section {
+        padding-top: 28px !important;
+    }
+
+    .collection,
+    .portfolio {
+        padding-top: var(--section-space) !important;
+        padding-bottom: var(--section-space) !important;
+    }
+
+    .collection-head {
+        margin-bottom: 40px;
+    }
+
+    .flux-journal-head {
+        margin-bottom: 40px;
+    }
+
+    .cband {
+        padding: 48px var(--page-gutter) !important;
+    }
+
+    .etape {
+        padding: 32px 0 !important;
+    }
+
+    .etape:last-child {
+        padding-bottom: 16px !important;
+    }
+
+    .infos-grid > div {
+        padding: 28px 16px !important;
+    }
+}
+
+/* ===== Services : CTA plus visibles + carrousel mobile ===== */
+.service-line-meta a {
+    justify-content: center;
+    padding: 12px 22px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 500;
+    transition:
+        background 250ms,
+        border-color 250ms,
+        color 200ms;
+}
+.service-line-meta a:hover {
+    background: var(--champagne);
+    border-color: var(--champagne);
+    color: var(--ink);
+    text-decoration: none;
+}
+.m-carousel-nav {
+    display: none;
+}
+@media (max-width: 800px) {
+    .m-carousel {
+        margin: 0 calc(var(--page-gutter) * -1);
+    }
+    .m-carousel .m-carousel-track {
+        display: flex;
+        align-items: stretch;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 4px var(--page-gutter) 8px;
+        border-top: 0;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--page-gutter);
+        scrollbar-width: none;
+    }
+    .m-carousel .m-carousel-track::-webkit-scrollbar {
+        display: none;
+    }
+    .m-carousel .m-carousel-track > * {
+        flex: 0 0 84%;
+        min-width: 0;
+        border: 1px solid var(--hairline);
+        background: var(--white);
+        scroll-snap-align: start;
+    }
+    .m-carousel .service-line {
+        grid-template-rows: auto auto 1fr;
+        padding: 24px 20px;
+    }
+    .m-carousel .service-line-meta {
+        align-self: end;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+    }
+    .m-carousel .service-line-meta a {
+        width: 100%;
+    }
+    .prestation-meta a {
+        width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
+    /* Nos robes & services : cartes prestation */
+    .m-carousel .prestation {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        scroll-margin-top: 100px;
+    }
+    .m-carousel .prestations-track {
+        align-items: flex-start;
+    }
+    .m-carousel .prestation-copy + .prestation-copy {
+        display: none;
+    }
+    .m-carousel .prestation.reveal {
+        opacity: 1;
+        transform: none;
+    }
+    .m-carousel .prestation-media {
+        display: none;
+    }
+    .m-carousel .prestation-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        padding: 20px 20px 24px;
+    }
+    .m-carousel .prestation-body h3 {
+        margin-top: 8px;
+        font-size: clamp(24px, 6.4vw, 30px);
+    }
+    .m-carousel .prestation-meta {
+        margin-top: auto;
+        padding-top: 16px;
+    }
+    .m-carousel-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+        padding: 0 var(--page-gutter);
+    }
+    .m-carousel-dots {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+    }
+    .m-carousel-dot {
+        position: relative;
+        width: 28px;
+        height: 44px;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+    }
+    .m-carousel-dot::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--hairline);
+        transform: translate(-50%, -50%);
+        transition:
+            width 250ms,
+            background 250ms;
+    }
+    .m-carousel-dot.is-active::before {
+        width: 18px;
+        border-radius: 3px;
+        background: var(--champagne);
+    }
+    .m-carousel-count {
+        color: var(--muted);
+        font:
+            400 12px var(--font-jost),
+            sans-serif;
+        letter-spacing: 0.12em;
+    }
+    .m-carousel-arrow {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        border: 1px solid var(--ink);
+        border-radius: 50%;
+        background: transparent;
+        color: var(--ink);
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .m-carousel-arrow:disabled {
+        border-color: var(--hairline);
+        color: var(--hairline);
+        cursor: default;
+    }
+}
+
+/* Tous les boutons du site : forme arrondie (pilule) */
+.bl,
+.bs,
+.cband .bl,
+.wa-float,
+.collection-cta,
+.skip-link {
+    border-radius: 999px !important;
+}
+.sic {
+    border-radius: 50% !important;
 }
