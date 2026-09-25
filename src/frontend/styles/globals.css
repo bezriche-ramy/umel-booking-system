@@ -7543,11 +7543,13 @@ section.s.res-page-section {
         display: inline-flex !important;
         margin: 32px 0;
     }
+    /* Mobile : les numéros des photos (01 02 03 04) passent tout en bas du hero,
+       sous le bouton « Prendre rendez-vous », pour ne jamais le chevaucher */
     .intro-slider:not(.intro-responsive-hero) {
-        padding-bottom: 72px !important;
+        padding-bottom: 92px !important;
     }
     .intro-dots {
-        bottom: 72px;
+        bottom: 26px;
         gap: 4px;
     }
     .footer-logo {
