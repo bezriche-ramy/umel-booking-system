@@ -43,6 +43,7 @@ export default function OrdersScreen({ status, q, page, pages, total, counts, or
                         <thead>
                             <tr>
                                 <th>Commande</th>
+                                <th>Objet</th>
                                 <th>Date</th>
                                 <th>État</th>
                                 <th className="is-num">Total</th>
@@ -57,6 +58,7 @@ export default function OrdersScreen({ status, q, page, pages, total, counts, or
                                             #{o.number} {o.customer}
                                         </Link>
                                     </td>
+                                    <td data-label="Objet">{o.service ?? <span className="adm-muted">—</span>}</td>
                                     <td data-label="Date" className="adm-muted">{o.date}</td>
                                     <td data-label="État">
                                         <span className={`adm-order-status order-${o.status}`}>{ORDER_STATUS_LABELS[o.status]}</span>

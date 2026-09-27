@@ -51,7 +51,10 @@ export async function getOrdersPageData(sp: PageParams) {
         prisma.deposit.count({ where }),
         prisma.deposit.findMany({
             where,
-            include: { customer: { select: { firstName: true, lastName: true } } },
+            include: {
+                customer: { select: { firstName: true, lastName: true } },
+                appointment: { select: { serviceId: true } },
+            },
             orderBy: { number: "desc" },
             skip: (page - 1) * PAGE_SIZE,
             take: PAGE_SIZE,
@@ -73,6 +76,7 @@ export async function getOrdersPageData(sp: PageParams) {
             status: d.status,
             total: d.totalCents,
             origin: d.origin,
+            service: d.appointment ? getServiceTitle(d.appointment.serviceId) : null,
         })),
     };
 }
