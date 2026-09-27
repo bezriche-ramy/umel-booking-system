@@ -1,8 +1,36 @@
+import { Suspense } from "react";
+import DashboardFrame from "@frontend/modules/admin/components/dashboard/DashboardFrame";
+import { DashboardError, DashboardSkeleton } from "@frontend/modules/admin/components/dashboard/DashboardStates";
+import { fmtDayLong } from "@frontend/modules/admin/components/dashboard/format";
 import DashboardScreen from "@frontend/modules/admin/screens/DashboardScreen";
+import { parsePeriod, PERIODS, type PeriodKey } from "@backend/modules/dashboard/dashboard.period";
 import { getDashboardData } from "@backend/modules/dashboard/dashboard.queries";
-import { requirePageSession } from "@backend/modules/auth/guards";
+import { param, requirePageSession, type SearchParams } from "@backend/modules/auth/guards";
+import { todayInParis } from "@shared/tz";
 
-export default async function DashboardPage() {
+async function DashboardContent({ period }: { period: PeriodKey }) {
+    let data;
+    try {
+        data = await getDashboardData(period);
+    } catch (err) {
+        console.error("[dashboard]", err);
+        return <DashboardError period={period} />;
+    }
+    return <DashboardScreen {...data} />;
+}
+
+export default async function DashboardPage({ searchParams }: { searchParams: SearchParams }) {
     await requirePageSession(["ADMIN"]);
-    return <DashboardScreen {...await getDashboardData()} />;
+    const period = parsePeriod(param(await searchParams, "periode"));
+    return (
+        <DashboardFrame
+            period={period}
+            periods={Object.entries(PERIODS).map(([key, p]) => ({ key, label: p.label }))}
+            dateLabel={fmtDayLong(todayInParis())}
+        >
+            <Suspense fallback={<DashboardSkeleton />}>
+                <DashboardContent period={period} />
+            </Suspense>
+        </DashboardFrame>
+    );
 }
