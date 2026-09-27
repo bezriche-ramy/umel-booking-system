@@ -22,19 +22,15 @@ import { addDays, addMinutesToTime, parisToUtc, weekdayOf } from "@shared/tz";
 
 /**
  * Horaires par défaut : mardi–samedi 10h–17h (dernier créneau), dimanche 11h–16h, lundi fermé.
- * Capacités reprises de la configuration Amelia existante : créneau simple en semaine,
- * créneau double le week-end (service « essayage week-end », 2 clientes). Modifiable dans /admin/planning.
+ * Créneau simple (1 cliente par horaire) tous les jours ; l'atelier active le double au besoin dans /admin/planning.
  */
-export const DEFAULT_WEEK: Omit<ScheduleConfig, "weekday">[] = [0, 1, 2, 3, 4, 5, 6].map(weekday => {
-    const weekend = weekday === 0 || weekday === 6;
-    return {
-        isOpen: weekday !== 1,
-        startHour: weekday === 0 ? 11 : 10,
-        lastSlotHour: weekday === 0 ? 16 : 17,
-        simpleEnabled: !weekend,
-        doubleEnabled: weekend,
-    };
-});
+export const DEFAULT_WEEK: Omit<ScheduleConfig, "weekday">[] = [0, 1, 2, 3, 4, 5, 6].map(weekday => ({
+    isOpen: weekday !== 1,
+    startHour: weekday === 0 ? 11 : 10,
+    lastSlotHour: weekday === 0 ? 16 : 17,
+    simpleEnabled: true,
+    doubleEnabled: false,
+}));
 
 /** Statuts qui occupent une place sur un créneau. */
 export const OCCUPYING_STATUSES: AppointmentStatus[] = ["CONFIRMED", "COMPLETED", "NO_SHOW"];
@@ -108,12 +104,28 @@ export function capacityOf(slot: Pick<DaySlotConfig, "simpleEnabled" | "doubleEn
     return (slot.simpleEnabled ? 1 : 0) + (slot.doubleEnabled ? 2 : 0);
 }
 
+/**
+ * Places encore libres sur un horaire. Chaque réservation existante occupe une place de la capacité totale,
+ * quel que soit son type : un horaire repassé en « simple » qui porte déjà 2 réservations « double »
+ * (ex. anciens rendez-vous du week-end) est donc complet, et non ouvert à une 3e cliente.
+ */
+export function freePlaces(
+    slot: Pick<DaySlotConfig, "simpleEnabled" | "doubleEnabled">,
+    simpleBooked: number,
+    doubleBooked: number,
+): number {
+    const byType =
+        (slot.simpleEnabled ? Math.max(0, 1 - simpleBooked) : 0) + (slot.doubleEnabled ? Math.max(0, 2 - doubleBooked) : 0);
+    return Math.max(0, Math.min(byType, capacityOf(slot) - simpleBooked - doubleBooked));
+}
+
 /** Choisit le type de créneau à attribuer à une nouvelle réservation (simple d'abord, puis double). */
 export function pickSlotType(
     slot: Pick<DaySlotConfig, "simpleEnabled" | "doubleEnabled">,
     simpleBooked: number,
     doubleBooked: number,
 ): SlotType | null {
+    if (freePlaces(slot, simpleBooked, doubleBooked) === 0) return null;
     if (slot.simpleEnabled && simpleBooked < 1) return "SIMPLE";
     if (slot.doubleEnabled && doubleBooked < 2) return "DOUBLE";
     return null;
@@ -151,15 +163,13 @@ function computeAvailability(schedule: DaySchedule, counts: Counts, now = Date.n
     if (!schedule.isOpen) return [];
     return schedule.slots.map(slot => {
         const c = counts.get(slot.startTime) ?? { simple: 0, double: 0 };
-        const simpleFree = slot.simpleEnabled ? Math.max(0, 1 - c.simple) : 0;
-        const doubleFree = slot.doubleEnabled ? Math.max(0, 2 - c.double) : 0;
         return {
             ...slot,
             capacity: capacityOf(slot),
             simpleBooked: c.simple,
             doubleBooked: c.double,
             bookedCount: c.simple + c.double,
-            remaining: simpleFree + doubleFree,
+            remaining: freePlaces(slot, c.simple, c.double),
             isPast: parisToUtc(schedule.day, slot.startTime).getTime() <= now,
         };
     });
