@@ -53,7 +53,7 @@ export async function getOrdersPageData(sp: PageParams) {
             where,
             include: {
                 customer: { select: { firstName: true, lastName: true } },
-                appointment: { select: { serviceId: true } },
+                appointment: { select: { serviceId: true, projectNotes: true } },
             },
             orderBy: { number: "desc" },
             skip: (page - 1) * PAGE_SIZE,
@@ -76,7 +76,9 @@ export async function getOrdersPageData(sp: PageParams) {
             status: d.status,
             total: d.totalCents,
             origin: d.origin,
-            service: d.appointment ? getServiceTitle(d.appointment.serviceId) : null,
+            service: d.appointment
+                ? (splitProjectNotes(d.appointment.projectNotes).objet ?? getServiceTitle(d.appointment.serviceId))
+                : null,
         })),
     };
 }
@@ -130,6 +132,18 @@ export async function getDepositsPageData(sp: PageParams) {
     };
 }
 
+/**
+ * Les rendez-vous de l'ancien site stockent « Objet : … » (champ Amelia) en première ligne des précisions ;
+ * on le sépare du message libre de la cliente pour l'afficher comme sur l'ancienne fiche WooCommerce.
+ */
+function splitProjectNotes(projectNotes: string | null): { objet: string | null; message: string | null } {
+    if (!projectNotes) return { objet: null, message: null };
+    const [first, ...rest] = projectNotes.split("\n");
+    const match = first.match(/^Objet\s*:\s*(.+)$/);
+    if (!match) return { objet: null, message: projectNotes.trim() || null };
+    return { objet: match[1].trim(), message: rest.join("\n").trim() || null };
+}
+
 /** Fiche d'une commande. */
 export async function getOrderDetail(number: number) {
     const d = await prisma.deposit.findUnique({
@@ -177,6 +191,11 @@ export async function getOrderDetail(number: number) {
                   time: d.appointment.startTime,
                   status: d.appointment.status,
                   service: getServiceTitle(d.appointment.serviceId),
+                  durationMinutes: d.appointment.durationMinutes,
+                  slotType: d.appointment.slotType,
+                  weddingDate: d.customer.weddingDate,
+                  internalNote: d.appointment.notes,
+                  ...splitProjectNotes(d.appointment.projectNotes),
               }
             : null,
         messages: d.messages.map(m => ({

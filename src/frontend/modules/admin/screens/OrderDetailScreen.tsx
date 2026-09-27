@@ -4,12 +4,14 @@ import ChargeDepositButton from "@frontend/modules/admin/components/ChargeDeposi
 import {
     CHARGE_REASON_LABELS,
     DEPOSIT_STATUS_LABELS,
+    formatDay,
     formatEuros,
     ORDER_STATUS_LABELS,
     STATUS_LABELS,
 } from "@frontend/modules/admin/lib/labels";
 
 export default function OrderDetailScreen(o: Awaited<ReturnType<typeof getOrderDetail>>) {
+    const a = o.appointment;
     const chargeable = o.card.saved && (o.deposit.status === "PENDING" || o.deposit.status === "FAILED");
 
     return (
@@ -33,7 +35,7 @@ export default function OrderDetailScreen(o: Awaited<ReturnType<typeof getOrderD
                         <dl className="adm-meta">
                             <div>
                                 <dt>Objet</dt>
-                                <dd>{o.appointment?.service ?? "—"}</dd>
+                                <dd>{a?.objet ?? a?.service ?? "—"}</dd>
                             </div>
                             <div>
                                 <dt>Créée le</dt>
@@ -76,36 +78,71 @@ export default function OrderDetailScreen(o: Awaited<ReturnType<typeof getOrderD
                         </dl>
                     </section>
 
+                </div>
+
+                <div className="adm-stack">
                     <section className="adm-card">
-                        <h2 className="adm-card-title">Rendez-vous</h2>
-                        {o.appointment ? (
-                            <dl className="adm-meta">
-                                <div>
-                                    <dt>Date</dt>
+                        <h2 className="adm-card-title">Détails du rendez-vous</h2>
+                        {a ? (
+                            <dl className="adm-meta adm-order-details">
+                                <div className="is-wide">
+                                    <dt>Date et heure</dt>
                                     <dd>
-                                        <Link href={`/admin?from=${o.appointment.day}&to=${o.appointment.day}&q=${encodeURIComponent(o.appointment.reference)}`}>
-                                            {o.appointment.dayLabel} à {o.appointment.time} →
+                                        <Link href={`/admin/rendez-vous?from=${a.day}&to=${a.day}&q=${encodeURIComponent(a.reference)}`}>
+                                            {formatDay(a.day, { weekday: "long", day: "numeric", month: "long", year: "numeric" })} à {a.time} →
                                         </Link>
                                     </dd>
                                 </div>
                                 <div>
                                     <dt>Prestation</dt>
-                                    <dd>{o.appointment.service}</dd>
+                                    <dd>{a.service}</dd>
                                 </div>
                                 <div>
                                     <dt>Statut</dt>
                                     <dd>
-                                        <span className={`adm-badge status-${o.appointment.status}`}>{STATUS_LABELS[o.appointment.status]}</span>
+                                        <span className={`adm-badge status-${a.status}`}>{STATUS_LABELS[a.status]}</span>
                                     </dd>
                                 </div>
+                                {a.objet && (
+                                    <div className="is-wide">
+                                        <dt>Objet du rendez-vous</dt>
+                                        <dd>{a.objet}</dd>
+                                    </div>
+                                )}
+                                <div>
+                                    <dt>Date du mariage</dt>
+                                    <dd>{a.weddingDate || "—"}</dd>
+                                </div>
+                                <div>
+                                    <dt>Durée · créneau</dt>
+                                    <dd>
+                                        {a.durationMinutes} min · {a.slotType === "DOUBLE" ? "double" : "simple"}
+                                    </dd>
+                                </div>
+                                <div className="is-wide">
+                                    <dt>Précisions de la cliente</dt>
+                                    <dd className="adm-pre">{a.message || "—"}</dd>
+                                </div>
+                                <div className="is-wide">
+                                    <dt>Conditions générales</dt>
+                                    <dd>
+                                        {o.card.consentAt
+                                            ? `Acceptées le ${o.card.consentAt.day} à ${o.card.consentAt.time}`
+                                            : "—"}
+                                    </dd>
+                                </div>
+                                {a.internalNote && (
+                                    <div className="is-wide">
+                                        <dt>Note de l&apos;atelier</dt>
+                                        <dd className="adm-pre adm-muted">{a.internalNote}</dd>
+                                    </div>
+                                )}
                             </dl>
                         ) : (
                             <p className="adm-empty">Aucun rendez-vous lié à cette commande.</p>
                         )}
                     </section>
-                </div>
 
-                <div className="adm-stack">
                     <section className="adm-card">
                         <h2 className="adm-card-title">Dépôt de garantie</h2>
                         <p>
