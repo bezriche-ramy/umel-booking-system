@@ -167,7 +167,7 @@ function depositLabel(a: AdminAppointment) {
     if (!a.deposit) return "Sans carte";
     if (a.deposit.status === "CHARGED") return `20 € débités · #${a.deposit.number}`;
     if (a.deposit.status === "FAILED") return `Débit refusé · #${a.deposit.number}`;
-    if (a.deposit.status === "PENDING") return `Empreinte ✓ · #${a.deposit.number}`;
+    if (a.deposit.status === "PENDING") return `Carte enregistrée · #${a.deposit.number}`;
     return `#${a.deposit.number}`;
 }
 
@@ -324,7 +324,7 @@ function AppointmentActions({ appointment: a }: { appointment: AdminAppointment 
             <div className="adm-btns">
                 {a.status !== "COMPLETED" && a.status !== "CANCELLED" && (
                     <button className="adm-btn" disabled={busy} onClick={() => run(() => patch({ action: "status", status: "COMPLETED" }), "Cliente marquée présente — aucun prélèvement.")}>
-                        ✓ Présente
+                        Présente
                     </button>
                 )}
                 {a.status !== "CANCELLED" && canCharge(a) && (

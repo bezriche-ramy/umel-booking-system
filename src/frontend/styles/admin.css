@@ -130,6 +130,16 @@
     font-size: 32px;
 }
 
+.adm-page-sub {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--adm-muted);
+}
+
+.adm-page-sub::first-letter {
+    text-transform: uppercase;
+}
+
 .adm-eyebrow {
     margin: 0 0 4px;
     font-size: 11px;

@@ -32,6 +32,10 @@ export default function OrderDetailScreen(o: Awaited<ReturnType<typeof getOrderD
                         <h2 className="adm-card-title">Commande</h2>
                         <dl className="adm-meta">
                             <div>
+                                <dt>Objet</dt>
+                                <dd>{o.appointment?.service ?? "—"}</dd>
+                            </div>
+                            <div>
                                 <dt>Créée le</dt>
                                 <dd>
                                     {o.created.day} à {o.created.time}

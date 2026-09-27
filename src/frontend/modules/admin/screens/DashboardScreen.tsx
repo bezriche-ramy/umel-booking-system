@@ -3,13 +3,14 @@ import type { getDashboardData } from "@backend/modules/dashboard/dashboard.quer
 import { formatDay, formatEuros, STATUS_LABELS } from "@frontend/modules/admin/lib/labels";
 
 /** Page d'accueil de l'admin : un état réel de l'activité, pas une maquette. */
-export default function DashboardScreen({ appointments, orders, customers, alterations, mailing }: Awaited<ReturnType<typeof getDashboardData>>) {
+export default function DashboardScreen({ today, appointments, orders, customers, alterations, mailing }: Awaited<ReturnType<typeof getDashboardData>>) {
     return (
         <>
             <header className="adm-page-head">
                 <div>
                     <p className="adm-eyebrow">Tableau de bord</p>
-                    <h1>Bonjour 👋</h1>
+                    <h1>Vue d&apos;ensemble</h1>
+                    <p className="adm-page-sub">{formatDay(today, { weekday: "long", day: "numeric", month: "long" })}</p>
                 </div>
                 <p className="adm-kpi">
                     <strong>{appointments.today}</strong> rendez-vous aujourd&apos;hui

@@ -41,7 +41,7 @@ export default function ChargeDepositButton({
         return (
             <div className="adm-charge">
                 <button type="button" className="adm-btn adm-btn-charge" onClick={() => setOpen(true)}>
-                    💳 Débiter {amountLabel}
+                    Débiter {amountLabel}
                 </button>
                 {error && <p className="adm-error">{error}</p>}
             </div>

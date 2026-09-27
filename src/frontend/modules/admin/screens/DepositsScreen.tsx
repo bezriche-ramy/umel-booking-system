@@ -87,7 +87,6 @@ export default function DepositsScreen({ filter, q, page, pages, total, counts, 
                                     </td>
                                     <td data-label="Dépôt">
                                         <span className={`adm-deposit deposit-${d.depositStatus}`}>
-                                            {d.depositStatus === "PENDING" ? "⏳ " : d.depositStatus === "CHARGED" ? "✓ " : ""}
                                             {DEPOSIT_STATUS_LABELS[d.depositStatus]}
                                         </span>
                                         <div className="adm-muted">
