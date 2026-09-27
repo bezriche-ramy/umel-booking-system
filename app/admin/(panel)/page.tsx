@@ -1,8 +1,8 @@
-import AppointmentsScreen from "@frontend/modules/admin/screens/AppointmentsScreen";
-import { getAppointmentsPageData } from "@backend/modules/appointments/appointments.queries";
-import { requirePageSession, type SearchParams } from "@backend/modules/auth/guards";
+import DashboardScreen from "@frontend/modules/admin/screens/DashboardScreen";
+import { getDashboardData } from "@backend/modules/dashboard/dashboard.queries";
+import { requirePageSession } from "@backend/modules/auth/guards";
 
-export default async function AppointmentsPage({ searchParams }: { searchParams: SearchParams }) {
-    await requirePageSession();
-    return <AppointmentsScreen {...await getAppointmentsPageData(await searchParams)} />;
+export default async function DashboardPage() {
+    await requirePageSession(["ADMIN"]);
+    return <DashboardScreen {...await getDashboardData()} />;
 }

@@ -130,6 +130,8 @@ export interface CreateAppointmentInput {
     card?: { stripeCustomerId: string; stripePaymentMethodId: string; stripeSetupIntentId: string } | null;
     source: "WEB" | "ADMIN";
     force?: boolean;
+    /** Canal d'acquisition détecté côté navigateur (Instagram, Google...), affiché dans « Origine » sur la commande. */
+    trafficSource?: string;
 }
 
 export async function createAppointment(input: CreateAppointmentInput) {
@@ -169,6 +171,7 @@ export async function createAppointment(input: CreateAppointmentInput) {
                     billingEmail: customer.email,
                     billingPhone: customer.phone,
                     depositCents: DEPOSIT_AMOUNT_CENTS,
+                    trafficSource: input.trafficSource,
                     ...input.card,
                 });
             }

@@ -13,6 +13,8 @@ interface BookBody {
     setupIntentId?: string;
     acceptedTerms?: boolean;
     customer?: { firstName?: string; lastName?: string; email?: string; phone?: string; weddingDate?: string; projectNotes?: string };
+    /** Canal d'acquisition détecté côté navigateur (Instagram, Google...), pour la commande. */
+    trafficSource?: string;
 }
 
 const fail = (errorCode: string, errorMessage: string, status = 400) =>
@@ -88,6 +90,7 @@ export async function POST(request: Request) {
             projectNotes: customer.projectNotes,
             card: { stripeSetupIntentId: setupIntent.id, stripePaymentMethodId: paymentMethodId, stripeCustomerId },
             source: "WEB",
+            trafficSource: body.trafficSource?.trim().slice(0, 60) || undefined,
         });
 
         return Response.json({

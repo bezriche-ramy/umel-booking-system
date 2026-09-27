@@ -11,6 +11,7 @@ import {
     ServiceOption,
 } from "@shared/reservation/types";
 import { validateCustomerInfo, ValidationErrors } from "@shared/reservation/validation";
+import { getStoredTrafficSource } from "@shared/traffic-source";
 import { useEffect, useRef, useState } from "react";
 import BookingCalendar from "@frontend/modules/reservation/components/BookingCalendar";
 import ReservationIntro from "@frontend/modules/reservation/components/ReservationIntro";
@@ -217,6 +218,7 @@ export default function ReservationFlow({ initialServiceId, isSubmarineRetouches
                     setupIntentId,
                     acceptedTerms: draft.acceptedTerms,
                     customer: draft.customer,
+                    trafficSource: getStoredTrafficSource(),
                 }),
             });
             const result: BookResponse = await res.json();

@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const LINKS = [
-    { href: "/admin", label: "Rendez-vous", roles: ["ADMIN"] },
+    { href: "/admin", label: "Tableau de bord", roles: ["ADMIN"] },
+    { href: "/admin/rendez-vous", label: "Rendez-vous", roles: ["ADMIN"] },
     { href: "/admin/commandes", label: "Commandes", roles: ["ADMIN"] },
     { href: "/admin/depots", label: "Dépôts", roles: ["ADMIN"] },
     { href: "/admin/planning", label: "Planning & créneaux", roles: ["ADMIN"] },

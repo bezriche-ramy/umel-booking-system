@@ -50,14 +50,17 @@ export function createBookingDeposit(
         stripePaymentMethodId: string;
         stripeSetupIntentId: string;
         depositCents: number;
+        /** Canal d'acquisition détecté côté navigateur (Instagram, Google...), affiché dans « Origine ». */
+        trafficSource?: string;
     },
 ) {
+    const { trafficSource, ...rest } = data;
     return tx.deposit.create({
         data: {
-            ...data,
+            ...rest,
             status: "COMPLETED",
             totalCents: 0,
-            origin: "Site web",
+            origin: trafficSource ? `Site web · ${trafficSource}` : "Site web",
             consentAt: new Date(),
             depositStatus: "PENDING",
         },

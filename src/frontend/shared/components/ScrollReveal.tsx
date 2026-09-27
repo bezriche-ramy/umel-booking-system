@@ -2,9 +2,15 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { captureTrafficSource } from "@shared/traffic-source";
 
 export default function ScrollReveal() {
     const pathname = usePathname();
+
+    // Repère une seule fois, à l'arrivée sur le site, d'où vient la visite (Instagram, Google...).
+    useEffect(() => {
+        captureTrafficSource();
+    }, []);
 
     useEffect(() => {
         // Section reveal observer (.s -> .vis)
