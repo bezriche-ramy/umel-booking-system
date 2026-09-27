@@ -34,23 +34,23 @@ export default function DashboardScreen(d: DashboardData) {
             <KpiStrip kpis={d.kpis} comparison={d.period.comparison} comparable={d.period.comparable} historyStart={d.period.historyStart} />
 
             <div className="dash-main">
-                <ActivityChart activity={d.activity} granularity={d.period.granularity} />
+                <div className="dash-main-col">
+                    <ActivityChart activity={d.activity} granularity={d.period.granularity} />
+                    <div className="dash-pair">
+                        <StatusBreakdown statuses={d.statuses} total={d.statusesTotal} />
+                        <ServiceBreakdown services={d.services} />
+                    </div>
+                </div>
                 <AgendaPanel agenda={d.agenda} alterations={d.alterations} today={d.today} />
             </div>
 
             <div className="dash-grid-3">
-                <StatusBreakdown statuses={d.statuses} total={d.statusesTotal} />
-                <ServiceBreakdown services={d.services} />
                 <SourcesBreakdown sources={d.sources} />
+                <CustomersPanel customers={d.customers} />
+                <GuaranteesPanel guarantees={d.guarantees} />
             </div>
 
-            <div className="dash-grid-2">
-                <BusyHeatmap heatmap={d.heatmap} />
-                <div className="dash-stack-col">
-                    <CustomersPanel customers={d.customers} />
-                    <GuaranteesPanel guarantees={d.guarantees} />
-                </div>
-            </div>
+            <BusyHeatmap heatmap={d.heatmap} />
         </>
     );
 }

@@ -2096,32 +2096,34 @@ textarea.adm-input {
 }
 
 /* Panneaux ------------------------------------------------------------------ */
+/* Rangées alignées : les cartes d'une même rangée s'arrêtent sur la même ligne */
 .dash-main {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    grid-template-columns: minmax(0, 1fr) minmax(290px, 340px);
     gap: 20px;
-    align-items: start;
+    align-items: stretch;
+}
+
+.dash-main-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.dash-pair {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
 }
 
 .dash-grid-3 {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
-    align-items: start;
-}
-
-.dash-grid-2 {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    gap: 20px;
-    align-items: start;
-}
-
-.dash-stack-col {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    min-width: 0;
+    align-items: stretch;
 }
 
 .dash-panel {
@@ -2886,8 +2888,7 @@ textarea.adm-input {
     .dash-kpi { grid-column: span 2; }
     .dash-kpi:nth-child(4) { border-left: 0; }
     .dash-kpi:nth-child(n + 4) { grid-column: span 3; border-top: 1px solid var(--adm-line); }
-    .dash-main,
-    .dash-grid-2 { grid-template-columns: minmax(0, 1fr); }
+    .dash-main { grid-template-columns: minmax(0, 1fr); }
     .dash-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .dash-grid-3 > :last-child { grid-column: 1 / -1; }
 }
@@ -2903,7 +2904,8 @@ textarea.adm-input {
     .dash-kpi:nth-child(-n + 2) { border-top: 0; }
     .dash-kpi:last-child { grid-column: 1 / -1; }
     .dash-kpi-value { font-size: 24px; }
-    .dash-grid-3 { grid-template-columns: minmax(0, 1fr); }
+    .dash-grid-3,
+    .dash-pair { grid-template-columns: minmax(0, 1fr); }
     .dash-chart { --plot-h: 190px; grid-template-columns: 28px minmax(0, 1fr); }
     .dash-xaxis span { visibility: visible; max-width: none; overflow: visible; }
     .dash-xaxis .hide-mobile { visibility: hidden; max-width: 0; overflow: hidden; }
