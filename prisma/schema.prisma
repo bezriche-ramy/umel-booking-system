@@ -206,6 +206,17 @@ model ScheduleConfig {
   doubleEnabled Boolean @default(false)
 }
 
+/// Réglage d'un horaire précis de la semaine type (ex. tous les samedis, 17h en double).
+/// Prioritaire sur le réglage du jour (ScheduleConfig), mais pas sur les exceptions par date.
+model WeekSlotConfig {
+  weekday       Int
+  startTime     String
+  simpleEnabled Boolean @default(true)
+  doubleEnabled Boolean @default(false)
+
+  @@id([weekday, startTime])
+}
+
 /// Exception pour une date précise (fermeture, ouverture exceptionnelle, créneaux simples/doubles)
 model DateOverride {
   day           String   @id

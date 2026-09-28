@@ -6,7 +6,9 @@
  *   - un créneau DOUBLE (2 clientes simultanément au même horaire)
  * Les deux peuvent coexister : capacité totale = 1 + 2 = 3.
  *
- * Priorité des réglages : SlotOverride (horaire d'une date) > DateOverride (date) > ScheduleConfig (jour de semaine).
+ * Priorité des réglages, du plus fort au plus faible :
+ *   SlotOverride (horaire d'une date) > DateOverride (date entière)
+ *   > WeekSlotConfig (horaire de la semaine type, ex. tous les samedis 17h) > ScheduleConfig (jour de la semaine type).
  */
 
 import type {
@@ -35,9 +37,26 @@ export const DEFAULT_WEEK: Omit<ScheduleConfig, "weekday">[] = [0, 1, 2, 3, 4, 5
 /** Statuts qui occupent une place sur un créneau. */
 export const OCCUPYING_STATUSES: AppointmentStatus[] = ["CONFIRMED", "COMPLETED", "NO_SHOW"];
 
-export async function getWeekConfig(): Promise<ScheduleConfig[]> {
-    const rows = await prisma.scheduleConfig.findMany();
-    return DEFAULT_WEEK.map((def, weekday) => rows.find(r => r.weekday === weekday) ?? { weekday, ...def });
+export interface HourSetting {
+    startTime: string;
+    simpleEnabled: boolean;
+    doubleEnabled: boolean;
+}
+
+/** Jour de la semaine type + ses réglages horaire par horaire (seuls les horaires qui diffèrent du jour). */
+export type WeekdayConfig = ScheduleConfig & { hours: HourSetting[] };
+
+export async function getWeekConfig(): Promise<WeekdayConfig[]> {
+    const [rows, hours] = await Promise.all([
+        prisma.scheduleConfig.findMany(),
+        prisma.weekSlotConfig.findMany({ orderBy: { startTime: "asc" } }),
+    ]);
+    return DEFAULT_WEEK.map((def, weekday) => ({
+        ...(rows.find(r => r.weekday === weekday) ?? { weekday, ...def }),
+        hours: hours
+            .filter(h => h.weekday === weekday)
+            .map(h => ({ startTime: h.startTime, simpleEnabled: h.simpleEnabled, doubleEnabled: h.doubleEnabled })),
+    }));
 }
 
 export interface DaySlotConfig {
@@ -55,25 +74,29 @@ export interface DaySchedule {
 
 type OverrideWithSlots = DateOverride & { slots: SlotOverride[] };
 
-export async function getDaySchedule(day: string, week?: ScheduleConfig[]): Promise<DaySchedule> {
+export async function getDaySchedule(day: string, week?: WeekdayConfig[]): Promise<DaySchedule> {
     const weekConfig = week ?? (await getWeekConfig());
     const override = await prisma.dateOverride.findUnique({ where: { day }, include: { slots: true } });
     return buildDaySchedule(day, weekConfig, override);
 }
 
-export function buildDaySchedule(day: string, week: ScheduleConfig[], override: OverrideWithSlots | null): DaySchedule {
+export function buildDaySchedule(day: string, week: WeekdayConfig[], override: OverrideWithSlots | null): DaySchedule {
     const base = week[weekdayOf(day)];
 
     const isOpen = override?.isOpen ?? base.isOpen;
     if (!isOpen) return { day, isOpen: false, slots: [] };
 
-    const simpleEnabled = override?.simpleEnabled ?? base.simpleEnabled;
-    const doubleEnabled = override?.doubleEnabled ?? base.doubleEnabled;
-
     const byTime = new Map<string, DaySlotConfig>();
     for (let h = base.startHour; h <= base.lastSlotHour; h++) {
         const startTime = `${String(h).padStart(2, "0")}:00`;
-        byTime.set(startTime, { startTime, endTime: addMinutesToTime(startTime, 60), simpleEnabled, doubleEnabled });
+        // Jour type → horaire de la semaine type → exception de la date entière
+        const hour = base.hours.find(x => x.startTime === startTime);
+        byTime.set(startTime, {
+            startTime,
+            endTime: addMinutesToTime(startTime, 60),
+            simpleEnabled: override?.simpleEnabled ?? hour?.simpleEnabled ?? base.simpleEnabled,
+            doubleEnabled: override?.doubleEnabled ?? hour?.doubleEnabled ?? base.doubleEnabled,
+        });
     }
     for (const s of override?.slots ?? []) {
         byTime.set(s.startTime, {

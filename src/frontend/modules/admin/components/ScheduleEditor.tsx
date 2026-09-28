@@ -1,8 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { adminApi, formatDay } from "@frontend/modules/admin/lib/api";
+
+interface SlotToggle {
+    startTime: string;
+    simpleEnabled: boolean;
+    doubleEnabled: boolean;
+}
 
 interface Weekday {
     weekday: number;
@@ -11,12 +17,8 @@ interface Weekday {
     lastSlotHour: number;
     simpleEnabled: boolean;
     doubleEnabled: boolean;
-}
-
-interface SlotToggle {
-    startTime: string;
-    simpleEnabled: boolean;
-    doubleEnabled: boolean;
+    /** Horaires réglés différemment du jour (ex. 17:00 en double) */
+    hours: SlotToggle[];
 }
 
 interface Override {
@@ -30,6 +32,19 @@ const LABELS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "
 const ORDER = [2, 3, 4, 5, 6, 0, 1]; // mardi → lundi
 const HOUR_OPTIONS = Array.from({ length: 15 }, (_, i) => i + 7);
 const hh = (h: number) => `${String(h).padStart(2, "0")}:00`;
+
+/** Réglage effectif d'un horaire de la semaine type : celui de l'heure s'il existe, sinon celui du jour. */
+function hourSetting(d: Weekday, startTime: string): SlotToggle {
+    return d.hours.find(h => h.startTime === startTime) ?? { startTime, simpleEnabled: d.simpleEnabled, doubleEnabled: d.doubleEnabled };
+}
+
+const isCustom = (d: Weekday, h: SlotToggle) => h.simpleEnabled !== d.simpleEnabled || h.doubleEnabled !== d.doubleEnabled;
+
+function dayHours(d: Weekday): string[] {
+    const list: string[] = [];
+    for (let h = d.startHour; h <= d.lastSlotHour; h++) list.push(hh(h));
+    return list;
+}
 
 function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
     return (
@@ -46,9 +61,21 @@ export default function ScheduleEditor({ week, overrides }: { week: Weekday[]; o
     const [days, setDays] = useState(week);
     const [status, setStatus] = useState<{ type: "ok" | "error"; text: string }>();
     const [saving, setSaving] = useState(false);
+    const [openHours, setOpenHours] = useState<number | null>(null);
 
     const update = (weekday: number, patch: Partial<Weekday>) =>
         setDays(prev => prev.map(d => (d.weekday === weekday ? { ...d, ...patch } : d)));
+
+    /** Règle un horaire de la semaine type ; s'il redevient identique au jour, le réglage d'heure est retiré. */
+    const setHour = (weekday: number, startTime: string, patch: Partial<SlotToggle>) =>
+        setDays(prev =>
+            prev.map(d => {
+                if (d.weekday !== weekday) return d;
+                const next = { ...hourSetting(d, startTime), ...patch };
+                const others = d.hours.filter(h => h.startTime !== startTime);
+                return { ...d, hours: isCustom(d, next) ? [...others, next].sort((a, b) => a.startTime.localeCompare(b.startTime)) : others };
+            }),
+        );
 
     const dirty = JSON.stringify(days) !== JSON.stringify(week);
 
@@ -72,7 +99,8 @@ export default function ScheduleEditor({ week, overrides }: { week: Weekday[]; o
                 <h2 className="adm-card-title">Semaine type</h2>
                 <p className="adm-hint">
                     <strong>Simple</strong> = 1 cliente par horaire. <strong>Double</strong> = 2 clientes simultanément au même horaire. Les deux
-                    peuvent être actifs ensemble (jusqu&apos;à 3 clientes sur le même horaire).
+                    peuvent être actifs ensemble (jusqu&apos;à 3 clientes sur le même horaire). Le bouton <strong>Par heure</strong> permet de
+                    régler chaque horaire séparément, par exemple tous les samedis de 17h à 18h en double.
                 </p>
                 <div className="adm-table-wrap">
                     <table className="adm-table adm-table-cards">
@@ -84,13 +112,17 @@ export default function ScheduleEditor({ week, overrides }: { week: Weekday[]; o
                                 <th>Dernier créneau</th>
                                 <th>Créneau simple</th>
                                 <th>Créneau double</th>
+                                <th>Réglage par heure</th>
                             </tr>
                         </thead>
                         <tbody>
                             {ORDER.map(wd => {
                                 const d = days.find(x => x.weekday === wd)!;
+                                const custom = dayHours(d).filter(t => isCustom(d, hourSetting(d, t))).length;
+                                const expanded = openHours === wd && d.isOpen;
                                 return (
-                                    <tr key={wd} className={d.isOpen ? "" : "is-muted"}>
+                                    <Fragment key={wd}>
+                                    <tr className={d.isOpen ? "" : "is-muted"}>
                                         <th scope="row">{LABELS[wd]}</th>
                                         <td data-label="Ouvert">
                                             <Toggle checked={d.isOpen} onChange={v => update(wd, { isOpen: v })} label={d.isOpen ? "Ouvert" : "Fermé"} />
@@ -119,7 +151,52 @@ export default function ScheduleEditor({ week, overrides }: { week: Weekday[]; o
                                         <td data-label="Créneau double">
                                             <Toggle checked={d.doubleEnabled} onChange={v => update(wd, { doubleEnabled: v })} label="Double" />
                                         </td>
+                                        <td data-label="Par heure">
+                                            <button
+                                                type="button"
+                                                className="adm-btn adm-btn-sm"
+                                                disabled={!d.isOpen}
+                                                aria-expanded={expanded}
+                                                aria-controls={`hours-${wd}`}
+                                                onClick={() => setOpenHours(expanded ? null : wd)}
+                                            >
+                                                Par heure{custom > 0 ? ` · ${custom} personnalisé${custom > 1 ? "s" : ""}` : ""}
+                                            </button>
+                                        </td>
                                     </tr>
+                                    {expanded && (
+                                        <tr className="adm-hours-row">
+                                            <td colSpan={7} id={`hours-${wd}`}>
+                                                <p className="adm-hint">
+                                                    {LABELS[wd]} : réglage de chaque horaire, appliqué toutes les semaines. Un horaire non modifié suit le réglage
+                                                    du jour (simple {d.simpleEnabled ? "activé" : "désactivé"}, double {d.doubleEnabled ? "activé" : "désactivé"}).
+                                                </p>
+                                                <div className="adm-slot-grid">
+                                                    {dayHours(d).map(t => {
+                                                        const h = hourSetting(d, t);
+                                                        const changed = isCustom(d, h);
+                                                        return (
+                                                            <div key={t} className={`adm-slot ${changed ? "is-custom" : ""}`}>
+                                                                <strong>
+                                                                    {t} – {hh(Number(t.slice(0, 2)) + 1)}
+                                                                    {changed && <span className="adm-slot-badge">Personnalisé</span>}
+                                                                </strong>
+                                                                <Toggle checked={h.simpleEnabled} onChange={v => setHour(wd, t, { simpleEnabled: v })} label="Simple" />
+                                                                <Toggle checked={h.doubleEnabled} onChange={v => setHour(wd, t, { doubleEnabled: v })} label="Double" />
+                                                                {!h.simpleEnabled && !h.doubleEnabled && <span className="adm-hint">Horaire fermé</span>}
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                                {custom > 0 && (
+                                                    <button type="button" className="adm-link-btn" onClick={() => update(wd, { hours: [] })}>
+                                                        Remettre tous les horaires du {LABELS[wd].toLowerCase()} comme le jour
+                                                    </button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    )}
+                                    </Fragment>
                                 );
                             })}
                         </tbody>
@@ -167,7 +244,7 @@ function DateOverrides({ week, overrides }: { week: Weekday[]; overrides: Overri
         setNote(existing?.note ?? "");
         const generated: SlotToggle[] = [];
         for (let h = base.startHour; h <= base.lastSlotHour; h++) {
-            generated.push({ startTime: hh(h), simpleEnabled: base.simpleEnabled, doubleEnabled: base.doubleEnabled });
+            generated.push(hourSetting(base, hh(h)));
         }
         for (const s of existing?.slots ?? []) {
             const idx = generated.findIndex(g => g.startTime === s.startTime);
