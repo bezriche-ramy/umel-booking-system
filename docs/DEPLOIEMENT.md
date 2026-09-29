@@ -9,7 +9,7 @@ Checklist du jour J, dans l'ordre. Compter environ 2 heures.
 
 - [ ] Accès SSH au VPS (Ubuntu / Debian) et son **adresse IP**
 - [ ] Stripe (compte **SARL UMEL COUTURE**) : **Roll key** sur la clé secrète → nouvelle `sk_live_…` + la `pk_live_…`
-- [ ] Clé Resend `re_…` (domaine umelcouture.com **Verified** dans Resend)
+- [ ] Compte Gmail d'envoi + mot de passe d'application (Google → Sécurité → Mots de passe des applications)
 - [ ] Accès Squarespace (DNS) et accès WordPress (admin + phpMyAdmin Hostinger)
 
 ## 1. Installer le serveur (une seule fois)
@@ -52,8 +52,8 @@ Remplir `.env` (modèle commenté dans `.env.example`) :
 | `STRIPE_SECRET_KEY` | la **nouvelle** `sk_live_…` |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_…` |
 | `STRIPE_LIVE_SECRET_KEY` | la même `sk_live_…` (vérification des cartes importées) |
-| `RESEND_API_KEY` | `re_…` |
-| `EMAIL_FROM` / `EMAIL_REPLY_TO` | `Umel Couture <contact@umelcouture.com>` / `contact@umelcouture.com` |
+| `GMAIL_USER` / `GMAIL_APP_PASSWORD` | adresse Gmail d'envoi / mot de passe d'application (16 caractères) |
+| `EMAIL_REPLY_TO` | `contact@umelcouture.com` (adresse qui reçoit les réponses des clientes) |
 
 ```bash
 npm ci                 # installe aussi Prisma et tsx, nécessaires aux étapes suivantes
@@ -139,7 +139,7 @@ sudo nginx -t && sudo systemctl reload nginx
 2. Si des réservations ont eu lieu depuis le dump de l'étape 4 : refaire un dump, puis
    `npm run db:import-amelia -- dump.sql` et `npm run stripe:check`.
 3. **Squarespace → DNS** : enregistrement **A `@`** → **IP du VPS** (aujourd'hui `213.130.145.221`, l'ancien WordPress).
-   Ne pas toucher aux enregistrements Google (MX, `google._domainkey`, TXT `v=spf1…`) ni à ceux de Resend.
+   Ne pas toucher aux enregistrements Google (MX, `google._domainkey`, TXT `v=spf1…`) .
 4. Quand `umelcouture.com` pointe vers le VPS (`ping umelcouture.com`), activer HTTPS :
 
 ```bash

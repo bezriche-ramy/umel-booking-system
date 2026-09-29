@@ -27,7 +27,7 @@ src/
 │  │  ├─ schedule/        opening days, single/double slots, availability
 │  │  ├─ alterations/     private alterations calendar
 │  │  ├─ customers/       CRM, CSV export
-│  │  ├─ mailing/         Resend e-mails, templates, campaigns
+│  │  ├─ mailing/         Gmail (SMTP) e-mails, templates, campaigns
 │  │  ├─ payments/        Stripe (SetupIntent, €20 charge)
 │  │  └─ auth/            admin session, page guards, login/logout
 │  │     each module:  *.service.ts   business logic

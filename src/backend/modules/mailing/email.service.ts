@@ -1,20 +1,34 @@
 /**
- * Envoi d'e-mails transactionnels et campagnes via Resend.
+ * Envoi d'e-mails transactionnels et campagnes via Gmail (SMTP + mot de passe d'application).
  * Chaque envoi (réussi, échoué ou ignoré faute de configuration) est tracé dans MessageLog.
  */
 
 import type { MessageKind } from "@prisma/client";
-import { Resend } from "resend";
+import { createTransport, type Transporter } from "nodemailer";
 import { siteConfig } from "@shared/siteData";
 import { prisma } from "@backend/core/db";
 
-let resend: Resend | null = null;
+const NOT_CONFIGURED = "GMAIL_USER / GMAIL_APP_PASSWORD non configurés";
 
-function getResend(): Resend | null {
-    if (!process.env.RESEND_API_KEY) return null;
-    resend ??= new Resend(process.env.RESEND_API_KEY);
-    return resend;
+let transporter: Transporter | null = null;
+
+export const isEmailConfigured = () => !!(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
+
+function getTransporter(): Transporter | null {
+    if (!isEmailConfigured()) return null;
+    transporter ??= createTransport({
+        service: "Gmail",
+        pool: true, // une seule connexion réutilisée pour les campagnes
+        auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD!.replace(/\s/g, "") },
+    });
+    return transporter;
 }
+
+/** Gmail impose l'adresse du compte comme expéditeur ; les réponses des clientes vont à l'atelier. */
+const envelope = () => ({
+    from: { name: siteConfig.name, address: process.env.GMAIL_USER! },
+    replyTo: process.env.EMAIL_REPLY_TO || siteConfig.email,
+});
 
 export interface SendEmailInput {
     to: string;
@@ -29,8 +43,7 @@ export interface SendEmailInput {
 }
 
 export async function sendEmail(input: SendEmailInput): Promise<{ ok: boolean; error?: string }> {
-    const client = getResend();
-    const from = process.env.EMAIL_FROM ?? `${siteConfig.name} <contact@umelcouture.com>`;
+    const client = getTransporter();
     const log = (status: "SENT" | "FAILED" | "SKIPPED", extra: { providerId?: string; error?: string } = {}) =>
         prisma.messageLog.create({
             data: {
@@ -49,23 +62,13 @@ export async function sendEmail(input: SendEmailInput): Promise<{ ok: boolean; e
         });
 
     if (!client) {
-        await log("SKIPPED", { error: "RESEND_API_KEY non configurée" });
-        return { ok: false, error: "RESEND_API_KEY non configurée" };
+        await log("SKIPPED", { error: NOT_CONFIGURED });
+        return { ok: false, error: NOT_CONFIGURED };
     }
 
     try {
-        const { data, error } = await client.emails.send({
-            from,
-            to: input.to,
-            subject: input.subject,
-            html: input.html,
-            replyTo: process.env.EMAIL_REPLY_TO || undefined,
-        });
-        if (error) {
-            await log("FAILED", { error: error.message });
-            return { ok: false, error: error.message };
-        }
-        await log("SENT", { providerId: data?.id });
+        const info = await client.sendMail({ ...envelope(), to: input.to, subject: input.subject, html: input.html });
+        await log("SENT", { providerId: info.messageId });
         return { ok: true };
     } catch (err) {
         const message = err instanceof Error ? err.message : "Erreur d'envoi";
@@ -74,52 +77,41 @@ export async function sendEmail(input: SendEmailInput): Promise<{ ok: boolean; e
     }
 }
 
-/**
- * Envoi groupé via l'API batch de Resend (100 e-mails par appel) — utilisé pour les campagnes.
- */
+/** Envoi d'une campagne : un e-mail par cliente (Gmail n'a pas d'envoi groupé), tracé un par un. */
 export async function sendEmailBatch(
     messages: { to: string; subject: string; html: string; customerId: string }[],
     meta: { kind: MessageKind; campaignId: string },
 ): Promise<{ sent: number; failed: number }> {
-    const client = getResend();
-    const from = process.env.EMAIL_FROM ?? `${siteConfig.name} <contact@umelcouture.com>`;
+    const client = getTransporter();
     let sent = 0;
     let failed = 0;
 
-    for (let i = 0; i < messages.length; i += 100) {
-        const chunk = messages.slice(i, i + 100);
-        let ids: (string | undefined)[] = [];
+    for (const m of messages) {
+        let providerId: string | undefined;
         let error: string | undefined;
-
-        if (!client) error = "RESEND_API_KEY non configurée";
+        if (!client) error = NOT_CONFIGURED;
         else {
             try {
-                const res = await client.batch.send(
-                    chunk.map(m => ({ from, to: m.to, subject: m.subject, html: m.html, replyTo: process.env.EMAIL_REPLY_TO || undefined })),
-                );
-                if (res.error) error = res.error.message;
-                else ids = res.data?.data.map(d => d.id) ?? [];
+                providerId = (await client.sendMail({ ...envelope(), to: m.to, subject: m.subject, html: m.html })).messageId;
             } catch (err) {
                 error = err instanceof Error ? err.message : "Erreur d'envoi";
             }
         }
-
-        const status = !client ? "SKIPPED" : error ? "FAILED" : "SENT";
-        await prisma.messageLog.createMany({
-            data: chunk.map((m, idx) => ({
-                channel: "EMAIL" as const,
+        await prisma.messageLog.create({
+            data: {
+                channel: "EMAIL",
                 kind: meta.kind,
-                status,
+                status: !client ? "SKIPPED" : error ? "FAILED" : "SENT",
                 to: m.to,
                 subject: m.subject,
                 customerId: m.customerId,
                 campaignId: meta.campaignId,
-                providerId: ids[idx],
+                providerId,
                 error,
-            })),
+            },
         });
-        if (error) failed += chunk.length;
-        else sent += chunk.length;
+        if (error) failed++;
+        else sent++;
     }
     return { sent, failed };
 }

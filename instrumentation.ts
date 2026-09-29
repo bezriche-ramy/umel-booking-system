@@ -23,7 +23,7 @@ export function register() {
         errors.push("Clés Stripe incohérentes : l'une est en mode live et l'autre en mode test.");
     } else if (!sk.includes("_live_")) warnings.push("Stripe est en mode TEST : aucun paiement réel possible.");
 
-    if (!env.RESEND_API_KEY) warnings.push("RESEND_API_KEY manquante : aucun e-mail ne sera envoyé.");
+    if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) warnings.push("GMAIL_USER / GMAIL_APP_PASSWORD manquants : aucun e-mail ne sera envoyé.");
     if (!env.CRON_SECRET || env.CRON_SECRET.length < 16) warnings.push("CRON_SECRET manquante : les relances automatiques ne tourneront pas.");
 
     const production = env.NODE_ENV === "production";

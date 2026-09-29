@@ -15,12 +15,12 @@ interface Props {
     quota: { limit: number; sentToday: number };
     followUp: FollowUpConfig;
     audiences: { key: string; label: string; count: number }[];
-    resendConfigured: boolean;
+    emailConfigured: boolean;
     campaigns: { id: string; subject: string; audience: string; sentCount: number; failCount: number; sentBy: string | null; createdAt: string }[];
     logs: { id: string; createdAt: string; kind: string; status: string; to: string; subject: string; error: string | null; customer: string | null }[];
 }
 
-export default function MailingPanel({ quota, followUp, audiences, resendConfigured, campaigns, logs }: Props) {
+export default function MailingPanel({ quota, followUp, audiences, emailConfigured, campaigns, logs }: Props) {
     const router = useRouter();
     const [audience, setAudience] = useState(audiences[0]?.key ?? "ALL");
     const [subject, setSubject] = useState("");
@@ -73,9 +73,10 @@ export default function MailingPanel({ quota, followUp, audiences, resendConfigu
 
     return (
         <div className="adm-stack">
-            {!resendConfigured && (
+            {!emailConfigured && (
                 <p className="adm-error adm-card">
-                    RESEND_API_KEY n&apos;est pas configurée : les e-mails sont enregistrés dans l&apos;historique mais ne partent pas.
+                    Le compte Gmail d&apos;envoi n&apos;est pas configuré (GMAIL_USER / GMAIL_APP_PASSWORD) : les e-mails sont enregistrés dans
+                    l&apos;historique mais ne partent pas.
                 </p>
             )}
 
@@ -83,7 +84,7 @@ export default function MailingPanel({ quota, followUp, audiences, resendConfigu
                 <div>
                     <h2 className="adm-card-title">Limite : {quota.limit} e-mails par jour</h2>
                     <p className="adm-hint">
-                        Offre gratuite Resend : {quota.limit} e-mails par jour (3 000 par mois). Ce total comprend <strong>tous</strong> les
+                        Envoi par Gmail, limité à {quota.limit} e-mails par jour pour ne pas faire bloquer le compte. Ce total comprend <strong>tous</strong> les
                         envois : confirmations de réservation, rappels, relances et campagnes. Au-delà, les e-mails sont refusés jusqu&apos;au
                         lendemain.
                     </p>
@@ -149,8 +150,7 @@ export default function MailingPanel({ quota, followUp, audiences, resendConfigu
                 {overQuota && (
                     <p className="adm-error">
                         {count} destinataire(s), mais il ne reste que {remaining} envoi(s) aujourd&apos;hui (limite de {quota.limit} e-mails par
-                        jour). Choisissez une audience plus petite, attendez demain, ou passez à l&apos;offre Resend payante (environ 20 $/mois,
-                        50 000 e-mails).
+                        jour). Choisissez une audience plus petite, ou envoyez le reste demain.
                     </p>
                 )}
                 {status && <p className={status.type === "ok" ? "adm-success" : "adm-error"}>{status.text}</p>}

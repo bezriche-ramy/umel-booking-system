@@ -85,8 +85,9 @@ export default function ConfidentialitePage() {
                     prélèvement éventuel de la garantie ;
                 </li>
                 <li>
-                    <strong>Resend</strong> (États-Unis) : envoi des e-mails de confirmation et de rappel. Ce transfert hors de
-                    l&apos;Union européenne est encadré par les clauses contractuelles types de la Commission européenne.
+                    <strong>Google (Gmail)</strong>, via Google Ireland Limited : envoi des e-mails de confirmation et de rappel. Les
+                    transferts éventuels vers les États-Unis sont encadrés par le cadre de protection des données UE–États-Unis et les
+                    clauses contractuelles types de la Commission européenne.
                 </li>
             </ul>
             <p>Vos données ne sont jamais vendues ni louées.</p>

@@ -1,4 +1,5 @@
 import { prisma } from "@backend/core/db";
+import { isEmailConfigured } from "@backend/modules/mailing/email.service";
 import { AUDIENCES, audienceWhere, type Audience } from "@backend/modules/mailing/campaigns.service";
 import { getFollowUpConfig } from "@backend/modules/settings/settings.service";
 import { parisToUtc, todayInParis, toParisParts } from "@shared/tz";
@@ -19,7 +20,7 @@ const stamp = (d: Date) => {
     return `${p.day.split("-").reverse().join("/")} ${p.time}`;
 };
 
-/** Limite d'envoi quotidienne (offre gratuite Resend : 100 e-mails / jour). Modifiable via EMAIL_DAILY_LIMIT. */
+/** Limite d'envoi quotidienne (Gmail tolère ~500/jour ; 100 par prudence pour ne pas bloquer le compte). Modifiable via EMAIL_DAILY_LIMIT. */
 export const EMAIL_DAILY_LIMIT = Number(process.env.EMAIL_DAILY_LIMIT) || 100;
 
 /** E-mails réellement envoyés aujourd'hui (heure de Paris). */
@@ -48,7 +49,7 @@ export async function getMailingPageData() {
         followUp,
         quota: { limit: EMAIL_DAILY_LIMIT, sentToday },
         audiences: audienceKeys.map((k, i) => ({ key: k, label: AUDIENCES[k], count: counts[i] })),
-        resendConfigured: !!process.env.RESEND_API_KEY,
+        emailConfigured: isEmailConfigured(),
         campaigns: campaigns.map(c => ({
             id: c.id,
             subject: c.subject,

@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     if (recipients > remaining) {
         return jsonError(
             `Limite de ${EMAIL_DAILY_LIMIT} e-mails par jour : il reste ${remaining} envoi(s) aujourd'hui pour ${recipients} destinataire(s). ` +
-                "Choisissez une audience plus petite, attendez demain, ou passez à l'offre Resend payante.",
+                "Choisissez une audience plus petite, ou envoyez le reste demain.",
             429,
         );
     }
