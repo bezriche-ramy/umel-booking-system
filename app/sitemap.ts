@@ -13,7 +13,7 @@ const pages: { path: string; priority: number; images: string[] }[] = [
         images: [
             "/images/Galerie.webp",
             "/images/Robes créées sur mesure1.webp",
-            "/images/Robes créées sur mesure2.webp",
+            "/images/shooting/princesse-dentelle-1.webp",
             "/images/Robes créées sur mesure3.webp",
         ],
     },

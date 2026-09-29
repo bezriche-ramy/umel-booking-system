@@ -282,7 +282,7 @@ export default function NotreHistoirePage() {
             </section>
 
             {/* VALEURS */}
-            <section className="s" aria-labelledby="valeurs-title">
+            <section className="s" id="valeurs" aria-labelledby="valeurs-title">
                 <div style={{ maxWidth: "1260px", margin: "0 auto" }}>
                     <div style={{ textAlign: "center", marginBottom: "60px" }}>
                         <h2

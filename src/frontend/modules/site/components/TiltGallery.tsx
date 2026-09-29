@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const creations = [
     ["/images/Robes créées sur mesure1.webp", "Silhouette sirène en dentelle", "01"],
-    ["/images/Robes créées sur mesure2.webp", "Robe de mariée couture en extérieur", "02"],
+    ["/images/shooting/princesse-dentelle-1.webp", "Robe princesse couture en dentelle", "02"],
     ["/images/Robes créées sur mesure3.webp", "Création brodée à la main", "03"],
     ["/images/Robes créées sur mesure4.webp", "Robe fluide sur mesure", "04"],
     ["/images/Robes créées sur mesure5.webp", "Détail de corsage couture", "05"],

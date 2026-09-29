@@ -2926,13 +2926,6 @@ footer {
     aspect-ratio: 2 / 3;
     overflow: hidden;
 }
-.flux-journal-grid figure:nth-child(7n + 2),
-.flux-journal-grid figure:nth-child(7n + 5) {
-    aspect-ratio: 3 / 2;
-}
-.flux-journal-grid figure:nth-child(7n + 3) {
-    margin-top: 60px;
-}
 .flux-journal-grid img {
     object-fit: cover;
     object-position: center 18%;
@@ -2977,13 +2970,8 @@ footer {
         grid-template-columns: repeat(2, 1fr);
         gap: 6px;
     }
-    .flux-journal-grid figure,
-    .flux-journal-grid figure:nth-child(7n + 2),
-    .flux-journal-grid figure:nth-child(7n + 5) {
+    .flux-journal-grid figure {
         aspect-ratio: 2 / 3;
-    }
-    .flux-journal-grid figure:nth-child(7n + 3) {
-        margin-top: 36px;
     }
 }
 
@@ -3922,8 +3910,19 @@ section.s {
 .val-grid,
 .info-grid,
 .infos-grid {
+    display: grid !important;
     gap: 0 !important;
     border-top: 1px solid var(--ink);
+}
+.stats-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+}
+.val-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+.info-grid,
+.infos-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
 }
 .stats-grid > div,
 .val-grid > div,
@@ -7357,6 +7356,9 @@ section.s.res-page-section {
     .val-grid {
         grid-template-columns: repeat(2, 1fr) !important;
     }
+    .val-grid > div:nth-child(2n) {
+        border-right: 0 !important;
+    }
 }
 
 @media (max-width: 600px) {
@@ -7368,6 +7370,9 @@ section.s.res-page-section {
     .info-grid,
     .infos-grid {
         grid-template-columns: 1fr !important;
+    }
+    .val-grid > div {
+        border-right: 0 !important;
     }
 }
 
@@ -8632,4 +8637,210 @@ nav::before {
 }
 .fb address a:hover {
     color: var(--charcoal);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   HAUTE COUTURE LIGHTBOX & IMAGE ZOOM
+   ════════════════════════════════════════════════════════════════ */
+.flux-journal-grid figure,
+.portfolio-grid figure,
+.collection-photos figure,
+.home-creations-grid figure,
+.atelier-strip-track figure,
+.creations-studio-grid figure,
+[data-zoomable] {
+    cursor: zoom-in;
+}
+
+.umel-lightbox-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(10, 10, 12, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: umelFadeIn 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    user-select: none;
+}
+
+@keyframes umelFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.umel-lightbox-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.umel-lightbox-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--font-jost), sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.umel-lightbox-counter {
+    color: var(--champagne);
+    font-weight: 500;
+}
+
+.umel-lightbox-caption {
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 50vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.umel-lightbox-close {
+    pointer-events: auto;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(220, 198, 154, 0.25);
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    transition: all 200ms ease;
+    outline: none;
+}
+
+.umel-lightbox-close:hover,
+.umel-lightbox-close:focus-visible {
+    background: rgba(220, 198, 154, 0.2);
+    border-color: var(--champagne);
+    color: var(--champagne);
+    transform: scale(1.05);
+}
+
+.umel-lightbox-stage {
+    position: relative;
+    max-width: 92vw;
+    max-height: 84vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: umelScaleIn 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes umelScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.umel-lightbox-img {
+    max-width: 90vw;
+    max-height: 82vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 2px;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(220, 198, 154, 0.2);
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: zoom-in;
+}
+
+.umel-lightbox-img.is-zoomed {
+    transform: scale(1.4);
+    cursor: zoom-out;
+}
+
+.umel-lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 20, 24, 0.7);
+    border: 1px solid rgba(220, 198, 154, 0.3);
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    transition: all 200ms ease;
+    z-index: 10;
+    outline: none;
+}
+
+.umel-lightbox-nav:hover,
+.umel-lightbox-nav:focus-visible {
+    background: rgba(220, 198, 154, 0.25);
+    border-color: var(--champagne);
+    color: var(--champagne);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.umel-lightbox-nav.prev {
+    left: 24px;
+}
+
+.umel-lightbox-nav.next {
+    right: 24px;
+}
+
+.umel-lightbox-footer {
+    position: absolute;
+    bottom: 20px;
+    color: rgba(255, 255, 255, 0.38);
+    font-family: var(--font-jost), sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .umel-lightbox-bar {
+        height: 56px;
+        padding: 0 16px;
+    }
+    .umel-lightbox-nav {
+        width: 40px;
+        height: 40px;
+    }
+    .umel-lightbox-nav.prev {
+        left: 10px;
+    }
+    .umel-lightbox-nav.next {
+        right: 10px;
+    }
+    .umel-lightbox-footer {
+        display: none;
+    }
+    .umel-lightbox-img.is-zoomed {
+        transform: scale(1.2);
+    }
 }

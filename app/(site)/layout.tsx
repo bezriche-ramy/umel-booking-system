@@ -2,6 +2,7 @@ import Footer from "@frontend/shared/components/Footer";
 import Navbar from "@frontend/shared/components/Navbar";
 import ScrollReveal from "@frontend/shared/components/ScrollReveal";
 import WhatsAppButton from "@frontend/shared/components/WhatsAppButton";
+import ImageLightbox from "@frontend/shared/components/ImageLightbox";
 
 export default function SiteLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
@@ -16,6 +17,7 @@ export default function SiteLayout({ children }: Readonly<{ children: React.Reac
             <Footer />
             <WhatsAppButton />
             <ScrollReveal />
+            <ImageLightbox />
         </>
     );
 }

@@ -183,7 +183,7 @@ export default function HomePage() {
                     </figure>
                     <figure className="creation-b">
                         <Image
-                            src="/images/Robes créées sur mesure2.webp"
+                            src="/images/Robes créées sur mesure7.webp"
                             alt="Création nuptiale Umel Couture"
                             fill
                             sizes="(max-width: 700px) 78vw, 28vw"

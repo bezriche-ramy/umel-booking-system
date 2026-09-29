@@ -1,22 +1,26 @@
 import Image from "next/image";
 
 const fluxImages = [
-    "image00015.webp",
     "image00006.webp",
     "image00023.webp",
     "image00042.webp",
     "image00041.webp",
     "image00017.webp",
     "image00011.webp",
-    "image00016.webp",
+    "image00007.webp",
     "image00012.webp",
-    "image00036.webp",
+    "image00010.webp",
     "image00038.webp",
     "image00025.webp",
     "image00009.webp",
     "image00001.webp",
     "image00020.webp",
     "image00037.webp",
+    "image00028.webp",
+    "image00003.webp",
+    "image00005.webp",
+    "image00022.webp",
+    "image00027.webp",
 ];
 
 export default function FluxMarquee() {
