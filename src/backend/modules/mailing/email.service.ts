@@ -1,5 +1,7 @@
 /**
- * Envoi d'e-mails transactionnels et campagnes via Gmail (SMTP + mot de passe d'application).
+ * Envoi d'e-mails transactionnels et campagnes par SMTP (Resend, Gmail… selon SMTP_HOST).
+ * Pour ne pas finir en spam, l'expéditeur (MAIL_FROM) doit être une adresse du domaine signé par le service
+ * (ex. contact@umelcouture.com via Resend, domaine vérifié SPF + DKIM).
  * Chaque envoi (réussi, échoué ou ignoré faute de configuration) est tracé dans MessageLog.
  */
 
@@ -8,18 +10,22 @@ import { createTransport, type Transporter } from "nodemailer";
 import { siteConfig } from "@shared/siteData";
 import { prisma } from "@backend/core/db";
 
-const NOT_CONFIGURED = "GMAIL_USER / GMAIL_APP_PASSWORD non configurés";
+const NOT_CONFIGURED = "SMTP_HOST / SMTP_USER / SMTP_PASS / MAIL_FROM non configurés";
 
 let transporter: Transporter | null = null;
 
-export const isEmailConfigured = () => !!(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
+export const isEmailConfigured = () =>
+    !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS && process.env.MAIL_FROM);
 
 function getTransporter(): Transporter | null {
     if (!isEmailConfigured()) return null;
+    const port = Number(process.env.SMTP_PORT) || 465;
     transporter ??= createTransport({
-        service: "Gmail",
+        host: process.env.SMTP_HOST,
+        port,
+        secure: port === 465, // 465 = TLS direct ; 587 = STARTTLS
         pool: true, // une seule connexion réutilisée pour les campagnes
-        auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD!.replace(/\s/g, "") },
+        auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS!.replace(/\s/g, "") },
     });
     return transporter;
 }
@@ -57,9 +63,9 @@ export function htmlToText(html: string): string {
         .trim();
 }
 
-/** Gmail impose l'adresse du compte comme expéditeur ; les réponses des clientes vont à l'atelier. */
+/** Expéditeur « Umel Couture <MAIL_FROM> » ; les réponses des clientes vont à l'atelier. */
 const envelope = () => ({
-    from: { name: siteConfig.name, address: process.env.GMAIL_USER! },
+    from: { name: siteConfig.name, address: process.env.MAIL_FROM! },
     replyTo: process.env.EMAIL_REPLY_TO || siteConfig.email,
 });
 

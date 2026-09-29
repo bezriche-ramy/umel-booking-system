@@ -20,7 +20,7 @@ const stamp = (d: Date) => {
     return `${p.day.split("-").reverse().join("/")} ${p.time}`;
 };
 
-/** Limite d'envoi quotidienne (Gmail tolère ~500/jour ; 100 par prudence pour ne pas bloquer le compte). Modifiable via EMAIL_DAILY_LIMIT. */
+/** Limite d'envoi quotidienne (offre gratuite Resend : 100 / jour). Modifiable via EMAIL_DAILY_LIMIT. */
 export const EMAIL_DAILY_LIMIT = Number(process.env.EMAIL_DAILY_LIMIT) || 100;
 
 /** E-mails réellement envoyés aujourd'hui (heure de Paris). */

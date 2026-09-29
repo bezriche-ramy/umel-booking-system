@@ -75,7 +75,7 @@ export default function MailingPanel({ quota, followUp, audiences, emailConfigur
         <div className="adm-stack">
             {!emailConfigured && (
                 <p className="adm-error adm-card">
-                    Le compte Gmail d&apos;envoi n&apos;est pas configuré (GMAIL_USER / GMAIL_APP_PASSWORD) : les e-mails sont enregistrés dans
+                    L&apos;envoi d&apos;e-mails n&apos;est pas configuré (SMTP_HOST / SMTP_USER / SMTP_PASS / MAIL_FROM) : les e-mails sont enregistrés dans
                     l&apos;historique mais ne partent pas.
                 </p>
             )}
@@ -84,7 +84,7 @@ export default function MailingPanel({ quota, followUp, audiences, emailConfigur
                 <div>
                     <h2 className="adm-card-title">Limite : {quota.limit} e-mails par jour</h2>
                     <p className="adm-hint">
-                        Envoi par Gmail, limité à {quota.limit} e-mails par jour pour ne pas faire bloquer le compte. Ce total comprend <strong>tous</strong> les
+                        Limite de {quota.limit} e-mails par jour (offre gratuite du service d&apos;envoi). Ce total comprend <strong>tous</strong> les
                         envois : confirmations de réservation, rappels, relances et campagnes. Au-delà, les e-mails sont refusés jusqu&apos;au
                         lendemain.
                     </p>

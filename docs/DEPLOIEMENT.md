@@ -9,7 +9,7 @@ Checklist du jour J, dans l'ordre. Compter environ 2 heures.
 
 - [ ] Accès SSH au VPS (Ubuntu / Debian) et son **adresse IP**
 - [ ] Stripe (compte **SARL UMEL COUTURE**) : **Roll key** sur la clé secrète → nouvelle `sk_live_…` + la `pk_live_…`
-- [ ] Compte Gmail d'envoi + mot de passe d'application (Google → Sécurité → Mots de passe des applications)
+- [ ] Compte Resend, domaine umelcouture.com **Verified** (SPF + DKIM), clé API `re_…`
 - [ ] Accès Squarespace (DNS) et accès WordPress (admin + phpMyAdmin Hostinger)
 
 ## 1. Installer le serveur (une seule fois)
@@ -52,7 +52,8 @@ Remplir `.env` (modèle commenté dans `.env.example`) :
 | `STRIPE_SECRET_KEY` | la **nouvelle** `sk_live_…` |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_…` |
 | `STRIPE_LIVE_SECRET_KEY` | la même `sk_live_…` (vérification des cartes importées) |
-| `GMAIL_USER` / `GMAIL_APP_PASSWORD` | adresse Gmail d'envoi / mot de passe d'application (16 caractères) |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | Resend : `smtp.resend.com` / `465` / `resend` / clé `re_…` |
+| `MAIL_FROM` | `contact@umelcouture.com` (domaine vérifié dans Resend) |
 | `EMAIL_REPLY_TO` | `contact@umelcouture.com` (adresse qui reçoit les réponses des clientes) |
 
 ```bash
