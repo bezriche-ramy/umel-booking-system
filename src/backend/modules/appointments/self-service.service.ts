@@ -4,7 +4,7 @@
  */
 
 import { prisma } from "@backend/core/db";
-import { sendEmail } from "@backend/modules/mailing/email.service";
+import { publicSiteUrl, sendEmail } from "@backend/modules/mailing/email.service";
 import { atelierNotificationEmail } from "@backend/modules/mailing/email-templates";
 import { FREE_CANCELLATION_HOURS, getServiceTitle } from "@shared/reservation/services";
 import { siteConfig } from "@shared/siteData";
@@ -14,7 +14,7 @@ import { BookingError, cancelAppointment, moveAppointment } from "./appointments
 export class SelfServiceError extends Error {}
 
 export function manageUrl(token: string): string {
-    return `${siteConfig.url}/mon-rendez-vous/${token}`;
+    return `${publicSiteUrl()}/mon-rendez-vous/${token}`;
 }
 
 async function findByToken(token: string) {

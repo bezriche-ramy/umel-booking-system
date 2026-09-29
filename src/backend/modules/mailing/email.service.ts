@@ -24,6 +24,39 @@ function getTransporter(): Transporter | null {
     return transporter;
 }
 
+/**
+ * Adresse du site utilisée dans les liens des e-mails. PUBLIC_SITE_URL permet de pointer vers le nouveau site
+ * (ex. https://rdv.umelcouture.com) tant que umelcouture.com affiche encore l'ancien site.
+ */
+export const publicSiteUrl = () => (process.env.PUBLIC_SITE_URL || siteConfig.url).replace(/\/$/, "");
+
+/**
+ * Version texte d'un e-mail HTML. Un message HTML seul est nettement plus souvent classé en spam :
+ * chaque envoi part donc avec les deux versions.
+ */
+export function htmlToText(html: string): string {
+    return html
+        .replace(/<a [^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, (_, href: string, label: string) => {
+            const text = label.replace(/<[^>]+>/g, "").trim();
+            return text && text !== href && !href.includes(text) ? `${text} : ${href}` : href;
+        })
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<\/(p|tr|table|h\d|div)>/gi, "\n\n")
+        .replace(/<\/td>/gi, " ")
+        .replace(/<[^>]+>/g, "")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&amp;/g, "&")
+        .split("\n")
+        .map(line => line.replace(/[ \t]+/g, " ").trim())
+        .join("\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+}
+
 /** Gmail impose l'adresse du compte comme expéditeur ; les réponses des clientes vont à l'atelier. */
 const envelope = () => ({
     from: { name: siteConfig.name, address: process.env.GMAIL_USER! },
@@ -67,7 +100,7 @@ export async function sendEmail(input: SendEmailInput): Promise<{ ok: boolean; e
     }
 
     try {
-        const info = await client.sendMail({ ...envelope(), to: input.to, subject: input.subject, html: input.html });
+        const info = await client.sendMail({ ...envelope(), to: input.to, subject: input.subject, html: input.html, text: htmlToText(input.html) });
         await log("SENT", { providerId: info.messageId });
         return { ok: true };
     } catch (err) {
@@ -92,7 +125,17 @@ export async function sendEmailBatch(
         if (!client) error = NOT_CONFIGURED;
         else {
             try {
-                providerId = (await client.sendMail({ ...envelope(), to: m.to, subject: m.subject, html: m.html })).messageId;
+                providerId = (
+                    await client.sendMail({
+                        ...envelope(),
+                        to: m.to,
+                        subject: m.subject,
+                        html: m.html,
+                        text: htmlToText(m.html),
+                        // Désinscription en un clic demandée par Gmail pour les envois groupés (répondre « STOP »)
+                        headers: { "List-Unsubscribe": `<mailto:${envelope().replyTo}?subject=STOP>` },
+                    })
+                ).messageId;
             } catch (err) {
                 error = err instanceof Error ? err.message : "Erreur d'envoi";
             }
@@ -134,7 +177,7 @@ export function emailLayout(title: string, bodyHtml: string): string {
 <tr><td style="padding:8px 32px 0;text-align:center;font-size:24px;line-height:1.3">${escapeHtml(title)}</td></tr>
 <tr><td style="padding:20px 32px 28px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#201d1b">${bodyHtml}</td></tr>
 <tr><td style="padding:18px 32px;border-top:1px solid #ede4d6;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5;color:#766e69;text-align:center">
-${siteConfig.name} · ${escapeHtml(address)}<br>${siteConfig.phone} · <a href="${siteConfig.url}" style="color:#b8934a">${siteConfig.url.replace("https://", "")}</a>
+${siteConfig.name} · ${escapeHtml(address)}<br>${siteConfig.phone} · <a href="${publicSiteUrl()}" style="color:#b8934a">${publicSiteUrl().replace("https://", "")}</a>
 </td></tr></table></td></tr></table></body></html>`;
 }
 

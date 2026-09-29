@@ -1,6 +1,6 @@
 import { DEPOSIT_AMOUNT_CENTS, FREE_CANCELLATION_HOURS, getServiceTitle } from "@shared/reservation/services";
 import { siteConfig } from "@shared/siteData";
-import { emailLayout, escapeHtml } from "@backend/modules/mailing/email.service";
+import { emailLayout, escapeHtml, publicSiteUrl } from "@backend/modules/mailing/email.service";
 import { formatParisDateTime } from "@shared/tz";
 
 const deposit = `${DEPOSIT_AMOUNT_CENTS / 100} €`;
@@ -16,7 +16,7 @@ interface AppointmentLike {
 /** Bouton « Déplacer ou annuler mon rendez-vous » (lien privé, utilisable jusqu'à 72 h avant). */
 function manageButton(a: AppointmentLike): string {
     if (!a.manageToken) return "";
-    const url = `${siteConfig.url}/mon-rendez-vous/${a.manageToken}`;
+    const url = `${publicSiteUrl()}/mon-rendez-vous/${a.manageToken}`;
     return `<p style="margin:22px 0 6px;text-align:center">
 <a href="${url}" style="display:inline-block;padding:13px 24px;background:#201d1b;color:#ffffff;text-decoration:none;font-size:13px;letter-spacing:1px;text-transform:uppercase">Déplacer ou annuler mon rendez-vous</a></p>
 <p style="margin:0;text-align:center;font-size:12px;color:#766e69">Possible en ligne jusqu'à ${FREE_CANCELLATION_HOURS} h avant le rendez-vous.</p>`;
@@ -73,7 +73,7 @@ export function cancellationEmail(firstName: string, a: AppointmentLike, charged
             "Rendez-vous annulé",
             `<p>Chère ${escapeHtml(firstName)},</p><p>Votre rendez-vous a bien été annulé.</p>${details(a)}
 <p>${charged ? `Conformément à notre politique d'annulation (moins de ${FREE_CANCELLATION_HOURS}h avant le rendez-vous), l'empreinte de ${deposit} a été prélevée.` : "Aucun montant ne vous a été prélevé."}</p>
-<p>Pour reprendre rendez-vous : <a href="${siteConfig.url}/contact#reservation" style="color:#b8934a">${siteConfig.url.replace("https://", "")}/contact</a></p>`,
+<p>Pour reprendre rendez-vous : <a href="${publicSiteUrl()}/contact#reservation" style="color:#b8934a">${publicSiteUrl().replace("https://", "")}/contact</a></p>`,
         ),
     };
 }
