@@ -34,7 +34,7 @@ export const RESERVATION_SERVICES: ServiceOption[] = [
         title: "Essayage de costumes (marié)",
         description: "Essayage de costumes pour le marié, en rendez-vous privé à l'atelier.",
         duration: "1h00",
-        priceHint: "Sur rendez-vous",
+        priceHint: "À partir de 690 €",
     },
 ];
 
