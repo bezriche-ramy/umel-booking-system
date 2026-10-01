@@ -30,7 +30,7 @@ const models = [
     {
         slug: "sirene-dentelle",
         name: "Sirène dentelle",
-        desc: "Dentelle de Calais sur corset apparent, portée avec une coiffe en dentelle.",
+        desc: "Dentelle brodée sur corset apparent, portée avec une coiffe en dentelle.",
         alts: ["Robe sirène en dentelle, vue en pied", "Robe sirène dentelle et coiffe", "Corset en dentelle transparente", "Détail de la dentelle du corset"],
     },
     {
