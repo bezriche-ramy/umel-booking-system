@@ -10,7 +10,7 @@ export const RESERVATION_SERVICES: ServiceOption[] = [
         id: "sur-mesure",
         title: "Confection sur mesure",
         description:
-            "Premier rendez-vous pour imaginer votre robe unique : essayage des modèles du showroom, échange sur votre silhouette, vos matières et vos envies.",
+            "Imaginer votre robe unique : essayage des modèles du showroom et échange sur vos envies.",
         duration: "1h00",
         priceHint: "À partir de 2 200 €",
         badge: "Cœur de maison",
