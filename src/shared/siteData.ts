@@ -190,12 +190,12 @@ export const siteConfig = {
             desc: "Traitement soigné pour préserver les matières les plus délicates : tissus, dentelles, broderies. Pour le grand jour, et pour les années qui suivent.",
             price: "À partir de 150€",
             priceFrom: 150 as number | null,
-            url: "/nos-robes-services#pressing",
+            url: "/pressing",
             badge: null as string | null,
             image: null as { src: string; alt: string } | null,
         },
     ],
-    /** Grille tarifaire du pressing affichée sur /nos-robes-services#pressing. */
+    /** Grille tarifaire du pressing affichée sur /pressing. */
     // TODO: compléter avec la grille tarifaire réelle transmise par l'atelier
 };
 

@@ -164,6 +164,10 @@ export default function NosRobesServicesPage() {
                                         <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer">
                                             Envoyer ma vidéo sur WhatsApp <span aria-hidden="true">→</span>
                                         </a>
+                                    ) : service.id === "pressing" ? (
+                                        <Link href="/pressing" aria-label="Voir les tarifs du pressing">
+                                            Voir les tarifs <span aria-hidden="true">→</span>
+                                        </Link>
                                     ) : (
                                         <Link
                                             href="/contact#reservation"

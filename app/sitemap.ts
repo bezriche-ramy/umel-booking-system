@@ -6,6 +6,7 @@ const pages: { path: string; priority: number; images: string[] }[] = [
     { path: "/", priority: 1.0, images: ["/images/Hero1.webp", "/images/Robes créées sur mesure4.webp"] },
     { path: "/nos-robes-services", priority: 0.9, images: ["/images/Nos robes.webp"] },
     { path: "/contact", priority: 0.9, images: ["/images/Contact.webp"] },
+    { path: "/pressing", priority: 0.6, images: ["/images/Contact.webp"] },
     { path: "/comment-ca-marche", priority: 0.9, images: ["/images/Ambiance atelier3.webp"] },
     {
         path: "/galerie",
