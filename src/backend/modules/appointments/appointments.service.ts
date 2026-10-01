@@ -125,6 +125,7 @@ export interface CreateAppointmentInput {
     day: string;
     startTime: string;
     projectNotes?: string | null;
+    companions?: number | null;
     notes?: string | null;
     /** Carte enregistrée à la réservation en ligne → une commande / dépôt de garantie est créé */
     card?: { stripeCustomerId: string; stripePaymentMethodId: string; stripeSetupIntentId: string } | null;
@@ -159,6 +160,7 @@ export async function createAppointment(input: CreateAppointmentInput) {
                     startTime: input.startTime,
                     slotType,
                     projectNotes: input.projectNotes || null,
+                    companions: input.companions ?? null,
                     notes: input.notes || null,
                 },
                 include: { customer: true },

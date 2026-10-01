@@ -12,7 +12,7 @@ interface BookBody {
     startTime?: string;
     setupIntentId?: string;
     acceptedTerms?: boolean;
-    customer?: { firstName?: string; lastName?: string; email?: string; phone?: string; weddingDate?: string; projectNotes?: string };
+    customer?: { firstName?: string; lastName?: string; email?: string; phone?: string; weddingDate?: string; projectNotes?: string; companions?: string | number };
     /** Canal d'acquisition détecté côté navigateur (Instagram, Google...), pour la commande. */
     trafficSource?: string;
 }
@@ -37,6 +37,7 @@ export async function POST(request: Request) {
         phone: body.customer?.phone?.trim() ?? "",
         weddingDate: body.customer?.weddingDate?.trim().slice(0, 60) ?? "",
         projectNotes: body.customer?.projectNotes?.trim().slice(0, 2000) ?? "",
+        companions: String(body.customer?.companions ?? "").trim(),
     };
     const { isValid } = validateCustomerInfo(customer, true, body.acceptedTerms === true);
     if (
@@ -88,6 +89,7 @@ export async function POST(request: Request) {
             day: body.date,
             startTime: body.startTime,
             projectNotes: customer.projectNotes,
+            companions: customer.companions === "" ? null : Number(customer.companions),
             card: { stripeSetupIntentId: setupIntent.id, stripePaymentMethodId: paymentMethodId, stripeCustomerId },
             source: "WEB",
             trafficSource: body.trafficSource?.trim().slice(0, 60) || undefined,

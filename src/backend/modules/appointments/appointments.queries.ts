@@ -63,6 +63,7 @@ export async function getAppointmentsPageData(sp: PageParams) {
         status: a.status,
         serviceId: a.serviceId,
         projectNotes: a.projectNotes,
+        companions: a.companions,
         notes: a.notes,
         deposit: a.deposit
             ? { id: a.deposit.id, number: a.deposit.number, status: a.deposit.depositStatus, error: a.deposit.chargeError }

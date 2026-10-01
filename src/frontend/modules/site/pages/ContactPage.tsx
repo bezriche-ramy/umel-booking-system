@@ -30,7 +30,7 @@ export default function ContactPage() {
 
             <PageHero
                 imageSrc="/images/Contact.webp"
-                eyebrow="Boutique robe de mariée · Servon (77)"
+                eyebrow="Showroom de robes de mariée · Servon (77)"
                 imageAlt="Boutique de robes de mariée Umel Couture, 12 rue Georges Truffaut à Servon"
                 titleLines={["Chaque robe", "commence par", "une conversation."]}
                 sub="Réservez votre essayage privé à l'atelier de Servon."

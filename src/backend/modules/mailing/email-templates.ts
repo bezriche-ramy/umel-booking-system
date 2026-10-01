@@ -11,6 +11,7 @@ interface AppointmentLike {
     date: Date;
     /** Code du lien privé « Gérer mon rendez-vous » */
     manageToken?: string | null;
+    companions?: number | null;
 }
 
 /** Bouton « Déplacer ou annuler mon rendez-vous » (lien privé, utilisable jusqu'à 72 h avant). */
@@ -31,6 +32,7 @@ function details(a: AppointmentLike): string {
 <tr><td style="padding:6px 0;color:#766e69">Référence</td><td style="padding:6px 0;text-align:right"><strong>${escapeHtml(a.reference)}</strong></td></tr>
 <tr><td style="padding:6px 0;color:#766e69">Prestation</td><td style="padding:6px 0;text-align:right">${escapeHtml(getServiceTitle(a.serviceId))}</td></tr>
 <tr><td style="padding:6px 0;color:#766e69">Date</td><td style="padding:6px 0;text-align:right">${escapeHtml(formatParisDateTime(a.date))}</td></tr>
+${a.companions != null ? `<tr><td style="padding:6px 0;color:#766e69">Accompagnateurs</td><td style="padding:6px 0;text-align:right">${a.companions}</td></tr>` : ""}
 <tr><td style="padding:6px 0;color:#766e69">Adresse</td><td style="padding:6px 0;text-align:right">${escapeHtml(`${siteConfig.address.street}, ${siteConfig.address.postalCode} ${siteConfig.address.city}`)}</td></tr>
 </table>`;
 }

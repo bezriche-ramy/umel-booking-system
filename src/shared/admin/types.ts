@@ -16,6 +16,7 @@ export interface AdminAppointment {
     status: "CONFIRMED" | "COMPLETED" | "NO_SHOW" | "CANCELLED";
     serviceId: string;
     projectNotes: string | null;
+    companions: number | null;
     notes: string | null;
     /** Commande / dépôt de garantie lié (réservation en ligne avec carte) */
     deposit: {

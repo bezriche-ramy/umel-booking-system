@@ -23,7 +23,9 @@ export default function Footer() {
                         <br />
                         {siteConfig.address.postalCode} {siteConfig.address.city}, France
                         <br />
-                        <a href={`tel:${siteConfig.landlineIntl}`}>{siteConfig.landline}</a> · <a href={`tel:${siteConfig.phoneIntl}`}>{siteConfig.phone}</a>
+                        <a href={`tel:${siteConfig.landlineIntl}`}>{siteConfig.landline}</a>
+                        <br />
+                        <a href={`tel:${siteConfig.phoneIntl}`}>{siteConfig.phone}</a>
                         <br />
                         <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
                     </address>

@@ -114,6 +114,10 @@ export default function OrderDetailScreen(o: Awaited<ReturnType<typeof getOrderD
                                     <dd>{a.weddingDate || "—"}</dd>
                                 </div>
                                 <div>
+                                    <dt>Accompagnateurs</dt>
+                                    <dd>{a.companions ?? "—"}</dd>
+                                </div>
+                                <div>
                                     <dt>Durée · créneau</dt>
                                     <dd>
                                         {a.durationMinutes} min · {a.slotType === "DOUBLE" ? "double" : "simple"}

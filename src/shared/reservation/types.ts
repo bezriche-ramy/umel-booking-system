@@ -36,6 +36,8 @@ export interface CustomerInfo {
     weddingDate: string;
     /** « Dites-nous en davantage sur vous et ce que vous recherchez » */
     projectNotes: string;
+    /** Nombre d'accompagnateurs souhaités (facultatif, saisi en texte dans le formulaire) */
+    companions: string;
 }
 
 export const customerFullName = (c: Pick<CustomerInfo, "firstName" | "lastName">) =>

@@ -68,6 +68,7 @@ export default function ReservationFlow({ initialServiceId, isSubmarineRetouches
             phone: "",
             weddingDate: "",
             projectNotes: "",
+            companions: "",
         },
         acceptedTerms: false,
     });

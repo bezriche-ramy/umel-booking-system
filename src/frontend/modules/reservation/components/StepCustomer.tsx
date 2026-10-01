@@ -172,6 +172,36 @@ export default function StepCustomer({ customer, errors, onChange, onNext, onBac
                     )}
                 </div>
 
+                {/* Accompagnateurs */}
+                <div className={`res-field-group ${errors.companions ? "has-error" : ""}`}>
+                    <label htmlFor="res-companions" className="res-label">
+                        Nombre d&apos;accompagnateurs souhaités
+                    </label>
+                    <input
+                        id="res-companions"
+                        type="number"
+                        inputMode="numeric"
+                        min={0}
+                        max={10}
+                        name="companions"
+                        value={customer.companions}
+                        onChange={e => onChange("companions", e.target.value)}
+                        placeholder="Ex. 2"
+                        aria-invalid={!!errors.companions}
+                        aria-describedby={`res-companions-help${errors.companions ? " res-companions-error" : ""}`}
+                        className="res-input"
+                    />
+                    <span id="res-companions-help" className="res-field-help">
+                        Nous recommandons de venir accompagnée de 1 à 4 personnes maximum. Contactez-nous si vous souhaitez venir
+                        avec davantage de personnes.
+                    </span>
+                    {errors.companions && (
+                        <p id="res-companions-error" className="res-field-error" role="alert">
+                            {errors.companions}
+                        </p>
+                    )}
+                </div>
+
                 {/* Dites-nous en davantage */}
                 <div className={`res-field-group full-width ${errors.projectNotes ? "has-error" : ""}`}>
                     <label htmlFor="res-projectNotes" className="res-label">

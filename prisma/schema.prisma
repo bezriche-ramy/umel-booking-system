@@ -84,6 +84,8 @@ model Appointment {
   slotType               SlotType          @default(SIMPLE)
   status                 AppointmentStatus @default(CONFIRMED)
   projectNotes           String?
+  /// Nombre d'accompagnateurs souhaités (saisi à la réservation)
+  companions             Int?
   notes                  String?
 
   cancelledAt            DateTime?

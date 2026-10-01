@@ -194,6 +194,7 @@ export async function getOrderDetail(number: number) {
                   durationMinutes: d.appointment.durationMinutes,
                   slotType: d.appointment.slotType,
                   weddingDate: d.customer.weddingDate,
+                  companions: d.appointment.companions,
                   internalNote: d.appointment.notes,
                   ...splitProjectNotes(d.appointment.projectNotes),
               }

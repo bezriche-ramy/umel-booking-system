@@ -11,6 +11,7 @@ export interface ValidationErrors {
     phone?: string;
     weddingDate?: string;
     projectNotes?: string;
+    companions?: string;
     acceptedTerms?: string;
 }
 
@@ -44,6 +45,9 @@ export function validateCustomerInfo(
         errors.weddingDate = "Veuillez indiquer la date de votre mariage (même approximative).";
     }
 
+    if (info.companions && !/^(?:[0-9]|10)$/.test(info.companions.trim())) {
+        errors.companions = "Indiquez un nombre entre 0 et 10.";
+    }
     if (!info.projectNotes || info.projectNotes.trim().length < 3) {
         errors.projectNotes = "Dites-nous en quelques mots ce que vous recherchez.";
     }

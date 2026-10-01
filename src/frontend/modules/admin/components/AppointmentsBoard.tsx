@@ -307,6 +307,12 @@ function AppointmentActions({ appointment: a }: { appointment: AdminAppointment 
                         <Link href={`/admin/clientes/${a.customer.id}`}>Voir la cliente →</Link>
                     </dd>
                 </div>
+                {a.companions !== null && (
+                    <div>
+                        <dt>Accompagnateurs</dt>
+                        <dd>{a.companions}</dd>
+                    </div>
+                )}
                 {a.projectNotes && (
                     <div className="is-wide">
                         <dt>Projet</dt>
