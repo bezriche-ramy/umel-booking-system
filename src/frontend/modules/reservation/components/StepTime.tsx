@@ -9,9 +9,11 @@ interface StepTimeProps {
     selectedSlotId?: string;
     isLoading: boolean;
     onSelectSlot: (slot: BookingSlot) => void;
+    /** Durée affichée sous la date (1h pour les essayages) */
+    durationLabel?: string;
 }
 
-export default function StepTime({ dateStr, slots, selectedSlotId, isLoading, onSelectSlot }: StepTimeProps) {
+export default function StepTime({ dateStr, slots, selectedSlotId, isLoading, onSelectSlot, durationLabel = "Rendez-vous d'1h" }: StepTimeProps) {
     if (!dateStr) {
         return (
             <div className="res-time-empty">
@@ -41,7 +43,7 @@ export default function StepTime({ dateStr, slots, selectedSlotId, isLoading, on
         <div className="res-time-container" aria-live="polite">
             <div className="res-time-head">
                 <h4 className="res-time-title">Horaires disponibles</h4>
-                <p className="res-time-date-label">{formatFrenchLongDate(dateStr)} · Rendez-vous d&apos;1h</p>
+                <p className="res-time-date-label">{formatFrenchLongDate(dateStr)} · {durationLabel}</p>
             </div>
 
             {isLoading ? (

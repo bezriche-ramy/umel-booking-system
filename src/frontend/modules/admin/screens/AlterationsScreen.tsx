@@ -1,7 +1,7 @@
 import AlterationsPlanner from "@frontend/modules/admin/components/AlterationsPlanner";
 import type { getAlterationsPageData } from "@backend/modules/alterations/alterations.queries";
 
-export default function AlterationsScreen({ alterations, monday, names, reminderDays, seamstress, canEditSettings }: Awaited<ReturnType<typeof getAlterationsPageData>>) {
+export default function AlterationsScreen({ alterations, monday, names, reminderDays, seamstress, canEditSettings, view, month, gridStart, gridEnd, online }: Awaited<ReturnType<typeof getAlterationsPageData>>) {
     return (
         <>
             <header className="adm-page-head">
@@ -17,6 +17,11 @@ export default function AlterationsScreen({ alterations, monday, names, reminder
                 seamstressFilter={seamstress}
                 reminderDays={Number(reminderDays)}
                 canEditSettings={canEditSettings}
+                view={view}
+                month={month}
+                gridStart={gridStart}
+                gridEnd={gridEnd}
+                online={online}
             />
         </>
     );

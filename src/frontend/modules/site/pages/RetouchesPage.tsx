@@ -1,5 +1,6 @@
 import EmbroideryDivider from "@frontend/shared/components/EmbroideryDivider";
 import PageHero from "@frontend/shared/components/PageHero";
+import RetouchesBooking from "@frontend/modules/reservation/components/RetouchesBooking";
 import { siteConfig } from "@shared/siteData";
 import type { Metadata } from "next";
 
@@ -24,20 +25,23 @@ export default function RetouchesPrivateBookingPage() {
                 objectPosition="center 30%"
             />
 
-            {/* RETOUCHES : rendez-vous fixés par l'atelier (pas de réservation en ligne) */}
+            {/* RETOUCHES : calendrier de réservation propre aux retouches (indépendant des essayages) */}
             <section className="s res-page-section" id="reservation" aria-labelledby="retouches-res-title">
                 <div className="contact-res-container">
                     <div className="contact-res-header">
                         <h2 className="contact-res-title" id="retouches-res-title" style={{ textWrap: "balance" }}>
-                            Vos séances de retouches
+                            Réservez votre séance
                             <br />
-                            <em>fixées avec l&apos;atelier</em>
+                            <em>de retouches</em>
                         </h2>
                         <p className="contact-res-sub">
-                            Les rendez-vous de retouches, de pressing et de retouches externes sont fixés directement par
-                            notre équipe, selon l&apos;avancement de votre robe. Contactez-nous pour convenir de votre
-                            créneau : nous vous confirmons la date par e-mail et vous recevez un rappel quelques jours avant.
+                            Choisissez directement votre créneau : vous recevez la confirmation par e-mail, avec nos recommandations pour
+                            préparer cette séance (chaussures du jour J, accessoires, personne qui vous habillera).
                         </p>
+                    </div>
+                    <RetouchesBooking />
+                    <div className="contact-res-header" style={{ marginTop: "40px" }}>
+                        <p className="contact-res-sub">Une question, ou besoin d&apos;un créneau qui n&apos;apparaît pas ? Contactez l&apos;atelier.</p>
                         <div className="retouches-contact-actions">
                             <a href={`tel:${siteConfig.landlineIntl}`} className="bp">
                                 Appeler l&apos;atelier · {siteConfig.landline}

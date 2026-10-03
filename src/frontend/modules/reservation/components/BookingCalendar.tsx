@@ -13,11 +13,13 @@ import { useEffect, useState } from "react";
 interface BookingCalendarProps {
     selectedDateStr?: string; // YYYY-MM-DD
     onSelectDate: (dateStr: string) => void;
+    /** Source des disponibilités (calendrier Créations par défaut, Retouches sur /retouches) */
+    monthUrl?: string;
 }
 
 const WEEKDAY_NAMES = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
-export default function BookingCalendar({ selectedDateStr, onSelectDate }: BookingCalendarProps) {
+export default function BookingCalendar({ selectedDateStr, onSelectDate, monthUrl = "/api/availability/month" }: BookingCalendarProps) {
     // Default to current month or selected date month
     const initialDate = selectedDateStr ? new Date(selectedDateStr) : new Date();
     const [viewYear, setViewYear] = useState(initialDate.getFullYear());
@@ -34,7 +36,7 @@ export default function BookingCalendar({ selectedDateStr, onSelectDate }: Booki
         if (availability[monthKey]) return;
         let cancelled = false;
         setLoadError(false);
-        fetch(`/api/availability/month?month=${monthKey}`, { cache: "no-store" })
+        fetch(`${monthUrl}?month=${monthKey}`, { cache: "no-store" })
             .then(res => (res.ok ? res.json() : Promise.reject(res)))
             .then((data: { days: CalendarDayAvailability[] }) => {
                 if (!cancelled) setAvailability(prev => ({ ...prev, [monthKey]: data.days }));
@@ -43,7 +45,7 @@ export default function BookingCalendar({ selectedDateStr, onSelectDate }: Booki
         return () => {
             cancelled = true;
         };
-    }, [monthKey, availability]);
+    }, [monthKey, availability, monthUrl]);
 
     const handlePrevMonth = () => {
         if (viewMonth === 0) {

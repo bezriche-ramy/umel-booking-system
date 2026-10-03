@@ -3067,3 +3067,124 @@ textarea.adm-input {
         height: 520px;
     }
 }
+
+/* Retouches : vue mois ------------------------------------------------------ */
+.alt-month {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 1px;
+    padding: 0;
+    overflow: hidden;
+    background: var(--adm-line);
+}
+
+.alt-month-head {
+    background: var(--adm-surface);
+    padding: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--adm-muted);
+    text-align: center;
+}
+
+.alt-month-cell {
+    background: var(--adm-surface);
+    min-height: 112px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.alt-month-cell.is-out {
+    background: var(--adm-bg);
+}
+
+.alt-month-cell.is-out .alt-month-num {
+    color: var(--adm-muted);
+}
+
+.alt-month-cell.is-today .alt-month-num {
+    background: var(--adm-ink);
+    color: #fff;
+    border-radius: 999px;
+    padding: 0 7px;
+}
+
+.alt-month-num {
+    align-self: flex-start;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.alt-month-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 6px;
+    width: 100%;
+    padding: 4px 6px;
+    border: 0;
+    border-left: 3px solid var(--adm-blue);
+    border-radius: 4px;
+    background: var(--adm-blue-soft);
+    font: inherit;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+    min-width: 0;
+}
+
+.alt-month-item small {
+    width: 100%;
+    color: var(--adm-muted);
+    font-size: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.alt-month-item.status-DONE {
+    border-left-color: var(--adm-green);
+    background: var(--adm-green-soft);
+}
+
+.alt-month-item.status-NO_SHOW,
+.alt-month-item.status-CANCELLED {
+    border-left-color: var(--adm-red);
+    background: var(--adm-red-soft);
+    opacity: 0.75;
+}
+
+.alt-online {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--adm-gold);
+    color: #fff;
+}
+
+@media (max-width: 760px) {
+    .alt-month-cell {
+        min-height: 72px;
+        padding: 4px;
+    }
+
+    .alt-month-item {
+        font-size: 0;
+        padding: 3px;
+        border-left-width: 4px;
+    }
+
+    .alt-month-item strong {
+        font-size: 11px;
+    }
+
+    .alt-month-item small,
+    .alt-online {
+        display: none;
+    }
+}

@@ -39,5 +39,7 @@ export interface AdminAlteration {
     devis: number | null;
     notes: string | null;
     reminderSent: boolean;
+    /** Réservée par la cliente sur la page /retouches */
+    bookedOnline: boolean;
     customer: AdminCustomerRef;
 }
