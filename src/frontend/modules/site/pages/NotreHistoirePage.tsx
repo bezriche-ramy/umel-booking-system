@@ -5,6 +5,7 @@ import { buildPageMetadata } from "@frontend/modules/site/lib/metadata";
 import { getBreadcrumbSchema } from "@frontend/modules/site/lib/schema";
 import JsonLd from "@frontend/shared/components/JsonLd";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/notre-histoire",
@@ -73,6 +74,28 @@ export default function NotreHistoirePage() {
                         <br />
                         Un seul nom.
                     </h2>
+                    <figure style={{ margin: "0 0 36px" }}>
+                        <Image
+                            src="/images/umi-melissa.webp"
+                            alt="Umi et Melissa, fondatrices de la maison Umel Couture"
+                            width={1200}
+                            height={1600}
+                            sizes="(max-width: 760px) 100vw, 700px"
+                            style={{ width: "100%", height: "auto", display: "block" }}
+                        />
+                        <figcaption
+                            style={{
+                                marginTop: "12px",
+                                fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
+                                fontSize: "14px",
+                                fontStyle: "italic",
+                                color: "var(--taupe)",
+                                textAlign: "center",
+                            }}
+                        >
+                            Umi &amp; Melissa, fondatrices d&apos;Umel Couture.
+                        </figcaption>
+                    </figure>
                     <p
                         style={{
                             fontFamily: "var(--font-eb-garamond), 'EB Garamond', serif",
