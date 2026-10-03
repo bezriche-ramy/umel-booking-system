@@ -18,6 +18,7 @@ export const TEMPLATE_KEYS = [
     "CONFIRMATION",
     "REMINDER",
     "ALTERATION",
+    "ALTERATION_REMINDER",
     "CONGRATULATIONS",
     "THANK_YOU",
     "WELCOME_BRIDE",
@@ -176,6 +177,32 @@ Nous vous recommandons de prévoir environ 2 heures sur place afin de prendre le
 Si des retouches plus importantes sont nécessaires, pas d’inquiétude : un second rendez-vous pourra être fixé afin de poursuivre les ajustements dans les meilleures conditions.
 
 Notre objectif est simple : que votre robe vous aille parfaitement et que vous vous sentiez totalement sereine à l’approche du grand jour. 🤍
+
+À très bientôt,
+
+L’équipe UMEL COUTURE`,
+    },
+    ALTERATION_REMINDER: {
+        name: "Rappel de séance de retouches",
+        mode: "auto",
+        trigger: "Envoyé quelques jours avant la séance de retouches (délai réglé dans Admin → Retouches).",
+        kind: "ALTERATION_REMINDER",
+        variables: ["prénom", "date_retouches", "heure_retouches"],
+        subject: "Rappel : votre séance de retouches chez UMEL COUTURE",
+        title: "Votre séance de retouches approche",
+        body: `Bonjour {{prénom}},
+
+Nous vous rappelons votre séance de retouches chez UMEL COUTURE. 🤍
+
+📅 {{date_retouches}}
+🕐 {{heure_retouches}}
+📍 12 Rue Georges Truffaut, 77170 SERVON
+
+Pensez à apporter vos chaussures du jour J (ou une paire de même hauteur), vos accessoires, et si possible à venir avec la personne qui vous habillera le jour du mariage.
+
+Prévoyez environ 2 heures sur place.
+
+Un empêchement ? Merci de nous prévenir au plus vite au 01 70 33 06 49.
 
 À très bientôt,
 
@@ -369,10 +396,21 @@ export async function getTemplate(key: TemplateKey) {
         title: row?.title ?? def.title,
         body: row?.body ?? def.body,
         enabled: row?.enabled ?? true,
-        customized: !!row,
+        // « Modifié » seulement si le texte diffère vraiment de l'origine (pas pour un simple activé/désactivé)
+        customized: !!row && (row.subject !== def.subject || row.title !== def.title || row.body !== def.body),
         updatedAt: row?.updatedAt ?? null,
         updatedBy: row?.updatedBy ?? null,
     };
+}
+
+/** Active / désactive l'envoi automatique d'un modèle, sans toucher à son texte. */
+export async function setTemplateEnabled(key: TemplateKey, enabled: boolean, updatedBy: string) {
+    const def = DEFAULT_TEMPLATES[key];
+    await prisma.emailTemplate.upsert({
+        where: { key },
+        create: { key, subject: def.subject, title: def.title, body: def.body, enabled, updatedBy },
+        update: { enabled, updatedBy },
+    });
 }
 
 export async function listTemplates() {

@@ -60,11 +60,7 @@ export default function EmailTemplates({
                                         <strong>{t.name}</strong>
                                         <span className="adm-muted">{t.trigger}</span>
                                         <span className="tpl-meta">
-                                            {t.mode === "auto" && (
-                                                <span className={`adm-badge ${t.enabled ? "msg-SENT" : "msg-SKIPPED"}`}>
-                                                    {t.enabled ? "Actif" : "Désactivé"}
-                                                </span>
-                                            )}
+                                            {t.mode === "auto" && <AutoSwitch template={t} />}
                                             <span className="adm-muted">
                                                 {t.customized ? `Modifié le ${t.updatedAt}${t.updatedBy ? ` par ${t.updatedBy}` : ""}` : "Texte d'origine"}
                                             </span>
@@ -108,16 +104,59 @@ export default function EmailTemplates({
     );
 }
 
+/** Interrupteur de l'envoi automatique : effet immédiat, sans ouvrir l'éditeur. */
+function AutoSwitch({ template }: { template: TemplateView }) {
+    const router = useRouter();
+    const [enabled, setEnabled] = useState(template.enabled);
+    const [busy, setBusy] = useState(false);
+    const [error, setError] = useState<string>();
+    useEffect(() => setEnabled(template.enabled), [template.enabled]);
+
+    const toggle = async (next: boolean) => {
+        if (!next && !confirm(`Désactiver l'envoi automatique de « ${template.name} » ? Plus aucune cliente ne le recevra tant qu'il est désactivé.`)) return;
+        setBusy(true);
+        setError(undefined);
+        setEnabled(next);
+        try {
+            await adminApi(`/api/admin/mailing/templates/${template.key}`, "PATCH", { enabled: next });
+            router.refresh();
+        } catch (err) {
+            setEnabled(!next);
+            setError(err instanceof Error ? err.message : "Erreur");
+        } finally {
+            setBusy(false);
+        }
+    };
+
+    return (
+        <>
+            <label className={`adm-toggle tpl-switch ${enabled ? "is-on" : "is-off"}`}>
+                <input
+                    type="checkbox"
+                    role="switch"
+                    checked={enabled}
+                    disabled={busy}
+                    onChange={e => toggle(e.target.checked)}
+                    aria-label={`Envoi automatique : ${template.name}`}
+                />
+                <span className="adm-toggle-track" aria-hidden="true" />
+                <span className="adm-toggle-label">{enabled ? "Activé" : "Désactivé"}</span>
+            </label>
+            {error && <span className="adm-error">{error}</span>}
+        </>
+    );
+}
+
 function TemplateEditor({ template, onDone }: { template: TemplateView; onDone: () => void }) {
     const router = useRouter();
-    const [form, setForm] = useState({ subject: template.subject, title: template.title, body: template.body, enabled: template.enabled });
+    const [form, setForm] = useState({ subject: template.subject, title: template.title, body: template.body });
     const [preview, setPreview] = useState<string | null>(null);
     const [testEmail, setTestEmail] = useState("");
     const [busy, setBusy] = useState(false);
     const [status, setStatus] = useState<Status>();
     const bodyRef = useRef<HTMLTextAreaElement>(null);
     const url = `/api/admin/mailing/templates/${template.key}`;
-    const dirty = form.subject !== template.subject || form.title !== template.title || form.body !== template.body || form.enabled !== template.enabled;
+    const dirty = form.subject !== template.subject || form.title !== template.title || form.body !== template.body;
 
     const run = async (fn: () => Promise<string | void>) => {
         setBusy(true);
@@ -146,13 +185,6 @@ function TemplateEditor({ template, onDone }: { template: TemplateView; onDone: 
 
     return (
         <div className="tpl-editor adm-form">
-            {template.mode === "auto" && (
-                <label className="adm-toggle">
-                    <input type="checkbox" role="switch" checked={form.enabled} onChange={e => setForm(f => ({ ...f, enabled: e.target.checked }))} />
-                    <span className="adm-toggle-track" aria-hidden="true" />
-                    <span className="adm-toggle-label">{form.enabled ? "Envoi automatique activé" : "Envoi automatique désactivé"}</span>
-                </label>
-            )}
             <label className="adm-field">
                 <span>Objet de l&apos;e-mail</span>
                 <input className="adm-input" value={form.subject} maxLength={200} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))} />

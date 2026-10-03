@@ -3,7 +3,7 @@ import { randomBytes, randomInt } from "crypto";
 import { DEPOSIT_AMOUNT_CENTS, FREE_CANCELLATION_HOURS } from "@shared/reservation/services";
 import { prisma } from "@backend/core/db";
 import { publicSiteUrl, sendEmail } from "@backend/modules/mailing/email.service";
-import { alterationReminderEmail, cancellationEmail, rescheduleEmail } from "@backend/modules/mailing/email-templates";
+import { cancellationEmail, rescheduleEmail } from "@backend/modules/mailing/email-templates";
 import { buildTemplateEmail, formatDateTimeVars, getTemplate } from "@backend/modules/mailing/templates";
 import { parseWeddingDate } from "@backend/modules/mailing/wedding-date";
 import { normalizePhone } from "@backend/core/phone";
@@ -313,21 +313,23 @@ export async function runReminders() {
         } else failed++;
     }
 
-    const alterations = await prisma.alterationAppointment.findMany({
-        where: {
-            status: "SCHEDULED",
-            reminderSentAt: null,
-            date: { gte: parisToUtc(addDays(today, 1), "00:00"), lt: parisToUtc(addDays(alterationDay, 1), "00:00") },
-        },
-        include: { customer: true },
-    });
+    // Rappel de séance de retouches (J-X réglé dans Admin → Retouches)
+    const alterations = (await getTemplate("ALTERATION_REMINDER")).enabled
+        ? await prisma.alterationAppointment.findMany({
+              where: {
+                  status: "SCHEDULED",
+                  reminderSentAt: null,
+                  date: { gte: parisToUtc(addDays(today, 1), "00:00"), lt: parisToUtc(addDays(alterationDay, 1), "00:00") },
+              },
+              include: { customer: true },
+          })
+        : [];
     for (const alt of alterations) {
         if (!alt.customer.email) continue;
-        const days = Math.round((alt.date.getTime() - parisToUtc(today, "00:00").getTime()) / 86400000);
+        const { date, time } = formatDateTimeVars(alt.date);
         const res = await sendEmail({
             to: alt.customer.email,
-            ...alterationReminderEmail(alt.customer.firstName, alt.date, Math.max(1, days)),
-            kind: "ALTERATION_REMINDER",
+            ...(await buildTemplateEmail("ALTERATION_REMINDER", { prenom: alt.customer.firstName, date_retouches: date, heure_retouches: time })),
             customerId: alt.customerId,
             alterationId: alt.id,
         });

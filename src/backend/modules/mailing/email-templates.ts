@@ -37,7 +37,6 @@ ${a.companions != null ? `<tr><td style="padding:6px 0;color:#766e69">Accompagna
 </table>`;
 }
 
-const retouchesNote = `<p style="margin:12px 0 0"><strong>Pour vos retouches :</strong> apportez impérativement vos chaussures de mariée définitives et votre lingerie du jour J.</p>`;
 
 export function cancellationEmail(firstName: string, a: AppointmentLike, charged: boolean) {
     return {
@@ -73,18 +72,6 @@ export function depositChargedEmail(
             "Empreinte bancaire prélevée",
             `<p>Chère ${escapeHtml(firstName)},</p><p>Suite à votre absence (ou à une annulation moins de ${FREE_CANCELLATION_HOURS}h avant), l'empreinte bancaire de ${amount} a été prélevée conformément aux conditions acceptées lors de la réservation.</p>${appointment}
 <p>Pour toute question : ${siteConfig.phone}.</p>`,
-        ),
-    };
-}
-
-export function alterationReminderEmail(firstName: string, date: Date, days: number) {
-    return {
-        subject: `Rappel : votre séance de retouches Umel Couture`,
-        html: emailLayout(
-            "Votre séance de retouches approche",
-            `<p>Chère ${escapeHtml(firstName)},</p><p>Nous vous rappelons votre séance de retouches ${days === 1 ? "demain" : `dans ${days} jours`} :
-<strong>${escapeHtml(formatParisDateTime(date))}</strong>.</p>${retouchesNote}
-<p>Un empêchement ? Appelez-nous au ${siteConfig.phone}.</p>`,
         ),
     };
 }

@@ -3211,3 +3211,13 @@ textarea.adm-input {
     padding: 0;
     border: 0;
 }
+
+/* Interrupteur d'envoi automatique dans la liste des modèles */
+.tpl-switch.is-off .adm-toggle-label {
+    color: var(--adm-red);
+    font-weight: 600;
+}
+
+.tpl-item:has(.tpl-switch.is-off) .tpl-info > strong {
+    color: var(--adm-muted);
+}
