@@ -14,6 +14,10 @@ export async function getCustomerDetailPageData(id: string) {
         },
     });
     if (!customer) notFound();
+    const seamstresses = await prisma.alterationAppointment.findMany({ distinct: ["seamstressName"], select: { seamstressName: true } });
 
-    return { customer };
+    return {
+        customer,
+        seamstresses: seamstresses.map(s => s.seamstressName).filter(n => n !== "À attribuer").sort((a, b) => a.localeCompare(b, "fr")),
+    };
 }

@@ -227,16 +227,19 @@ export default function AlterationsPlanner({
     );
 }
 
-function AlterationForm({
+export function AlterationForm({
     alteration,
     seamstresses,
     defaultDay,
     onDone,
+    forCustomer,
 }: {
     alteration: AdminAlteration | null;
     seamstresses: string[];
     defaultDay: string;
     onDone: () => void;
+    /** Création depuis la fiche cliente : la cliente est déjà connue (pas de recherche) */
+    forCustomer?: { id: string; name: string };
 }) {
     const router = useRouter();
     const [choice, setChoice] = useState<CustomerChoice | null>(null);
@@ -244,7 +247,7 @@ function AlterationForm({
         seamstressName: alteration?.seamstressName ?? seamstresses[0] ?? "",
         day: alteration?.day ?? defaultDay,
         startTime: alteration?.startTime ?? "10:00",
-        durationMinutes: alteration?.durationMinutes ?? 60,
+        durationMinutes: alteration?.durationMinutes ?? 120,
         dressDetails: alteration?.dressDetails ?? "",
         devis: alteration?.devis?.toString() ?? "",
         notes: alteration?.notes ?? "",
@@ -273,7 +276,11 @@ function AlterationForm({
                 ? adminApi(`/api/admin/alterations/${alteration.id}`, "PATCH", form)
                 : adminApi("/api/admin/alterations", "POST", {
                       ...form,
-                      ...(choice && "customerId" in choice ? { customerId: choice.customerId } : { customer: choice && "customer" in choice ? choice.customer : undefined }),
+                      ...(forCustomer
+                          ? { customerId: forCustomer.id }
+                          : choice && "customerId" in choice
+                            ? { customerId: choice.customerId }
+                            : { customer: choice && "customer" in choice ? choice.customer : undefined }),
                   }),
         );
 
@@ -286,6 +293,11 @@ function AlterationForm({
                 <p className="adm-hint">
                     {[alteration.customer.phone, alteration.customer.email].filter(Boolean).join(" · ")} ·{" "}
                     <Link href={`/admin/clientes/${alteration.customer.id}`}>fiche cliente</Link>
+                </p>
+            ) : forCustomer ? (
+                <p className="adm-hint">
+                    Pour <strong>{forCustomer.name}</strong> · elle recevra l&apos;e-mail « Votre rendez-vous retouches » si son adresse est
+                    renseignée.
                 </p>
             ) : (
                 <CustomerPicker onChange={setChoice} />

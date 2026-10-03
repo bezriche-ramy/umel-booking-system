@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CustomerEditor from "@frontend/modules/admin/components/CustomerEditor";
+import NewAlterationButton from "@frontend/modules/admin/components/NewAlterationButton";
 import { STATUS_LABELS } from "@frontend/modules/admin/lib/labels";
 import { getServiceTitle } from "@shared/reservation/services";
 import { toParisParts } from "@shared/tz";
@@ -7,7 +8,7 @@ import type { getCustomerDetailPageData } from "@backend/modules/customers/custo
 
 const fr = (day: string) => day.split("-").reverse().join("/");
 
-export default function CustomerDetailScreen({ customer }: Awaited<ReturnType<typeof getCustomerDetailPageData>>) {
+export default function CustomerDetailScreen({ customer, seamstresses }: Awaited<ReturnType<typeof getCustomerDetailPageData>>) {
     return (
         <>
             <header className="adm-page-head">
@@ -63,7 +64,10 @@ export default function CustomerDetailScreen({ customer }: Awaited<ReturnType<ty
                     </section>
 
                     <section className="adm-card">
-                        <h2 className="adm-card-title">Retouches ({customer.alterations.length})</h2>
+                        <div className="adm-card-head">
+                            <h2 className="adm-card-title">Retouches ({customer.alterations.length})</h2>
+                            <NewAlterationButton customer={{ id: customer.id, name: `${customer.firstName} ${customer.lastName}`.trim() }} seamstresses={seamstresses} />
+                        </div>
                         {customer.alterations.length === 0 ? (
                             <p className="adm-empty">Aucune retouche.</p>
                         ) : (

@@ -3188,3 +3188,26 @@ textarea.adm-input {
         display: none;
     }
 }
+
+/* Fiche cliente : titre de carte + action */
+.adm-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.adm-card-head .adm-card-title {
+    margin-bottom: 0 !important;
+}
+
+.alt-inline-form {
+    flex-basis: 100%;
+    margin: 12px 0;
+}
+
+.alt-inline-form > .adm-card {
+    padding: 0;
+    border: 0;
+}
