@@ -78,7 +78,7 @@ export default function MailingPanel({ quota, templates, audiences, emailConfigu
                 <div>
                     <h2 className="adm-card-title">Limite : {quota.limit} e-mails par jour</h2>
                     <p className="adm-hint">
-                        Limite de {quota.limit} e-mails par jour (offre gratuite du service d&apos;envoi). Ce total comprend <strong>tous</strong> les
+                        Limite de {quota.limit} e-mails par jour, réglée sous le plafond de Gmail (environ 500 par jour) pour ne jamais bloquer le compte d&apos;envoi. Ce total comprend <strong>tous</strong> les
                         envois : confirmations de réservation, rappels, relances et campagnes. Au-delà, les e-mails sont refusés jusqu&apos;au
                         lendemain.
                     </p>
