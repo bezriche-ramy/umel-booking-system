@@ -1,12 +1,17 @@
 import { prisma } from "@backend/core/db";
 import { isEmailConfigured } from "@backend/modules/mailing/email.service";
 import { AUDIENCES, audienceWhere, type Audience } from "@backend/modules/mailing/campaigns.service";
-import { getFollowUpConfig } from "@backend/modules/settings/settings.service";
+import { listTemplates } from "@backend/modules/mailing/templates";
 import { parisToUtc, todayInParis, toParisParts } from "@shared/tz";
 
 const KIND_LABELS: Record<string, string> = {
     CONFIRMATION: "Confirmation",
-    REMINDER: "Rappel J-3",
+    REMINDER: "Rappel J-2",
+    FOLLOW_UP: "Merci pour votre visite",
+    ALTERATION_CONFIRMATION: "Rendez-vous retouches",
+    WELCOME_BRIDE: "Bienvenue UMEL Bride",
+    DRESS_PICKUP: "Robe récupérée",
+    CONGRATULATIONS: "Félicitations",
     ALTERATION_REMINDER: "Rappel retouche",
     CANCELLATION: "Annulation",
     RESCHEDULE: "Déplacement",
@@ -33,7 +38,7 @@ export function countEmailsSentToday() {
 /** Données de la page admin Mailing (chargées côté serveur). */
 export async function getMailingPageData() {
     const audienceKeys = Object.keys(AUDIENCES) as Audience[];
-    const [counts, campaigns, logs, followUp, sentToday] = await Promise.all([
+    const [counts, campaigns, logs, templates, sentToday] = await Promise.all([
         Promise.all(audienceKeys.map(k => prisma.customer.count({ where: audienceWhere(k) }))),
         prisma.campaign.findMany({ orderBy: { createdAt: "desc" }, take: 10 }),
         prisma.messageLog.findMany({
@@ -41,12 +46,25 @@ export async function getMailingPageData() {
             take: 60,
             include: { customer: { select: { firstName: true, lastName: true } } },
         }),
-        getFollowUpConfig(),
+        listTemplates(),
         countEmailsSentToday(),
     ]);
 
     return {
-        followUp,
+        templates: templates.map(t => ({
+            key: t.key,
+            name: t.name,
+            mode: t.mode,
+            trigger: t.trigger,
+            variables: t.variables,
+            subject: t.subject,
+            title: t.title,
+            body: t.body,
+            enabled: t.enabled,
+            customized: t.customized,
+            updatedAt: t.updatedAt ? stamp(t.updatedAt) : null,
+            updatedBy: t.updatedBy,
+        })),
         quota: { limit: EMAIL_DAILY_LIMIT, sentToday },
         audiences: audienceKeys.map((k, i) => ({ key: k, label: AUDIENCES[k], count: counts[i] })),
         emailConfigured: isEmailConfigured(),

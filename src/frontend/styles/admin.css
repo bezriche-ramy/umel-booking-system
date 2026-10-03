@@ -2947,3 +2947,123 @@ textarea.adm-input {
     .dash-actions li { grid-template-columns: minmax(0, 1fr); gap: 6px; }
     .dash-tip { min-width: 150px; }
 }
+
+/* Mailing : modèles d'e-mails ------------------------------------------------- */
+.tpl-group + .tpl-group {
+    margin-top: 8px;
+}
+
+.tpl-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tpl-item {
+    border-top: 1px solid var(--adm-line);
+    padding: 14px 0;
+}
+
+.tpl-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.tpl-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    flex: 1 1 320px;
+}
+
+.tpl-info .adm-muted {
+    font-size: 13px;
+}
+
+.tpl-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tpl-editor {
+    margin-top: 14px;
+    padding: 16px;
+    background: var(--adm-bg);
+    border-radius: 8px;
+}
+
+.tpl-vars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tpl-body {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.tpl-preview iframe {
+    width: 100%;
+    height: 620px;
+    border: 1px solid var(--adm-line);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.tpl-results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--adm-line);
+    border-radius: 8px;
+    background: var(--adm-surface);
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.tpl-result {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    border: 0;
+    border-bottom: 1px solid var(--adm-line);
+    background: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.tpl-result:hover,
+.tpl-result.is-on {
+    background: var(--adm-gold-soft);
+}
+
+.tpl-result span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+    .tpl-result {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .tpl-result .adm-muted {
+        display: none;
+    }
+
+    .tpl-preview iframe {
+        height: 520px;
+    }
+}

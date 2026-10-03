@@ -3,24 +3,18 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { adminApi } from "@frontend/modules/admin/lib/api";
-
-interface FollowUpConfig {
-    enabled: boolean;
-    days: number;
-    subject: string;
-    body: string;
-}
+import EmailTemplates, { type TemplateView } from "@frontend/modules/admin/components/EmailTemplates";
 
 interface Props {
     quota: { limit: number; sentToday: number };
-    followUp: FollowUpConfig;
+    templates: TemplateView[];
     audiences: { key: string; label: string; count: number }[];
     emailConfigured: boolean;
     campaigns: { id: string; subject: string; audience: string; sentCount: number; failCount: number; sentBy: string | null; createdAt: string }[];
     logs: { id: string; createdAt: string; kind: string; status: string; to: string; subject: string; error: string | null; customer: string | null }[];
 }
 
-export default function MailingPanel({ quota, followUp, audiences, emailConfigured, campaigns, logs }: Props) {
+export default function MailingPanel({ quota, templates, audiences, emailConfigured, campaigns, logs }: Props) {
     const router = useRouter();
     const [audience, setAudience] = useState(audiences[0]?.key ?? "ALL");
     const [subject, setSubject] = useState("");
@@ -64,11 +58,11 @@ export default function MailingPanel({ quota, followUp, audiences, emailConfigur
             const res = await adminApi<{
                 sent: number;
                 failed: number;
-                creationCandidates: number;
+                reminderCandidates: number;
                 alterationCandidates: number;
-                followUps: number;
+                congratulations: number;
             }>("/api/admin/mailing/reminders", "POST");
-            return `Relances : ${res.sent} envoyée(s), ${res.failed} échec(s) — ${res.creationCandidates} RDV créations, ${res.alterationCandidates} retouches, ${res.followUps} relance(s) après rendez-vous.`;
+            return `Envois automatiques : ${res.sent} envoyé(s), ${res.failed} échec(s) (rappels J-2, rappels retouches, ${res.congratulations} félicitation(s)).`;
         });
 
     return (
@@ -101,21 +95,21 @@ export default function MailingPanel({ quota, followUp, audiences, emailConfigur
             </section>
 
             <section className="adm-card">
-                <h2 className="adm-card-title">Relances automatiques</h2>
+                <h2 className="adm-card-title">Envois automatiques</h2>
                 <p className="adm-hint">
-                    Chaque matin (7h UTC) : rappel aux clientes ayant un rendez-vous créations dans les 3 jours (fin du délai
-                    d&apos;annulation de 72h, avec rappel de la politique d&apos;empreinte pour éviter les prélèvements refusés), rappel aux
-                    clientes retouches selon le délai J-X réglé dans l&apos;onglet Retouches, et relance après rendez-vous (ci-dessous).
+                    La confirmation part dès la réservation et l&apos;e-mail retouches dès la création du rendez-vous. Chaque matin
+                    partent aussi : le rappel J-2 (rendez-vous pris au moins 3 jours à l&apos;avance), le rappel des retouches selon le délai
+                    réglé dans l&apos;onglet Retouches, et les félicitations le lendemain du mariage des UMEL Brides.
                 </p>
                 <button className="adm-btn" disabled={busy} onClick={runReminders}>
-                    Lancer les relances maintenant
+                    Lancer les envois du matin maintenant
                 </button>
             </section>
 
-            <FollowUpSettings initial={followUp} />
+            <EmailTemplates templates={templates} audiences={audiences} remaining={remaining} />
 
             <section className="adm-card adm-form">
-                <h2 className="adm-card-title">Nouvelle campagne (offres, événements, annonces)</h2>
+                <h2 className="adm-card-title">Message libre (offres, événements, annonces)</h2>
                 <label className="adm-field">
                     <span>Destinataires</span>
                     <select className="adm-input" value={audience} onChange={e => setAudience(e.target.value)}>
@@ -219,90 +213,5 @@ export default function MailingPanel({ quota, followUp, audiences, emailConfigur
                 {logs.length === 0 && <p className="adm-empty">Aucun envoi pour le moment.</p>}
             </section>
         </div>
-    );
-}
-
-/** Relance envoyée APRÈS le rendez-vous, aux clientes marquées « Présente ». */
-function FollowUpSettings({ initial }: { initial: FollowUpConfig }) {
-    const router = useRouter();
-    const [form, setForm] = useState(initial);
-    const [status, setStatus] = useState<{ type: "ok" | "error"; text: string }>();
-    const [busy, setBusy] = useState(false);
-    const set = (patch: Partial<FollowUpConfig>) => setForm(prev => ({ ...prev, ...patch }));
-
-    const save = async (next: FollowUpConfig) => {
-        setBusy(true);
-        setStatus(undefined);
-        try {
-            await adminApi("/api/admin/settings", "PUT", {
-                followUpEnabled: next.enabled,
-                followUpDays: next.days,
-                followUpSubject: next.subject,
-                followUpBody: next.body,
-            });
-            setForm(next);
-            setStatus({ type: "ok", text: "Relance après rendez-vous enregistrée." });
-            router.refresh();
-        } catch (err) {
-            setStatus({ type: "error", text: err instanceof Error ? err.message : "Erreur" });
-        } finally {
-            setBusy(false);
-        }
-    };
-
-    return (
-        <section className="adm-card adm-form">
-            <h2 className="adm-card-title">Relance après le rendez-vous</h2>
-            <p className="adm-hint">
-                E-mail envoyé automatiquement quelques jours après la venue de la cliente, uniquement aux clientes marquées
-                <strong> « Présente »</strong> dans les rendez-vous (jamais aux absentes ni aux annulations). Les clientes ayant refusé les
-                offres sont exclues. {"{{prenom}}"} est remplacé par le prénom.
-            </p>
-
-            <div className="adm-inline">
-                <label className="adm-toggle">
-                    <input
-                        type="checkbox"
-                        role="switch"
-                        checked={form.enabled}
-                        onChange={e => save({ ...form, enabled: e.target.checked })}
-                        disabled={busy}
-                    />
-                    <span className="adm-toggle-track" aria-hidden="true" />
-                    <span className="adm-toggle-label">{form.enabled ? "Activée" : "Désactivée"}</span>
-                </label>
-                <label className="adm-field">
-                    <span>Envoyée J+</span>
-                    <input
-                        type="number"
-                        min={1}
-                        max={60}
-                        className="adm-input"
-                        value={form.days}
-                        onChange={e => set({ days: Number(e.target.value) })}
-                    />
-                </label>
-            </div>
-
-            <label className="adm-field">
-                <span>Objet</span>
-                <input className="adm-input" value={form.subject} onChange={e => set({ subject: e.target.value })} maxLength={200} />
-            </label>
-            <label className="adm-field">
-                <span>Message</span>
-                <textarea className="adm-input" rows={8} value={form.body} onChange={e => set({ body: e.target.value })} />
-            </label>
-
-            <div className="adm-btns">
-                <button
-                    className="adm-btn adm-btn-primary"
-                    disabled={busy || JSON.stringify(form) === JSON.stringify(initial) || !form.subject.trim() || form.body.trim().length < 10}
-                    onClick={() => save(form)}
-                >
-                    Enregistrer
-                </button>
-            </div>
-            {status && <p className={status.type === "ok" ? "adm-success" : "adm-error"}>{status.text}</p>}
-        </section>
     );
 }

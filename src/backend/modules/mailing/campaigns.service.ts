@@ -1,13 +1,14 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@backend/core/db";
 import { emailLayout, sendEmailBatch, textToHtml } from "@backend/modules/mailing/email.service";
-import { todayInParis } from "@shared/tz";
+import { addDays, todayInParis } from "@shared/tz";
 
 export const AUDIENCES = {
     ALL: "Toutes les clientes",
     PROSPECT: "Prospects",
     CONVERTIE: "Clientes converties",
     UPCOMING: "Clientes avec un rendez-vous à venir",
+    VISITED: "Venues à l'atelier ces 7 derniers jours",
     ALTERATIONS: "Clientes retouches",
 } as const;
 
@@ -21,6 +22,11 @@ export function audienceWhere(audience: Audience): Prisma.CustomerWhereInput {
             return { ...base, status: audience };
         case "UPCOMING":
             return { ...base, appointments: { some: { status: "CONFIRMED", day: { gte: todayInParis() } } } };
+        case "VISITED":
+            return {
+                ...base,
+                appointments: { some: { status: { in: ["COMPLETED", "CONFIRMED"] }, day: { gte: addDays(todayInParis(), -7), lt: todayInParis() } } },
+            };
         case "ALTERATIONS":
             return { ...base, alterations: { some: {} } };
         default:

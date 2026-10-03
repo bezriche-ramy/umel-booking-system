@@ -6,29 +6,46 @@
  */
 
 import type { MessageKind } from "@prisma/client";
+import { lookup } from "node:dns/promises";
 import { createTransport, type Transporter } from "nodemailer";
 import { siteConfig } from "@shared/siteData";
 import { prisma } from "@backend/core/db";
 
 const NOT_CONFIGURED = "SMTP_HOST / SMTP_USER / SMTP_PASS / MAIL_FROM non configurés";
 
-let transporter: Transporter | null = null;
+let transporter: Promise<Transporter> | null = null;
 
 export const isEmailConfigured = () =>
     !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS && process.env.MAIL_FROM);
 
-function getTransporter(): Transporter | null {
-    if (!isEmailConfigured()) return null;
+/**
+ * Connexion SMTP en IPv4 : nodemailer choisit sinon au hasard une adresse IPv4 ou IPv6 du serveur,
+ * et l'envoi échoue (ENETUNREACH) sur les machines où l'IPv6 n'est pas routé.
+ */
+async function createSmtpTransport(): Promise<Transporter> {
+    const host = process.env.SMTP_HOST!;
+    const ip = await lookup(host, { family: 4 }).then(r => r.address, () => host);
     const port = Number(process.env.SMTP_PORT) || 465;
-    transporter ??= createTransport({
-        host: process.env.SMTP_HOST,
+    return createTransport({
+        host: ip,
         port,
         secure: port === 465, // 465 = TLS direct ; 587 = STARTTLS
+        tls: { servername: host },
         pool: true, // une seule connexion réutilisée pour les campagnes
         auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS!.replace(/\s/g, "") },
     });
+}
+
+function getTransporter(): Promise<Transporter> | null {
+    if (!isEmailConfigured()) return null;
+    transporter ??= createSmtpTransport();
     return transporter;
 }
+
+/** Après une erreur, la connexion est recréée (nouvelle résolution DNS) au prochain envoi. */
+const resetTransporter = () => {
+    transporter = null;
+};
 
 /**
  * Adresse du site utilisée dans les liens des e-mails. PUBLIC_SITE_URL permet de pointer vers le nouveau site
@@ -106,10 +123,11 @@ export async function sendEmail(input: SendEmailInput): Promise<{ ok: boolean; e
     }
 
     try {
-        const info = await client.sendMail({ ...envelope(), to: input.to, subject: input.subject, html: input.html, text: htmlToText(input.html) });
+        const info = await (await client).sendMail({ ...envelope(), to: input.to, subject: input.subject, html: input.html, text: htmlToText(input.html) });
         await log("SENT", { providerId: info.messageId });
         return { ok: true };
     } catch (err) {
+        resetTransporter();
         const message = err instanceof Error ? err.message : "Erreur d'envoi";
         await log("FAILED", { error: message });
         return { ok: false, error: message };
@@ -132,7 +150,7 @@ export async function sendEmailBatch(
         else {
             try {
                 providerId = (
-                    await client.sendMail({
+                    await (await client).sendMail({
                         ...envelope(),
                         to: m.to,
                         subject: m.subject,
@@ -143,6 +161,7 @@ export async function sendEmailBatch(
                     })
                 ).messageId;
             } catch (err) {
+                resetTransporter();
                 error = err instanceof Error ? err.message : "Erreur d'envoi";
             }
         }

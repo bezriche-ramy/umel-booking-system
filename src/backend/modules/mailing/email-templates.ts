@@ -39,35 +39,6 @@ ${a.companions != null ? `<tr><td style="padding:6px 0;color:#766e69">Accompagna
 
 const retouchesNote = `<p style="margin:12px 0 0"><strong>Pour vos retouches :</strong> apportez impérativement vos chaussures de mariée définitives et votre lingerie du jour J.</p>`;
 
-export function confirmationEmail(firstName: string, a: AppointmentLike) {
-    return {
-        subject: `Votre rendez-vous Umel Couture est confirmé (${a.reference})`,
-        html: emailLayout(
-            "Votre rendez-vous est confirmé",
-            `<p>Chère ${escapeHtml(firstName)},</p><p>Nous avons le plaisir de confirmer votre rendez-vous à l'atelier.</p>
-${details(a)}${a.serviceId === "retouches" ? retouchesNote : ""}${policyHtml}${manageButton(a)}
-<p style="margin-top:18px">Une question ? Appelez-nous au ${siteConfig.phone}.</p>
-<p style="margin-top:18px">À très bientôt,<br>L'équipe ${siteConfig.name}</p>`,
-        ),
-    };
-}
-
-export function reminderEmail(firstName: string, a: AppointmentLike) {
-    return {
-        subject: `Rappel : votre rendez-vous Umel Couture approche`,
-        html: emailLayout(
-            "Votre rendez-vous approche",
-            `<p>Chère ${escapeHtml(firstName)},</p><p>Nous vous rappelons votre prochain rendez-vous à l'atelier.</p>
-${details(a)}${a.serviceId === "retouches" ? retouchesNote : ""}
-<p style="margin:16px 0 0;padding:14px 16px;background:#f2ede6;font-size:13px">
-<strong>Important :</strong> le délai d'annulation gratuite (${FREE_CANCELLATION_HOURS}h) arrive à échéance. Sans annulation de votre part,
-l'empreinte de ${deposit} sera prélevée en cas d'absence. Merci de vérifier que votre carte est approvisionnée.
-Un empêchement ? Appelez-nous au ${siteConfig.phone}.</p>${manageButton(a)}
-<p style="margin-top:18px">À très bientôt,<br>L'équipe ${siteConfig.name}</p>`,
-        ),
-    };
-}
-
 export function cancellationEmail(firstName: string, a: AppointmentLike, charged: boolean) {
     return {
         subject: `Annulation de votre rendez-vous (${a.reference})`,

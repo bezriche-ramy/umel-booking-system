@@ -2,16 +2,12 @@ import type { Appointment, Customer, Prisma, SlotType } from "@prisma/client";
 import { randomBytes, randomInt } from "crypto";
 import { DEPOSIT_AMOUNT_CENTS, FREE_CANCELLATION_HOURS } from "@shared/reservation/services";
 import { prisma } from "@backend/core/db";
-import { emailLayout, sendEmail, textToHtml } from "@backend/modules/mailing/email.service";
-import {
-    alterationReminderEmail,
-    cancellationEmail,
-    confirmationEmail,
-    reminderEmail,
-    rescheduleEmail,
-} from "@backend/modules/mailing/email-templates";
+import { publicSiteUrl, sendEmail } from "@backend/modules/mailing/email.service";
+import { alterationReminderEmail, cancellationEmail, rescheduleEmail } from "@backend/modules/mailing/email-templates";
+import { buildTemplateEmail, formatDateTimeVars, getTemplate } from "@backend/modules/mailing/templates";
+import { parseWeddingDate } from "@backend/modules/mailing/wedding-date";
 import { normalizePhone } from "@backend/core/phone";
-import { getFollowUpConfig, getSetting, SETTING_KEYS } from "@backend/modules/settings/settings.service";
+import { getSetting, SETTING_KEYS } from "@backend/modules/settings/settings.service";
 import { countBookings, getDaySchedule, pickSlotType } from "@backend/modules/schedule/schedule.service";
 import { chargeAppointmentDeposit, createBookingDeposit } from "@backend/modules/deposits/deposits.service";
 import { addDays, parisToUtc, todayInParis } from "@shared/tz";
@@ -28,6 +24,17 @@ export class BookingError extends Error {
 /** Code privé du lien « Gérer mon rendez-vous » (32 caractères, impossible à deviner). */
 export function generateManageToken(): string {
     return randomBytes(24).toString("base64url");
+}
+
+/** Variables des modèles d'e-mails pour un rendez-vous (prénom, date, heure, lien privé). */
+function appointmentVars(a: { date: Date; manageToken: string | null; customer: { firstName: string } }) {
+    const { date, time } = formatDateTimeVars(a.date);
+    return {
+        prenom: a.customer.firstName,
+        date_rdv: date,
+        heure_rdv: time,
+        lien_annulation: a.manageToken ? `${publicSiteUrl()}/mon-rendez-vous/${a.manageToken}` : undefined,
+    };
 }
 
 export function generateReference(): string {
@@ -182,12 +189,11 @@ export async function createAppointment(input: CreateAppointmentInput) {
         { timeout: 15000 },
     );
 
-    if (appointment.customer.email) {
-        const mail = confirmationEmail(appointment.customer.firstName, appointment);
+    if (appointment.customer.email && (await getTemplate("CONFIRMATION")).enabled) {
+        const mail = await buildTemplateEmail("CONFIRMATION", appointmentVars(appointment));
         await sendEmail({
             to: appointment.customer.email,
             ...mail,
-            kind: "CONFIRMATION",
             customerId: appointment.customerId,
             appointmentId: appointment.id,
         });
@@ -276,23 +282,28 @@ export async function cancelAppointment(id: string, opts: { chargeLate?: boolean
  */
 export async function runReminders() {
     const today = todayInParis();
-    const creationDay = addDays(today, 3);
     const alterationDays = Math.max(1, Number(await getSetting(SETTING_KEYS.alterationReminderDays, "2")) || 2);
     const alterationDay = addDays(today, alterationDays);
-
-    const appointments = await prisma.appointment.findMany({
-        where: { status: "CONFIRMED", reminderSentAt: null, day: { lte: creationDay, gt: today } },
-        include: { customer: true },
-    });
-
     let sent = 0;
     let failed = 0;
+
+    // Rappel J-2, seulement pour les rendez-vous pris au moins 3 jours à l'avance
+    const reminder = await getTemplate("REMINDER");
+    const appointments = reminder.enabled
+        ? await prisma.appointment.findMany({
+              where: { status: "CONFIRMED", reminderSentAt: null, day: { lte: addDays(today, 2), gt: today } },
+              include: { customer: true },
+          })
+        : [];
     for (const a of appointments) {
-        if (!a.customer.email) continue;
+        const bookedEarly = a.createdAt.getTime() <= parisToUtc(addDays(a.day, -3), "23:59").getTime();
+        if (!a.customer.email || !bookedEarly) {
+            await prisma.appointment.update({ where: { id: a.id }, data: { reminderSentAt: new Date() } });
+            continue;
+        }
         const res = await sendEmail({
             to: a.customer.email,
-            ...reminderEmail(a.customer.firstName, a),
-            kind: "REMINDER",
+            ...(await buildTemplateEmail("REMINDER", appointmentVars(a))),
             customerId: a.customerId,
             appointmentId: a.id,
         });
@@ -326,47 +337,38 @@ export async function runReminders() {
         } else failed++;
     }
 
-    // Relances APRÈS le rendez-vous (clientes venues à l'atelier), si activées dans le Mailing
-    const followUp = await getFollowUpConfig();
-    let followUps = 0;
-    if (followUp.enabled) {
-        // Fenêtre : rendez-vous passés depuis `days` jours, au plus 14 jours en arrière,
-        // et jamais avant l'activation de la relance (protège l'historique importé).
-        const until = addDays(today, -followUp.days);
-        const since = [followUp.enabledAt, addDays(until, -14)].sort().at(-1)!;
-        const done = await prisma.appointment.findMany({
-            where: { status: "COMPLETED", followUpSentAt: null, day: { lte: until, gte: since } },
-            include: { customer: true },
-            take: 200,
-        });
-        for (const a of done) {
-            if (!a.customer.email || a.customer.marketingOptOut) {
-                await prisma.appointment.update({ where: { id: a.id }, data: { followUpSentAt: new Date() } });
-                continue;
-            }
-            const text = followUp.body.replace(/\{\{\s*prenom\s*\}\}/gi, a.customer.firstName);
-            const res = await sendEmail({
-                to: a.customer.email,
-                subject: followUp.subject,
-                html: emailLayout(followUp.subject, textToHtml(text)),
-                kind: "FOLLOW_UP",
-                customerId: a.customerId,
-                appointmentId: a.id,
-            });
-            // Une seule tentative par rendez-vous : une relance de courtoisie ne se réessaie pas tous les jours.
-            await prisma.appointment.update({ where: { id: a.id }, data: { followUpSentAt: new Date() } });
-            if (res.ok) {
-                followUps++;
-                sent++;
-            } else failed++;
-        }
-    }
+    const congrats = await sendCongratulations(today);
+    sent += congrats.sent;
+    failed += congrats.failed;
 
-    return {
-        sent,
-        failed,
-        creationCandidates: appointments.length,
-        alterationCandidates: alterations.length,
-        followUps,
-    };
+    return { sent, failed, reminderCandidates: appointments.length, alterationCandidates: alterations.length, congratulations: congrats.sent };
+}
+
+/** Félicitations le lendemain du mariage, pour les UMEL Brides (une seule fois, mariages de la dernière semaine). */
+export async function sendCongratulations(today = todayInParis()) {
+    let sent = 0;
+    let failed = 0;
+    if (!(await getTemplate("CONGRATULATIONS")).enabled) return { sent, failed };
+    const brides = await prisma.customer.findMany({
+        where: {
+            status: "CONVERTIE",
+            email: { not: null },
+            weddingDate: { not: null },
+            messages: { none: { kind: "CONGRATULATIONS", status: "SENT" } },
+        },
+        select: { id: true, firstName: true, email: true, weddingDate: true },
+    });
+    for (const c of brides) {
+        const wedding = parseWeddingDate(c.weddingDate);
+        // Pas de félicitations pour un mariage de plus d'une semaine (historique) ni à venir
+        if (!wedding || wedding >= today || wedding < addDays(today, -7)) continue;
+        const res = await sendEmail({
+            to: c.email!,
+            ...(await buildTemplateEmail("CONGRATULATIONS", { prenom: c.firstName })),
+            customerId: c.id,
+        });
+        if (res.ok) sent++;
+        else failed++;
+    }
+    return { sent, failed };
 }

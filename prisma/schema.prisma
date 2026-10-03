@@ -275,6 +275,10 @@ enum MessageKind {
   DEPOSIT_CHARGED
   DEPOSIT_FAILED
   CAMPAIGN
+  ALTERATION_CONFIRMATION
+  WELCOME_BRIDE
+  DRESS_PICKUP
+  CONGRATULATIONS
 }
 
 enum MessageStatus {
@@ -318,4 +322,15 @@ model Campaign {
   sentBy    String?
   createdAt DateTime     @default(now())
   messages  MessageLog[]
+}
+
+/// Modèle d'e-mail modifié par l'atelier (les textes par défaut sont dans le code : mailing/templates.ts).
+model EmailTemplate {
+  key       String   @id
+  subject   String
+  title     String
+  body      String
+  enabled   Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+  updatedBy String?
 }

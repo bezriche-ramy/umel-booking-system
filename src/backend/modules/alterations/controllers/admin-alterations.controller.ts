@@ -3,6 +3,8 @@ import { upsertCustomer } from "@backend/modules/appointments/appointments.servi
 import { requireApiSession } from "@backend/modules/auth/session";
 import { prisma } from "@backend/core/db";
 import { parseAlterationFields, type AlterationInput } from "@backend/modules/alterations/alterations.service";
+import { sendEmail } from "@backend/modules/mailing/email.service";
+import { buildTemplateEmail, formatDateTimeVars, getTemplate } from "@backend/modules/mailing/templates";
 
 /** Calendrier Retouches (privé) : saisie manuelle d'un rendez-vous. */
 export async function POST(request: Request) {
@@ -32,6 +34,17 @@ export async function POST(request: Request) {
         customerId = customer.id;
     }
 
-    const alteration = await prisma.alterationAppointment.create({ data: { ...parsed.data, customerId } });
+    const alteration = await prisma.alterationAppointment.create({ data: { ...parsed.data, customerId }, include: { customer: true } });
+
+    // E-mail « Votre rendez-vous retouches » envoyé automatiquement à la cliente
+    if (alteration.customer.email && alteration.date > new Date() && (await getTemplate("ALTERATION")).enabled) {
+        const { date, time } = formatDateTimeVars(alteration.date);
+        await sendEmail({
+            to: alteration.customer.email,
+            ...(await buildTemplateEmail("ALTERATION", { prenom: alteration.customer.firstName, date_retouches: date, heure_retouches: time })),
+            customerId: alteration.customerId,
+            alterationId: alteration.id,
+        });
+    }
     return Response.json({ alteration });
 }
