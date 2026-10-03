@@ -33,4 +33,4 @@ const conf = renderTemplate({ key: "CONFIRMATION", ...DEFAULT_TEMPLATES.CONFIRMA
 assert.match(conf.html, /Déplacer ou annuler mon rendez-vous/, "confirmation : bouton de gestion");
 const thanks = renderTemplate({ key: "THANK_YOU", ...DEFAULT_TEMPLATES.THANK_YOU }, sampleVars());
 assert.match(thanks.html, /writereview\?placeid=/, "merci : lien avis Google");
-console.log(`7 modèles OK (variables toutes remplacées, bouton de gestion, lien avis Google)`);
+console.log(`${TEMPLATE_KEYS.length} modèles OK (variables toutes remplacées, bouton de gestion, lien avis Google)`);
