@@ -43,7 +43,7 @@ export default function GaleriePage() {
                         </span>
                     </span>
                 </h1>
-                <p className="hero-sub">Explorez nos créations de mariée sur mesure, façonnées au cœur de notre atelier.</p>
+                <p className="hero-sub">Explorez nos créations de robes de mariée sur mesure, façonnées au cœur de notre atelier.</p>
                 <div className="hero-actions">
                     <Link href="/contact#reservation" className="hero-btn-primary">
                         Prendre rendez-vous <span aria-hidden="true">→</span>

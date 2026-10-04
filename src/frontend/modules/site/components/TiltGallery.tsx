@@ -10,7 +10,7 @@ const creations = [
     ["/images/Robes créées sur mesure7.webp", "Silhouette nuptiale sculptée", "07"],
     ["/images/Robes créées sur mesure8.webp", "Dentelle et broderies Umel", "08"],
     ["/images/Robes créées sur mesure9.webp", "Robe créée sur mesure", "09"],
-    ["/images/Robes créées sur mesure10.webp", "Création de mariée Umel Couture", "10"],
+    ["/images/Robes créées sur mesure10.webp", "Création de robe de mariée Umel Couture", "10"],
 ] as const;
 
 export default function TiltGallery() {

@@ -33,7 +33,7 @@ export default function HomePage() {
                         </span>
                     </span>
                 </h1>
-                <p className="hero-sub">Créations de mariée sur mesure, façonnées à l&apos;écoute de votre histoire.</p>
+                <p className="hero-sub">Créations de robes de mariée sur mesure, façonnées à l&apos;écoute de votre histoire.</p>
                 <div className="hero-actions">
                     <Link href="/contact#reservation" className="hero-btn-primary">
                         Prendre rendez-vous <span aria-hidden="true">→</span>
