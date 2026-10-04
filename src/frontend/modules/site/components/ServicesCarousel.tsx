@@ -26,6 +26,10 @@ export default function ServicesCarousel() {
                             <Link href="/pressing" aria-label="Voir les tarifs du pressing">
                                 Voir les tarifs <span aria-hidden="true">→</span>
                             </Link>
+                        ) : service.id === "retouches" ? (
+                            <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Envoyer une vidéo sur WhatsApp pour les retouches">
+                                Écrire sur WhatsApp <span aria-hidden="true">→</span>
+                            </a>
                         ) : (
                             <Link href="/contact#reservation" aria-label={`Prendre rendez-vous pour ${service.title}`}>
                                 Prendre rendez-vous <span aria-hidden="true">→</span>
