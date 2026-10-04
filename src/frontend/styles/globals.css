@@ -8869,3 +8869,29 @@ nav::before {
         white-space: nowrap;
     }
 }
+
+/* Mobile : compteur du carrousel sur une ligne, bouton flottant compact (ne masque plus le texte) */
+@media (max-width: 800px) {
+    .m-carousel-count {
+        white-space: nowrap;
+    }
+    .m-carousel-dot {
+        width: 20px;
+    }
+}
+@media (max-width: 480px) {
+    .wa-float {
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+    }
+    .wa-float span {
+        display: none;
+    }
+    .wa-float svg {
+        width: 18px;
+        height: 18px;
+    }
+}
