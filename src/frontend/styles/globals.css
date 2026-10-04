@@ -4537,7 +4537,7 @@ footer {
         right: auto;
         bottom: auto;
         width: 64vw;
-        margin: 70px 0 0 auto;
+        margin: 70px auto 0;
         border-width: 7px;
     }
     .home-atelier-small figcaption {
@@ -4545,7 +4545,7 @@ footer {
         left: 0;
         bottom: -30px;
         width: 100%;
-        text-align: left;
+        text-align: center;
     }
     .home-creations-grid {
         display: flex;
