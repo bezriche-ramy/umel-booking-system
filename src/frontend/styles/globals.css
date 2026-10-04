@@ -8895,3 +8895,9 @@ nav::before {
         height: 18px;
     }
 }
+
+/* Section « d'où que vous veniez » : fond distinct pour la séparer des témoignages */
+.local-area {
+    background: var(--silk);
+    border-top: 1px solid var(--hairline);
+}
