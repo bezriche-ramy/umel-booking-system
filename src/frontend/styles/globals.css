@@ -4488,7 +4488,7 @@ footer {
         right: auto;
         bottom: auto;
         width: 60vw;
-        margin: 45px 22px 0 auto;
+        margin: 45px auto 0;
         border-width: 7px;
     }
     .home-services {
