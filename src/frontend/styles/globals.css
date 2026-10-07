@@ -9068,3 +9068,30 @@ nav::before {
     text-decoration: underline;
     text-underline-offset: 3px;
 }
+
+/* Logo recadré (600×214) : plus de rognage CSS d'une image carrée */
+.nav-logo-img {
+    width: 96px !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+.footer-logo {
+    width: 150px;
+    height: auto;
+    margin: 0 0 18px;
+    overflow: visible;
+}
+.footer-logo img {
+    width: 150px;
+    height: auto;
+    margin: 0;
+    object-fit: contain;
+}
+@media (max-width: 800px) {
+    .nav-logo-img {
+        width: 78px !important;
+    }
+    .footer-logo {
+        margin: 0 auto 18px;
+    }
+}

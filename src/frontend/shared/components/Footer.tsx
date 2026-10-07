@@ -9,10 +9,11 @@ export default function Footer() {
                 <div className="fb">
                     <Link href="/" className="footer-logo" aria-label="Umel Couture, accueil">
                         <Image
-                            src="/images/logo_umel_couture.webp"
+                            src="/images/logo_umel_couture_wide.webp"
                             alt="Umel Couture"
-                            width={1284}
-                            height={1285}
+                            width={600}
+                            sizes="150px"
+                            height={214}
                         />
                     </Link>
                     <p>

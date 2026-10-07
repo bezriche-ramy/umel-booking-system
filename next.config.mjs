@@ -11,6 +11,8 @@ const securityHeaders = [
 const nextConfig = {
     reactStrictMode: true,
     poweredByHeader: false,
+    // CSS inliné dans le HTML : plus de feuille de style bloquante au premier affichage (visiteurs venant de Google/Instagram)
+    experimental: { inlineCss: true },
     images: {
         formats: ["image/avif", "image/webp"],
         qualities: [75, 90],

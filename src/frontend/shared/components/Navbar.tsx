@@ -97,11 +97,12 @@ export default function Navbar() {
         >
             <Link href="/" className="nav-logo" onClick={() => setIsMenuOpen(false)}>
                 <Image
-                    src="/images/logo_umel_couture.webp"
+                    src="/images/logo_umel_couture_wide.webp"
                     alt="Umel Couture"
-                    width={1284}
-                    height={1285}
+                    width={600}
+                    height={214}
                     priority
+                    sizes="120px"
                     className="nav-logo-img"
                 />
             </Link>
