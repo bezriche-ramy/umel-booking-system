@@ -499,6 +499,6 @@ export function sampleVars(): TemplateVars {
         heure_rdv: time,
         date_retouches: date,
         heure_retouches: time,
-        lien_annulation: `${publicSiteUrl()}/mon-rendez-vous/exemple`,
+        lien_annulation: `${publicSiteUrl()}/contact`, // e-mail de test : pas de vrai rendez-vous, lien vers une page existante
     };
 }
