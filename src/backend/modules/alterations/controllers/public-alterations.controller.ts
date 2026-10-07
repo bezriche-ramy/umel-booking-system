@@ -7,7 +7,7 @@ import {
     getAlterationDayAvailability,
     getAlterationMonthSummary,
 } from "@backend/modules/alterations/alteration-schedule.service";
-import { sendEmail } from "@backend/modules/mailing/email.service";
+import { atelierEmail, sendEmail } from "@backend/modules/mailing/email.service";
 import { atelierNotificationEmail } from "@backend/modules/mailing/email-templates";
 import { buildTemplateEmail, formatDateTimeVars, getTemplate } from "@backend/modules/mailing/templates";
 import type { BookingSlot } from "@shared/reservation/types";
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
         });
     }
     await sendEmail({
-        to: siteConfig.email,
+        to: atelierEmail(),
         ...atelierNotificationEmail(`Nouvelle séance de retouches réservée en ligne : ${firstName} ${lastName}`, [
             `${firstName} ${lastName} a réservé une séance de retouches le ${dateLabel} à ${time}.`,
             `E-mail : ${email} · Téléphone : ${phone}`,

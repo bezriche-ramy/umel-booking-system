@@ -4,7 +4,7 @@
  */
 
 import { prisma } from "@backend/core/db";
-import { publicSiteUrl, sendEmail } from "@backend/modules/mailing/email.service";
+import { atelierEmail, publicSiteUrl, sendEmail } from "@backend/modules/mailing/email.service";
 import { atelierNotificationEmail } from "@backend/modules/mailing/email-templates";
 import { FREE_CANCELLATION_HOURS, getServiceTitle } from "@shared/reservation/services";
 import { siteConfig } from "@shared/siteData";
@@ -45,7 +45,7 @@ export async function getManagedAppointment(token: string) {
 
 async function notifyAtelier(subject: string, lines: string[]) {
     await sendEmail({
-        to: siteConfig.email,
+        to: atelierEmail(),
         ...atelierNotificationEmail(subject, lines),
         kind: "RESCHEDULE",
     });

@@ -2,8 +2,9 @@ import type { Appointment, Customer, Prisma, SlotType } from "@prisma/client";
 import { randomBytes, randomInt } from "crypto";
 import { DEPOSIT_AMOUNT_CENTS, FREE_CANCELLATION_HOURS } from "@shared/reservation/services";
 import { prisma } from "@backend/core/db";
-import { publicSiteUrl, sendEmail } from "@backend/modules/mailing/email.service";
-import { cancellationEmail, rescheduleEmail } from "@backend/modules/mailing/email-templates";
+import { atelierEmail, publicSiteUrl, sendEmail } from "@backend/modules/mailing/email.service";
+import { atelierNotificationEmail, cancellationEmail, rescheduleEmail } from "@backend/modules/mailing/email-templates";
+import { getServiceTitle } from "@shared/reservation/services";
 import { buildTemplateEmail, formatDateTimeVars, getTemplate } from "@backend/modules/mailing/templates";
 import { parseWeddingDate } from "@backend/modules/mailing/wedding-date";
 import { normalizePhone } from "@backend/core/phone";
@@ -196,6 +197,23 @@ export async function createAppointment(input: CreateAppointmentInput) {
             ...mail,
             customerId: appointment.customerId,
             appointmentId: appointment.id,
+        });
+    }
+    // Réservation en ligne : l'atelier est prévenu (celles saisies dans l'admin, il les connaît déjà).
+    if (input.source === "WEB") {
+        const c = appointment.customer;
+        const { date, time } = formatDateTimeVars(appointment.date);
+        await sendEmail({
+            to: atelierEmail(),
+            ...atelierNotificationEmail(`Nouveau rendez-vous : ${c.firstName} ${c.lastName} · ${date} à ${time}`, [
+                `${c.firstName} ${c.lastName} a réservé « ${getServiceTitle(appointment.serviceId)} » le ${date} à ${time} (réf. ${appointment.reference}).`,
+                `E-mail : ${c.email ?? "—"} · Téléphone : ${c.phone ?? "—"}`,
+                c.weddingDate ? `Date du mariage : ${c.weddingDate}` : "",
+                appointment.companions != null ? `Accompagnants : ${appointment.companions}` : "",
+                appointment.projectNotes ? `Projet : ${appointment.projectNotes}` : "",
+                `Fiche dans l'admin : ${publicSiteUrl()}/admin/rendez-vous`,
+            ].filter(Boolean)),
+            kind: "CONFIRMATION",
         });
     }
     return appointment;

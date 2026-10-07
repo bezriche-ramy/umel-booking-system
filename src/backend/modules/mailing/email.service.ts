@@ -51,6 +51,9 @@ const resetTransporter = () => {
  * Adresse du site utilisée dans les liens des e-mails. PUBLIC_SITE_URL permet de pointer vers le nouveau site
  * (ex. https://umelcouture.com).
  */
+/** Adresse qui reçoit les notifications de l'atelier (nouvelles réservations, annulations…). */
+export const atelierEmail = () => process.env.ATELIER_EMAIL || siteConfig.email;
+
 export const publicSiteUrl = () => (process.env.PUBLIC_SITE_URL || siteConfig.url).replace(/\/$/, "");
 
 /**
