@@ -1,7 +1,7 @@
 import { siteConfig } from "@shared/siteData";
 import { MetadataRoute } from "next";
 
-/** Pages publiques indexables. /retouches (espace privé, noindex) en est volontairement exclue. */
+/** Pages publiques indexables (sitemap standard, sans extension images : les photos sont découvertes via les pages). /retouches (espace privé, noindex) en est volontairement exclue. */
 const pages: { path: string; priority: number; images: string[] }[] = [
     { path: "/", priority: 1.0, images: ["/images/Hero1.webp", "/images/Robes créées sur mesure4.webp"] },
     { path: "/nos-robes-services", priority: 0.9, images: ["/images/Nos robes.webp"] },
@@ -29,11 +29,10 @@ const pages: { path: string; priority: number; images: string[] }[] = [
 export default function sitemap(): MetadataRoute.Sitemap {
     const lastModified = new Date();
 
-    return pages.map(({ path, priority, images }) => ({
+    return pages.map(({ path, priority }) => ({
         url: path === "/" ? siteConfig.url : `${siteConfig.url}${path}`,
         lastModified,
         changeFrequency: priority < 0.5 ? "yearly" : "weekly",
         priority,
-        images: images.map(src => `${siteConfig.url}${encodeURI(src)}`),
     }));
 }
