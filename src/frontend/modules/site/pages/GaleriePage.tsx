@@ -16,7 +16,7 @@ export const metadata: Metadata = buildPageMetadata({
     title: "Galerie robes de mariée sur mesure à Servon (77) | Umel Couture",
     socialTitle: "Galerie des créations | Umel Couture",
     description:
-        "Découvrez les robes de mariée sur mesure créées dans notre atelier de Servon : dentelles, broderies, coupes sirène et princesse. Inspirations mariage en Île-de-France.",
+        "Découvrez les robes de mariée sur mesure créées dans notre atelier de Servon : dentelles, broderies, coupes sirène et princesse. Inspirations mariage.",
     ogImage: "/images/og/galerie.jpg",
     ogImageAlt: "Galerie des robes de mariée sur mesure Umel Couture",
 });

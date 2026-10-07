@@ -9,10 +9,10 @@ import Image from "next/image";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/notre-histoire",
-    title: "Notre histoire : créatrices de robes de mariée en Seine-et-Marne | Umel Couture",
+    title: "Créatrices de robes de mariée (77) : notre histoire | Umel Couture",
     socialTitle: "Notre histoire | Umel Couture",
     description:
-        "Umi & Melissa, créatrices de robes de mariée sur mesure à Servon (Seine-et-Marne). Deux visions, une maison de couture nuptiale au service des mariées d'Île-de-France.",
+        "Umi & Melissa, créatrices de robes de mariée sur mesure à Servon (Seine-et-Marne). Deux visions, une seule maison de couture nuptiale.",
     ogImage: "/images/og/notre-histoire.jpg",
     ogImageAlt: "Umi et Melissa, fondatrices de la maison Umel Couture à Servon",
 });

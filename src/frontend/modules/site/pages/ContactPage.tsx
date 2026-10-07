@@ -10,7 +10,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/contact",
-    title: "Contact & rendez-vous : boutique robe de mariée à Servon (77) | Umel Couture",
+    title: "Boutique robe de mariée à Servon (77) : rendez-vous | Umel Couture",
     socialTitle: "Prendre rendez-vous | Umel Couture Servon",
     description:
         "Prenez rendez-vous à l'atelier Umel Couture, 12 rue Georges Truffaut, 77170 Servon, France. Du mardi au samedi de 10h à 18h30, le dimanche de 11h à 17h.",

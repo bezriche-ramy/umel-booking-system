@@ -9032,3 +9032,39 @@ nav::before {
         flex: 1 1 100%;
     }
 }
+
+/* Pages prestations (retouche, location) */
+.landing-inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.landing-h2 {
+    font-family: var(--font-cormorant), serif;
+    font-size: clamp(30px, 3.5vw, 48px);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 28px;
+    text-wrap: balance;
+}
+.landing-h2 em {
+    font-style: italic;
+    color: var(--or);
+}
+.landing-p {
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--taupe);
+    margin-bottom: 18px;
+}
+.landing-p strong {
+    color: var(--ink);
+}
+.landing-area {
+    margin-top: 40px;
+    font-size: 15px;
+}
+.landing-area a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}

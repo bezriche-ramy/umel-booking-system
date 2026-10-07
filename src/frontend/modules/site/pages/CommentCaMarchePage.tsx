@@ -11,7 +11,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/comment-ca-marche",
-    title: "Le déroulé d'un rendez-vous, robe de mariée sur mesure | Umel Couture (77)",
+    title: "Rendez-vous robe de mariée sur mesure : le déroulé | Umel Couture",
     socialTitle: "Le déroulé d'un rendez-vous chez Umel Couture",
     description:
         "Accueil, essayage des robes du showroom, composition, devis, essayages : comment se déroule votre rendez-vous robe de mariée sur mesure à Servon (77). FAQ.",

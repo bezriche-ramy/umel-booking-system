@@ -13,10 +13,10 @@ import Link from "next/link";
 
 export const metadata: Metadata = buildPageMetadata({
     path: "/nos-robes-services",
-    title: "Robes de mariée, retouches & location en Île-de-France | Umel Couture",
+    title: "Robes de mariée, location & retouches (77) | Umel Couture",
     socialTitle: "Robes de mariée, retouches & location | Umel Couture Servon",
     description:
-        "Robe de mariée sur mesure, location de robes de mariée et de soirée, costumes homme, retouches et pressing à Servon (77), pour des mariées venues de toute la France.",
+        "Robe de mariée sur mesure, location de robes de mariée et de soirée, costumes homme, retouches et pressing à Servon (77), en Seine-et-Marne.",
     ogImage: "/images/og/nos-robes-services.jpg",
     ogImageAlt: "Robes de mariée du showroom Umel Couture à Servon (77)",
 });
@@ -45,6 +45,12 @@ const creationPhotos = [
 const extraCopy: Record<string, string> = {
     confection:
         "Chaque robe commence par une conversation : vos envies, votre silhouette, ce qui vous ressemble vraiment. Vous pouvez venir avec une photo d'inspiration : on s'en empare et on construit à partir de là. Coupes, volumes et matières sont validés directement sur vous grâce aux modèles du showroom.",
+};
+
+/** Prestations qui ont leur propre page détaillée. */
+const DETAIL_PAGES: Record<string, string> = {
+    location: "/location-robe-de-mariee",
+    retouches: "/retouche-robe-de-mariee",
 };
 
 export default function NosRobesServicesPage() {
@@ -160,6 +166,11 @@ export default function NosRobesServicesPage() {
                                 {extraCopy[service.id] && <p className="prestation-copy">{extraCopy[service.id]}</p>}
 
                                 <div className="service-line-meta prestation-meta">
+                                    {DETAIL_PAGES[service.id] && (
+                                        <Link href={DETAIL_PAGES[service.id]} aria-label={`En savoir plus : ${service.title}`}>
+                                            En savoir plus <span aria-hidden="true">→</span>
+                                        </Link>
+                                    )}
                                     {service.id === "retouches" ? (
                                         <a href={siteConfig.whatsappUrl} target="_blank" rel="noopener noreferrer">
                                             Envoyer ma vidéo sur WhatsApp <span aria-hidden="true">→</span>
