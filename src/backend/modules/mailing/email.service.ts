@@ -49,7 +49,7 @@ const resetTransporter = () => {
 
 /**
  * Adresse du site utilisée dans les liens des e-mails. PUBLIC_SITE_URL permet de pointer vers le nouveau site
- * (ex. https://rdv.umelcouture.com) tant que umelcouture.com affiche encore l'ancien site.
+ * (ex. https://umelcouture.com).
  */
 export const publicSiteUrl = () => (process.env.PUBLIC_SITE_URL || siteConfig.url).replace(/\/$/, "");
 
