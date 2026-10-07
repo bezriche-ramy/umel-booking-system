@@ -205,7 +205,7 @@ export function emailLayout(title: string, bodyHtml: string): string {
 <tr><td style="padding:8px 32px 0;text-align:center;font-size:24px;line-height:1.3">${escapeHtml(title)}</td></tr>
 <tr><td style="padding:20px 32px 28px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#201d1b">${bodyHtml}</td></tr>
 <tr><td style="padding:18px 32px;border-top:1px solid #ede4d6;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5;color:#766e69;text-align:center">
-${siteConfig.name} · ${escapeHtml(address)}<br>${siteConfig.phone} · <a href="${publicSiteUrl()}" style="color:#b8934a">${publicSiteUrl().replace("https://", "")}</a>
+${siteConfig.name} · ${escapeHtml(address)}<br>${siteConfig.phone} · <a href="mailto:${siteConfig.email}" style="color:#b8934a">${siteConfig.email}</a> · <a href="${publicSiteUrl()}" style="color:#b8934a">${publicSiteUrl().replace("https://", "")}</a><br><span style="font-size:11px">Pour nous écrire : ${siteConfig.email} (cette adresse d'envoi n'est pas consultée).</span>
 </td></tr></table></td></tr></table></body></html>`;
 }
 
