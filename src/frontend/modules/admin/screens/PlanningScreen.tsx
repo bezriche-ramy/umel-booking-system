@@ -1,8 +1,7 @@
-import CalendarFeedCard from "@frontend/modules/admin/components/CalendarFeedCard";
 import ScheduleEditor from "@frontend/modules/admin/components/ScheduleEditor";
 import type { getPlanningPageData } from "@backend/modules/schedule/schedule.queries";
 
-export default function PlanningScreen({ week, overrides, calendarUrl }: Awaited<ReturnType<typeof getPlanningPageData>> & { calendarUrl: string }) {
+export default function PlanningScreen({ week, overrides }: Awaited<ReturnType<typeof getPlanningPageData>>) {
     return (
         <>
             <header className="adm-page-head">
@@ -11,7 +10,6 @@ export default function PlanningScreen({ week, overrides, calendarUrl }: Awaited
                     <h1>Planning &amp; créneaux</h1>
                 </div>
             </header>
-            <CalendarFeedCard url={calendarUrl} />
             <ScheduleEditor
                 week={week}
                 overrides={overrides.map(o => ({
