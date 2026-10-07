@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function LoginForm() {
     const [error, setError] = useState<string>();
     const [pending, setPending] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,22 +27,32 @@ export default function LoginForm() {
     };
 
     return (
-        <form onSubmit={onSubmit} className="adm-form">
-            <label className="adm-field">
-                <span>E-mail</span>
-                <input name="email" type="email" autoComplete="username" required />
+        <form onSubmit={onSubmit} className="adm-login-form">
+            <label className="adm-login-field">
+                <span>Adresse e-mail</span>
+                <input name="email" type="email" autoComplete="username" placeholder="vous@umelcouture.com" required />
             </label>
-            <label className="adm-field">
+            <label className="adm-login-field">
                 <span>Mot de passe</span>
-                <input name="password" type="password" autoComplete="current-password" required />
+                <span className="adm-login-pw">
+                    <input name="password" type={showPassword ? "text" : "password"} autoComplete="current-password" required />
+                    <button
+                        type="button"
+                        className="adm-login-eye"
+                        onClick={() => setShowPassword(v => !v)}
+                        aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                    >
+                        {showPassword ? "Masquer" : "Afficher"}
+                    </button>
+                </span>
             </label>
             {error && (
                 <p className="adm-error" role="alert">
                     {error}
                 </p>
             )}
-            <button className="adm-btn adm-btn-primary" disabled={pending}>
-                {pending ? "Connexion…" : "Se connecter"}
+            <button className="adm-login-submit" disabled={pending}>
+                {pending ? "Connexion…" : "Se connecter"} {!pending && <span aria-hidden="true">→</span>}
             </button>
         </form>
     );

@@ -962,26 +962,176 @@ textarea.adm-input {
 .adm-login {
     min-height: 100vh;
     display: grid;
-    place-items: center;
-    padding: 16px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    background: #faf8f4;
 }
-
+.adm-login-visual {
+    position: relative;
+    overflow: hidden;
+    background: #201d1b;
+}
+.adm-login-visual img {
+    object-fit: cover;
+    opacity: 0.88;
+}
+.adm-login-visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(20, 17, 15, 0) 45%, rgba(20, 17, 15, 0.75) 100%);
+}
+.adm-login-quote {
+    position: absolute;
+    z-index: 1;
+    left: 48px;
+    bottom: 44px;
+    color: #fff;
+}
+.adm-login-quote p {
+    margin: 0 0 6px;
+    font-size: 34px;
+    font-style: italic;
+    line-height: 1.15;
+}
+.adm-login-quote span {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+}
+.adm-login-panel {
+    display: grid;
+    place-items: center;
+    padding: 48px 24px;
+}
 .adm-login-card {
     width: 100%;
     max-width: 380px;
+    text-align: center;
+}
+.adm-login-logo {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin: -20px auto 0;
+    display: block;
+}
+.adm-login-title {
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 4px 0 8px !important;
+}
+.adm-login-sub {
+    margin: 0 0 28px;
+    color: var(--adm-muted);
+    font-size: 15px;
+}
+.adm-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+}
+.adm-login-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.adm-login-field > span:first-child {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--adm-muted);
+}
+.adm-login-field input {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    color: var(--adm-ink);
     background: #fff;
     border: 1px solid var(--adm-line);
-    border-radius: 12px;
-    padding: 32px 28px;
+    border-radius: 10px;
+    padding: 13px 14px;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
 }
-
-.adm-login-title {
-    font-size: 28px;
-    margin-bottom: 20px !important;
+.adm-login-field input:focus {
+    outline: none;
+    border-color: var(--adm-gold);
+    box-shadow: 0 0 0 3px var(--adm-gold-soft);
 }
-
-.adm-login .adm-input {
-    width: 100%;
+.adm-login-pw {
+    position: relative;
+    display: block;
+}
+.adm-login-pw input {
+    padding-right: 84px;
+}
+.adm-login-eye {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--adm-gold);
+    font: inherit;
+    font-size: 13px;
+    padding: 6px 8px;
+    cursor: pointer;
+}
+.adm-login-submit {
+    margin-top: 6px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--adm-ink);
+    color: #fff;
+    font: inherit;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.adm-login-submit:hover:not(:disabled) {
+    background: #3a3431;
+}
+.adm-login-submit:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+.adm-login-back {
+    display: inline-block;
+    margin-top: 28px;
+    font-size: 13px;
+    color: var(--adm-muted) !important;
+    text-decoration: none;
+}
+.adm-login-back:hover {
+    color: var(--adm-gold) !important;
+}
+@media (max-width: 900px) {
+    .adm-login {
+        grid-template-columns: 1fr;
+        grid-template-rows: 200px auto;
+    }
+    .adm-login-quote {
+        left: 20px;
+        bottom: 18px;
+    }
+    .adm-login-quote p {
+        font-size: 24px;
+    }
+    .adm-login-panel {
+        padding: 32px 16px 40px;
+    }
+    .adm-login-logo {
+        width: 120px;
+        height: 120px;
+    }
 }
 
 /* Mailing quota ----------------------------------------------------------- */
